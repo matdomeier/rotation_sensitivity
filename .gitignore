@@ -31,3 +31,6 @@
 *.out
 *.app
 .Rproj.user
+
+#Images generated
+*.png
