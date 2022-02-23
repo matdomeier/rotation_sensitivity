@@ -1,6 +1,6 @@
-# Evaluating the impact of using different tectonic plates motion models in palaeobiogeography
+# Evaluating the influence of model choice on palaeogeographic reconstructions in Palaeobiology
 
-Our goal is to assess the impact of using different rotation models in paleobiogeography. For that, we need to first quantify how different the available paleorotation models. The second part of our project will be devoted to an illustration of these differences by applying the models to true fossil data (corals)
+Our goal is to assess the impact of using different rotation models while reconstructing the surface of the Earth deep in time for Palaebiological purposes. For that, we need to first quantify how different the available paleorotation models are. The second part of our project is be devoted to an illustration of these differences by applying the models to true fossil datasets (corals and terrestrial crocodylians).
 
 ## Assessing the differences between paleorotation models
 
