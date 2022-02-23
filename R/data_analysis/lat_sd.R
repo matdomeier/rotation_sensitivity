@@ -13,7 +13,6 @@ assess_sd <- function(mdl_list){
   df2 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[2]], '.RDS'))
   df3 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[3]], '.RDS'))
   df4 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[4]], '.RDS'))
-  print(nrow(df4))
   
   chosen_time <- min(MaxTime)
   
@@ -38,3 +37,12 @@ assess_sd <- function(mdl_list){
               FUN = sd) #we apply the sd function
   return(SD)
 }
+
+
+
+SD <- assess_sd(mdl_list = models) #model list created in the "cells_to_drop.R" file
+SD_df <- data.frame(SD)
+#we get the initial coordinates of the spatial data points (as subtracting two dfs makes them = 0, which is annoying)
+coords_ref <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')[,1:2]
+SD_df[, 1:2] <- coords_ref
+saveRDS(SD_df, "./data/standard_deviation_4mdls.RDS")

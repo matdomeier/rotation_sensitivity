@@ -43,3 +43,22 @@ assess_diff <- function(mdl1, mdl2, thr){
   return(difference)
 }
 
+
+#while loop to run the functions comparing the outputs of each model 2 by 2 (avoiding to compare twice the same models and also not comparing a model with itself)
+models_copy = models #defined in "cells_to_drop.R"
+i = 1
+thr = 0.5 #all values under 0.5 degrees will be considered as unsignificant change
+
+while(i <= length(models)){
+  mdl1 <- models[[i]]
+  for(mdl2 in models_copy){
+    if(mdl1 != mdl2){
+      difference <- assess_diff(mdl1, mdl2, thr)
+      saveRDS(difference, 
+              file = paste0("./data/latitude_deviation_2_by_2/", mdl1, '_', mdl2, 'diff.RDS'))
+    }
+  }
+  models_copy = models_copy[-1]  #we get rid of the new first element
+  i = i+1
+}
+
