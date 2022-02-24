@@ -38,7 +38,7 @@ get_na_pos <- function(mdl){
     merged <- cbind.data.frame(xy.df, georef)  #merging both 
     
     #   NO NEED TO RUN THE LINE BELOW IF IT'S NOT THE FIRST TIME
-    #saveRDS(merged, file = paste0("./data/georeferenced/", mdl,".RDS"))  #get df with the assigned plate IDs
+    saveRDS(merged, file = paste0("./data/georeferenced/", mdl,".RDS"))  #get df with the assigned plate IDs
     
     indexes <- which(is.na(georef) == TRUE)
   }
