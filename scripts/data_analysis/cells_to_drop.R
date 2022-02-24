@@ -23,7 +23,9 @@ while(i<4){
     MAX <- test
     print(models[i]) #GOLONKA IS THE MODEL WITH THE SMALLER NUMBER OF CELLS WITH VALUES
   }
-} #length(MAX) = 34651
+}
+
+MAX <- unique(MAX)
 
 #we look for potential remaining NAs in the other models after removing all cells not covered by Golonka
 
@@ -35,7 +37,7 @@ for(mdl in c("Scotese2", "Matthews")){
 }
 
 MAX <- c(MAX, unique(to_add)) #these NAs are added and we use unique() to avoid adding twice the same indexes
-#length(MAX) = 35911 => we work with 64800-length(MAX) = 28889 cells
+#length(MAX) = 35300 => we work with 64800-length(MAX) = 29500 cells
 
 
 
