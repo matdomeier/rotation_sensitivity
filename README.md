@@ -29,9 +29,31 @@ The output files are provided [here](https://github.com/Buffan3369/rotation_sens
 
 ### 1.3. Georeferencing and spatial scaling of the outputs
 
-The georeferencing step consists of re-assigning to each spatial point the ID of the plate it belongs to, according to the four models. Due to models' spatial coverage, some points may be assigned no plate. These are tracked by the `get_na_pos()` function. (see the [*georeferencing_and_NA_pos.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/georeferencing_and_NA_pos.R) script). 
+The georeferencing step consists of re-assigning to each spatial point the ID of the plate it belongs to, according to the four models. Due to models' spatial coverage, some points may be assigned no plate. These are tracked by the `get_na_pos()` function. (see [*georeferencing_and_NA_pos.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/georeferencing_and_NA_pos.R)). 
 
-As not all model have the same spatial coverage, before we compare the outputs of the models together, a spatial scaling step is needed. The procedure involves to select the model with the smallest spatial coverage by minimising the `get_na_pos()` function previously introduced. This model reveals to be Golonka (34651 cells). We therefore set as NA the values of these cells for all our models, and the cells that are not covered by the output of at least one of the three other models imputed from Golonka’s 34651 ones. This finally led us to work with n=29500 cells [*cells_to_drop.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/cells_to_drop.R)
+As not all model have the same spatial coverage, before we compare the outputs of the models together, a spatial scaling step is needed. The procedure involves to select the model with the smallest spatial coverage by minimising the `get_na_pos()` function previously introduced. This model reveals to be Golonka (34651 cells). We therefore set as NA the values of these cells for all our models, and the cells that are not covered by the output of at least one of the three other models imputed from Golonka’s 34651 ones. This finally led us to work with n=29500 cells (see [*cells_to_drop.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/cells_to_drop.R)).
+
+
+### 1.4. Comparing the outputs
+
+#### 1.4.1. Latitudinal standard deviation assessment
+
+We used our scaled georeferenced outputs to estimate, time interval per time interval and cell by cell, the standard deviation between the four latitude reconstructions (see [*lat_sd.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/lat_sd.R)) and projected the results on a present-day map (see [*plot_lat_deviation.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_lat_deviation.R)). We store the resulting standard deviation in [this folder](https://github.com/Buffan3369/rotation_sensitivity/tree/main/figures/standard_deviation).
+
+#### 1.4.2. Latitudinal deviation assessment
+
+We also estimated and plotted the same way the deviation in the latitude estimation between the outputs of the models two by two, expressed as the absolute value of the difference between the reconstructed latitudes according to the two models (see [*lat_dev_2_by_2.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/lat_dev_2_by_2.R) and [*plot_lat_deviation.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_lat_deviation.R)).
+
+#### 1.4.3 Plate discrepancies assessment
+
+Furthermore, we introduced the ID_weight metric evaluating, for each of the 29500 spatial points, the number of different plateIDs it has been assigned to according to all the models -- except Seton, as we faced troubles dealing with its plates partitioning. The ID_weight therefore ranges from 1 (all models agree and assign the point to the same plateID), to 3 (all model disagree) (see [*ID_weight.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/ID_weight.R)). This metric was then projected onto a global map (see [*plot_ID_weight.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_ID_weight.R).
+
+#### 1.4.4 Minimum Spanning Tree (MST) length
+
+
+
+
+
 
 
 
