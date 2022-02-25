@@ -2,7 +2,7 @@
 
 Our goal is to assess the impact of using different rotation models while reconstructing the surface of the Earth deep in time for Palaebiological purposes. Our study focuses on four of the most widely used open-sourced models. We first adopt a simulation approach, and compare the outputs of the models directy to assess how different they are. Next, we apply the models to two case studies, corals and terrestrial crocodiles datasets covering the last XXX Myrs, to illustrate the influence of using different models in the result that we obtain. This file details how the codes provided with this repository are linked to the analyses.
 
-To facilitate the execution and make it as clear and reproducible as possible, the scripts are organised in a sense that to run all the analysis (except <strong>1.1</strong>), <strong>, you just have to execute the two masterfiles in the [MASTERFILE](https://github.com/Buffan3369/rotation_sensitivity/tree/main/scripts/MASTERFILES) folder </strong>. They will automatically source the other scripts.
+To facilitate the execution and make it as clear and reproducible as possible, the scripts are organised in a sense that to run all the analysis (except <strong>1.1</strong>), <strong>, you just have to open the [Rproject](https://github.com/Buffan3369/rotation_sensitivity/blob/main/rot_sens.Rproj) and, from there, execute the two masterfiles in the [MASTERFILE](https://github.com/Buffan3369/rotation_sensitivity/tree/main/scripts/MASTERFILES) folder </strong>. They will automatically source the other scripts.
 
 ## 1. Simulation approach: Assessing the differences between paleorotation models
 
@@ -44,16 +44,17 @@ We used our scaled georeferenced outputs to estimate, time interval per time int
 
 We also estimated and plotted the same way the deviation in the latitude estimation between the outputs of the models two by two, expressed as the absolute value of the difference between the reconstructed latitudes according to the two models (see [*lat_dev_2_by_2.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/lat_dev_2_by_2.R) and [*plot_lat_deviation.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_lat_deviation.R)).
 
-#### 1.4.3 Plate discrepancies assessment
+#### 1.4.3. Plate discrepancies assessment
 
-Furthermore, we introduced the ID_weight metric evaluating, for each of the 29500 spatial points, the number of different plateIDs it has been assigned to according to all the models -- except Seton, as we faced troubles dealing with its plates partitioning. The ID_weight therefore ranges from 1 (all models agree and assign the point to the same plateID), to 3 (all model disagree) (see [*ID_weight.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/ID_weight.R)). This metric was then projected onto a global map (see [*plot_ID_weight.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_ID_weight.R).
+Furthermore, we introduced the ID_weight metric evaluating, for each of the 29500 spatial points, the number of different plateIDs it has been assigned to according to all the models -- except Seton, as we faced troubles dealing with its plates partitioning. The ID_weight therefore ranges from 1 (all models agree and assign the point to the same plateID), to 3 (all model disagree) (see [*ID_weight.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/ID_weight.R)). This metric was then projected onto a global map (see [*plot_ID_weight.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_ID_weight.R)).
+The resulting figure is available [here](https://github.com/Buffan3369/rotation_sensitivity/blob/main/figures/PlateID_discrepancies.png).
 
-#### 1.4.4 Minimum Spanning Tree (MST) length
+#### 1.4.4. Minimum Spanning Tree (MST) length
+
+To best spatially figure out how different the outputs of the models are, we compute, for each of our 29500 points and at a given time, the length of the Minimum Spanning Tree connecting the centroids of the projection of the point according to the four models and plot this on a present-day map (see [*MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/MST.R)).
 
 
-
-
-
+*nb: these analyses involved producing time-series maps that were further assembled in GIFs with the detailed procedure in the [*make_GIFS.ipynb](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/make_GIFs.ipynb) notebook, designed to be run in google colab.*
 
 
 
