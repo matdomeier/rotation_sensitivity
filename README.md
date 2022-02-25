@@ -18,7 +18,7 @@ We generate our data using Gplates according to the following process:
   <li> Exporting the results as shapefile polygons
 </ol>
 
-As, exept for generating the grid (see the first part of the [*rotating.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/rotating.R) script), this step doesn't involved coding, no script is provided for it. However, a scheme was made available in the supplementary materials. The output shapefiles were not provided with this repository, but if you want to have access to them please contact the main author.
+As, exept for generating the grid (see the first part of the [*rotating.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/rotating.R) script), this step doesn't involve coding, hence no script is provided for it. However, a scheme was made available in the supplementary materials. As they were too heavy (>7Go), the output shapefiles were not provided with this repository. If you feel the need to have access to them please contact the main author.
 
 
 ### 1.2. Extracting the palaeocoordinates from Gplates' output
@@ -27,7 +27,11 @@ Model per model, we extract the coordinates of the rotated spatial data points i
 The output files are provided [here](https://github.com/Buffan3369/rotation_sensitivity/tree/main/data/extracted_paleocoordinates).
 
 
-### 1.3. 
+### 1.3. Georeferencing and spatial scaling of the outputs
+
+The georeferencing step consists of re-assigning to each spatial point the ID of the plate it belongs to, according to the four models. Due to models' spatial coverage, some points may be assigned no plate. These are tracked by the `get_na_pos()` function. (see the [*georeferencing_and_NA_pos.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/georeferencing_and_NA_pos.R) script). 
+
+As not all model have the same spatial coverage, before we compare the outputs of the models together, a spatial scaling step is needed. The procedure involves to select the model with the smallest spatial coverage by minimising the `get_na_pos()` function previously introduced. This model reveals to be Golonka (34651 cells). We therefore set as NA the values of these cells for all our models, and the cells that are not covered by the output of at least one of the three other models imputed from Golonka’s 34651 ones. This finally led us to work with n=29500 cells [*cells_to_drop.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/cells_to_drop.R)
 
 
-22
+
