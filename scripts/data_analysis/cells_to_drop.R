@@ -12,6 +12,13 @@ models <- c("Scotese2",  #PALEOMAP latest version
             "Seton")
 
 
+
+#The point here is to scale all models on the same grid-cells (maximise the get_na_pos() function for all models of "models")
+#Loop to return the indexes of the NA of the models having the smaller coverage (hence the maximal number of cells with no attribute)
+
+
+
+
 ## Computing the List of the indexes to drop to spatially scale the outputs ----------------------------------
 
 i = 1
