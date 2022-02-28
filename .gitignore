@@ -34,3 +34,7 @@
 
 #Rhistory
 .Rhistory
+
+#Heavy MST computation
+MST_heavy_greedy.R
+MST_length_loaf.RDS
