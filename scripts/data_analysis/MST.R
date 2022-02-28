@@ -9,14 +9,16 @@ library(vegan)
 
 ## TIMESCALE  --------------------------------------------------------------------------------------------------------
 
-Timescale <- seq(from = 10, to = 200, by = 10) #The timescale of the study will the upper bound of the model going shallower in time: SETON, 200Ma
+Timescale <- seq(from = 10, to = 540, by = 10) #The timescale of the study will the upper bound of the models going deeper in time: SETON, 540Ma
 
 
 ## OUTPUTS OF THE FOUR MODELS ----------------------------------------------------------------------------------------
 
 GOLONKA <- readRDS('./data/extracted_paleocoordinates/Golonka.RDS')[-MAX,] #we directly get rid of the elements that are not further treated, to lower computing time
 SETON <- readRDS('./data/extracted_paleocoordinates/Seton.RDS')[-MAX,]
+SETON[, seq(from = ncol(SETON), to = 2*(max(Timescale)/10+1), by = 1)] = NA #temporal scaling: we artificially extend the duration of SETON and MATTHEWS so we could assess MST until 540Ma (vegan ignores NAs)
 MATTHEWS <- readRDS('./data/extracted_paleocoordinates/Matthews.RDS')[-MAX,]
+MATTHEWS[, seq(from = ncol(MATTHEWS), to = 2*(max(Timescale)/10+1), by = 1)] = NA 
 SCOTESE <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')[-MAX,]
 
 
