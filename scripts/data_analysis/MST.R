@@ -39,7 +39,7 @@ for(t in Timescale){
                               cbind(SCOTESE[i, 2*t/10+1], SCOTESE[i, 2*t/10+2]),
                               cbind(MATTHEWS[i, 2*t/10+1], MATTHEWS[i, 2*t/10+2])),
                        fun = distGeo)
-    MST_df[i, t/10+2] = sum(spantree(dist_mat)$dist)/1000 #in km
+    MST_df[i, t/10+2] = sum(spantree(dist_mat)$dist)/10**6 #in 10^3 km
   }
 }
 colnames(MST_df) <- cnames
