@@ -30,7 +30,7 @@ for(k in seq(from = 4, to = ncol(df), by = 2)){ #we start with the latitude of t
   plot(p,
        axes = FALSE,
        col = pal,
-       main = paste0("Latitude Standard Deviation between the 4 models ", "(", true_time ,"Ma)"),
+       main = paste0("Latitude Standard Deviation between the models ", "(", true_time ,"Ma)"),
        legend.args = list(text = 'Standard deviation', side = 4, font = 2, line = 2.5, cex = 0.8),
        zlim = c(0, 40))  #display the output
   plot(worldline_mol,

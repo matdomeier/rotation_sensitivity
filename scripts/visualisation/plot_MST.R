@@ -5,7 +5,7 @@ pal <- c('#fde0dd','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177','
 
 df <- readRDS("./data/MST_length.RDS")
 
-for(k in seq(from = 4, to = ncol(df), by = 2)){ #we start with the latitude of the -10My point (4th column)
+for(k in seq(from = 3, to = ncol(df), by = 1)){ #we start with the latitude of the -10My point (4th column)
   true_time <- (k-2)*10 #for the plot title
   xyz <- df[, c(1,2,k)] #select the corresponding latitude deviation
   r <- rasterFromXYZ(xyz, 
@@ -31,10 +31,10 @@ for(k in seq(from = 4, to = ncol(df), by = 2)){ #we start with the latitude of t
        axes = FALSE,
        col = pal,
        main = paste0("MST length between the 4 models ", "(", true_time ,"Ma)"),
-       legend.args = list(text = 'MST length (x10^3 km)', side = 4, font = 2, line = 2.5, cex = 0.8))  #display the output
+       legend.args = list(text = 'MST length (x10^3 km)', side = 4, font = 2, line = 2.5, cex = 0.8),
+       zlim = c(0,17))  #display the output
   plot(worldline_mol,
        add = TRUE,
        col = adjustcolor("grey30",alpha.f=0.5)) #add background map with a semi-transparent grey colour
   dev.off()
 }
-

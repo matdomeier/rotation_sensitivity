@@ -14,7 +14,7 @@ assess_sd <- function(mdl_list, thr){
   df3 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[3]], '.RDS'))
   df4 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[4]], '.RDS'))
   
-  chosen_time <- min(MaxTime)
+  chosen_time <- max(MaxTime)
   
   #spatial scaling
   
@@ -25,10 +25,8 @@ assess_sd <- function(mdl_list, thr){
   
   #temporal scaling
   
-  df1 <- df1[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-  df2 <- df2[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-  df3 <- df3[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-  df3 <- df3[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
+  df2[, seq(from = ncol(df2), to = 2*(chosen_time/10+1), by = 1)] = NA
+  df4[, seq(from = ncol(df4), to = 2*(chosen_time/10+1), by = 1)] = NA
   
   
   comb_array <- abind(df1, df2, df3, df4, along = 3) #we combine the 2-dimensional arrays in one 3D array (along = 3) for which we'll assess sd
@@ -51,41 +49,3 @@ SD_df <- data.frame(SD)
 coords_ref <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')[,1:2]
 SD_df[, 1:2] <- coords_ref
 saveRDS(SD_df, "./data/standard_deviation_4mdls.RDS")
-
-
-
-
-
-
-
-
-mdl_list = models
-
-df1 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[1]], '.RDS'))
-df2 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[2]], '.RDS'))
-df3 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[3]], '.RDS'))
-df4 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl_list[[4]], '.RDS'))
-
-chosen_time <- min(MaxTime)
-
-#spatial scaling
-
-df1[MAX, ] = NA  #MAX returned by the "cells_to_drop.R" script
-df2[MAX, ] = NA
-df3[MAX, ] = NA
-df4[MAX, ] = NA
-
-#temporal scaling
-
-df1 <- df1[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-df2 <- df2[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-df3 <- df3[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-df3 <- df3[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-
-
-comb_array <- abind(df1, df2, df3, df4, along = 3) #we combine the 2-dimensional arrays in one 3D array (along = 3) for which we'll assess sd
-SD <- apply(comb_array,
-            MARGIN = c(1,2), #on the 2 dimensions of the resulting array
-            FUN = sd) #we apply the sd function
-
-
