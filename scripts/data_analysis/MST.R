@@ -37,10 +37,10 @@ for(t in Timescale){
   cnames <- c(cnames, paste0("MST_length_", t))
   for(i in 1:nrow(MST_df)){
     dist_mat <- distm(rbind(cbind(GOLONKA[i, 2*t/10+1], GOLONKA[i, 2*t/10+2]), 
-                              cbind(SETON[i, 2*t/10+1], SETON[i, 2*t/10+2]),
-                              cbind(SCOTESE[i, 2*t/10+1], SCOTESE[i, 2*t/10+2]),
-                              cbind(MATTHEWS[i, 2*t/10+1], MATTHEWS[i, 2*t/10+2])),
-                       fun = distGeo)
+                            cbind(SETON[i, 2*t/10+1], SETON[i, 2*t/10+2]),
+                            cbind(SCOTESE[i, 2*t/10+1], SCOTESE[i, 2*t/10+2]),
+                            cbind(MATTHEWS[i, 2*t/10+1], MATTHEWS[i, 2*t/10+2])),
+                      fun = distGeo)
     MST_df[i, t/10+2] = sum(spantree(dist_mat)$dist)/10**6 #in 10^3 km
   }
 }

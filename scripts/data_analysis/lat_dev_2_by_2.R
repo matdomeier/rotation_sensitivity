@@ -20,6 +20,7 @@ assess_diff <- function(mdl1, mdl2, thr){
   #select the temporal coverage of the model that has the minimal one
   t1 <- MaxTime[[mdl1]]
   t2 <- MaxTime[[mdl2]]
+  
   chosen_time <- min(t1, t2)
   
   #temporal scaling (as far as the model with the minimal temporal coverage goes)
@@ -61,4 +62,3 @@ while(i <= length(models)){
   models_copy = models_copy[-1]  #we get rid of the new first element
   i = i+1
 }
-
