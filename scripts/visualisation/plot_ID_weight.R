@@ -14,10 +14,12 @@ proj_moll <- "+proj=moll +lon_0=0 +x_0=0 +y_0=0"  #mollweide
 p <- projectRaster(r, crs = proj_moll)
 
 ## Plotting ------------------------------------------------------------------------------------------------------
-png("./figures/PlateID_discrepancies.png")
+png("./figures/PlateID_discrepancies.png") #nb: to save as pdf, set width = 10, heigth = 7, and onefile = FALSE
 plot.new()
-par(bg = 'white')
-plot(p, col = c('grey', 'yellow', 'red'),  axes = FALSE)
+par(bg = 'grey92')
+plot(p, col = c('grey', 'yellow', 'red'),  
+     axes = FALSE,
+     legend.args = list(text = 'ID_weight', side = 4, font = 2, line = 2.5, cex = 0.8))
 plot(worldline_mol,
      add = TRUE) #backround map designed in "background_map.R"
 dev.off()
