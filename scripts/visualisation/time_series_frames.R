@@ -1,3 +1,5 @@
+################# This script plot and saves the lat sd time series of the red frames ################
+
 library(ggplot2)
 
 #CARRIBEAN FRAME
