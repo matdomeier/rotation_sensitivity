@@ -38,4 +38,3 @@ for(k in seq(from = 4, to = ncol(df), by = 2)){ #we start with the latitude of t
        col = adjustcolor("grey30",alpha.f=0.5)) #add background map with a semi-transparent grey colour
   dev.off()
 }
-
