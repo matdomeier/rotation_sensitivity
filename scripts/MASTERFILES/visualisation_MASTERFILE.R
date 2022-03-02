@@ -23,3 +23,10 @@ source("./scripts/visualisation/plot_MST.R")
 ## Plot and save plateIDs assignement discrepancies -----------------------------------
 source("./scripts/visualisation/plot_ID_weight.R")
 
+
+## Plot and save time series plots for the three selected frames ----------------------
+source("./scripts/visualisation/time_series_frames.R")
+
+
+## Plot and save barplots -------------------------------------------------------------
+source("./scripts/visualisation/barplots.R")
