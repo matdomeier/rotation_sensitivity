@@ -51,7 +51,7 @@ The resulting figure is available [here](https://github.com/Buffan3369/rotation_
 
 #### 1.4.4. Minimum Spanning Tree (MST) length
 
-To best spatially figure out how different the outputs of the models are, we compute, for each of our 29500 points and at a given time, the length of the Minimum Spanning Tree connecting the centroids of the projection of the point according to the four models and plot this on a present-day map (see [*MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/MST.R) and [*plot_MT.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_MST.R)).
+To best spatially figure out how different the outputs of the models are, we compute, for each of our 29500 points and at a given time, the length of the Minimum Spanning Tree connecting the centroids of the projection of the point according to the four models and plot this on a present-day map (see [*MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/MST.R) and [*plot_MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_MST.R)).
 
 
 *nb: these analyses involved producing time-series maps that were further assembled in GIFs with the detailed procedure in the [*make_GIFS.ipynb](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/make_GIFs.ipynb) notebook, designed to be run in google colab.*
