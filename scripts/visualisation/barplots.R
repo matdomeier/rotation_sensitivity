@@ -6,7 +6,7 @@ library(viridis)
 
 
 ## Read sd results and get rid of longitude (odd indexes) ------------------------------------
-sds <- readRDS("./data/standard_deviation_4mdls.RDS")
+sds <- readRDS("./data/standard_deviation_4mdls_nothresh.RDS")
 sds <- sds[-MAX, -c(1:2, which(seq(from = 3, to = ncol(sds)+1, by = 1) %%2 != 0))] #MAX comes from the "cell_to_drop.R" script
 
 
@@ -18,7 +18,7 @@ final_df <- data.frame(TIME = rep(x = 0, 5),
 
 for(t in seq(from = 50, to = 500, by = 50)){
   final_df <- rbind(final_df,
-                    data.frame(TIME = rep(x = -t, 5),
+                    data.frame(TIME = rep(x = t, 5),
                                CAT = c("A: 0-5°", "B: 5-10°", "C: 10-20°", "D: 20-30°", "E: >30°"),  #the five categories we're considering
                                COUNTS = c(
                                  length(which(sds[, t/10] < 5)),
@@ -30,6 +30,7 @@ for(t in seq(from = 50, to = 500, by = 50)){
                     ))
 }
 
+
 ## Plotting -----------------------------------------------------------------------------------
 
   #raw counts
@@ -37,39 +38,23 @@ barplt <- ggplot(data = final_df, aes(fill = CAT, x = TIME, y = COUNTS)) +
   geom_bar(position = "stack", #display counts
            stat = "identity") +
   scale_fill_viridis(discrete = T) +
+  scale_x_reverse() +
   theme(axis.title.x = element_text(size = 18),
         axis.title.y = element_text(size = 18),
         axis.text = element_text(size = 15),
         legend.title = element_text(size = 18),
         legend.text = element_text(size = 15),
         legend.key.size = unit(1, "cm"),
-        axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
-  ) +
-  labs(x = "Time (x10Myr BP)", y = "Counts", fill = "Category") +
-  geom_vline(xintercept = -200, col = "black") +
-  geom_vline(xintercept = -410, col = "black")
-
-barplt #some time intervals seem to have disappearing cells that reappear aftewards. Let's do the same plot but with proportions
-ggsave(filename = "./figures/barplots/barplot_counts.pdf", plot = barplt)
-
-
-  #proportions
-bplt_prop <- ggplot(data = final_df, aes(fill = CAT, x = TIME, y = COUNTS)) +
-  geom_bar(position = "fill", #display proportions
-           stat = "identity") +
-  scale_fill_viridis(discrete = T) +
-  theme(axis.title.x = element_text(size = 18),
-        axis.title.y = element_text(size = 18),
-        axis.text = element_text(size = 15),
-        legend.title = element_text(size = 18),
-        legend.text = element_text(size = 15),
-        legend.key.size = unit(1, "cm"),
-        axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
+        panel.grid.major = element_blank(), # Remove panel grid lines
+        panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), # Remove panel background
+        panel.border = element_rect(colour = "black", fill = NA, size = 1) #frame the plot
         ) +
-  labs(x = "Time (x10Myr BP)", y = "Cell proportion", fill = "Category") +
-  geom_vline(xintercept = -200, col = "black") +
-  geom_vline(xintercept = -410, col = "black")
+  labs(x = "Time (Ma)", y = "Counts", fill = "Category") +
+  geom_vline(xintercept = 200, col = "red", linetype = "dashed") +
+  geom_vline(xintercept = 410, col = "red", linetype = "dashed")
 
+print(barplt)
 
-bplt_prop
-ggsave(filename = "./figures/barplots/barplot_prop.pdf", plot = bplt_prop)
+ggsave(filename = "./figures/barplots/barplot_counts.pdf", plot = barplt) #save as pdf
+ggsave(filename = "./figures/barplots/barplot_counts.png", plot = barplt) #and png

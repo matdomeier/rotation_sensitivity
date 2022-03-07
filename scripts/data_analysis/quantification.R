@@ -47,7 +47,7 @@ for(t in seq(from = 50, to = 500, by = 50)){
                    n = length(na.omit(SD[index_IDw3, t/10+2])))
   
   final <- rbind(final,
-                 final <- data.frame(TIME = -c(t,t,t,t),
+                 final <- data.frame(TIME = c(t,t,t,t),
                                      AVERAGE_SD = c(av_glob, av_1, av_2, av_3),
                                      ID_w = c("Global", "ID_weight = 1", "ID_weight = 2", "ID_weight = 3"),
                                      CI_95 = c(IC_glob, IC_1, IC_3, IC_3)))
@@ -72,11 +72,15 @@ bplt <- ggplot(data = final, aes(x = TIME, y = AVERAGE_SD, fill = ID_w, width = 
                 panel.background = element_blank(), # Remove panel background
                 axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
           ) +
-          labs(x = "Time (Myr BP)", y = "Average SD (°)", fill = "") +
-          geom_vline(xintercept = -200, col = "black") +
-          geom_vline(xintercept = -410, col = "black") +
-          scale_fill_manual(values = c("black", "grey75", "yellow", "red"))
+          labs(x = "Time (Ma)", y = "Average SD (°)", fill = "") +
+          geom_vline(xintercept = 200, col = "red", linetype = "dashed") +
+          geom_vline(xintercept = 410, col = "red", linetype = "dashed") +
+          scale_fill_manual(values = c("black", "grey75", "#377eb8", "#e41a1c")) +
+          scale_x_reverse() +
+          annotate(geom = "text", x = 210, y = 20, label = "Seton Time Limit", angle = 90, size = 4, fontface = "italic", col = "red") +
+          annotate(geom = "text", x = 420, y = 20, label = "Matthews Time Limit", angle = 90, size = 4, fontface = "italic", col = "red")
 
+bplt
 
 ggsave(filename = "./figures/SD_IDw_barplot.png", plot = bplt)
 

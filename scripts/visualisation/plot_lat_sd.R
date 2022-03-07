@@ -32,7 +32,7 @@ for(k in seq(from = 4, to = ncol(df), by = 2)){ #we start with the latitude of t
        col = pal,
        main = paste0("Latitude Standard Deviation between the models ", "(", true_time ,"Ma)"),
        legend.args = list(text = 'Standard deviation', side = 4, font = 2, line = 2.5, cex = 0.8),
-       zlim = c(0, 40))  #display the output
+       zlim = c(0, 60))  #display the output
   plot(worldline_mol,
        add = TRUE,
        col = adjustcolor("grey30",alpha.f=0.5)) #add background map with a semi-transparent grey colour

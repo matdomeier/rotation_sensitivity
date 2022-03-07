@@ -20,7 +20,7 @@ FRAME3 <- list("lon_w" = 112,
                "lat_n" = 23,
                "lat_s" = -13)
 
-TIMESCALE <- seq(from = -54, to = -1, by = 1)
+TIMESCALE <- seq(from = 1, to = 54, by = 1)
 
 FRAMES <- list(FRAME1, FRAME2, FRAME3)
 SD <- readRDS("./data/standard_deviation_4mdls.RDS")
@@ -46,10 +46,10 @@ for(i in 1:length(FRAMES)){
                     axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
                     axis.text.x = element_text(size = 23),
                     axis.text.y = element_text(size = 23)) +
-              scale_x_continuous(n.breaks = 6)+
-              geom_vline(xintercept = -41, col = "#006837")+
-              geom_vline(xintercept = -20, col = "#006837")+
-              labs(x = "Time (x10Myr BP)", y= "Averaged Latitude SD (°)")
+              scale_x_reverse(breaks = seq(from = 0, to = 50, by = 10))+
+              geom_vline(xintercept = 41, col = "#006837")+
+              geom_vline(xintercept = 20, col = "#006837")+
+              labs(x = "Time (x10Ma)", y= "Averaged Latitude SD (°)")
   
   ggsave(filename = paste0("./figures/time_series/FRAME_", i, ".pdf" ),
          plot = ts_plot,

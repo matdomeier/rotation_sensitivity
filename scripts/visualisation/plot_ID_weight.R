@@ -17,7 +17,7 @@ p <- projectRaster(r, crs = proj_moll)
 png("./figures/PlateID_discrepancies.png") #nb: to save as pdf, set width = 10, heigth = 7, and onefile = FALSE
 plot.new()
 par(bg = 'grey92')
-plot(p, col = c('grey', 'yellow', 'red'),  
+plot(p, col = c("grey75", "#377eb8", "#e41a1c"),  
      axes = FALSE,
      legend.args = list(text = 'ID_weight', side = 4, font = 2, line = 2.5, cex = 0.8))
 plot(worldline_mol,
