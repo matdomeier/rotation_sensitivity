@@ -2,8 +2,6 @@
 
 ## import our friend ggplot ------------------------------------------------------------------
 library(ggplot2)
-library(viridis)
-
 
 ## Read sd results and get rid of longitude (odd indexes) ------------------------------------
 sds <- readRDS("./data/standard_deviation_4mdls_nothresh.RDS")
@@ -16,7 +14,7 @@ final_df <- data.frame(TIME = rep(x = 0, 5),
                        CAT = c("A: 0-5°", "B: 5-10°", "C: 10-20°", "D: 20-30°", "E: >30°"),
                        COUNTS = c(29500, 0, 0, 0, 0))
 
-for(t in seq(from = 50, to = 500, by = 50)){
+for(t in seq(from = 10, to = 540, by = 10)){
   final_df <- rbind(final_df,
                     data.frame(TIME = rep(x = t, 5),
                                CAT = c("A: 0-5°", "B: 5-10°", "C: 10-20°", "D: 20-30°", "E: >30°"),  #the five categories we're considering
@@ -37,7 +35,8 @@ for(t in seq(from = 50, to = 500, by = 50)){
 barplt <- ggplot(data = final_df, aes(fill = CAT, x = TIME, y = COUNTS)) +
   geom_bar(position = "stack", #display counts
            stat = "identity") +
-  scale_fill_viridis(discrete = T) +
+  scale_fill_manual(values = c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529')) +
+ # scale_fill_viridis(discrete = T) +
   scale_x_reverse() +
   theme(axis.title.x = element_text(size = 18),
         axis.title.y = element_text(size = 18),
@@ -58,3 +57,4 @@ print(barplt)
 
 ggsave(filename = "./figures/barplots/barplot_counts.pdf", plot = barplt) #save as pdf
 ggsave(filename = "./figures/barplots/barplot_counts.png", plot = barplt) #and png
+

@@ -45,7 +45,11 @@ for(i in 1:length(FRAMES)){
               theme(text = element_text(size = 25),
                     axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
                     axis.text.x = element_text(size = 23),
-                    axis.text.y = element_text(size = 23)) +
+                    axis.text.y = element_text(size = 23),
+                    panel.grid.major = element_blank(), # Remove panel grid lines
+                    panel.grid.minor = element_blank(), 
+                    panel.background = element_blank(), # Remove panel background
+                    panel.border = element_rect(colour = "black", fill = NA, size = 1)) + #frame the plot
               scale_x_reverse(breaks = seq(from = 0, to = 50, by = 10))+
               geom_vline(xintercept = 41, col = "#006837")+
               geom_vline(xintercept = 20, col = "#006837")+
@@ -55,4 +59,4 @@ for(i in 1:length(FRAMES)){
          plot = ts_plot,
          width = 10,
          height = 6)
-  }
+}
