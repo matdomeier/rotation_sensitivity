@@ -20,7 +20,7 @@ FRAME3 <- list("lon_w" = 112,
                "lat_n" = 23,
                "lat_s" = -13)
 
-TIMESCALE <- seq(from = 1, to = 54, by = 1)
+TIMESCALE <- seq(from = 0, to = 540, by = 10)
 
 FRAMES <- list(FRAME1, FRAME2, FRAME3)
 SD <- readRDS("./data/standard_deviation_4mdls.RDS")
@@ -30,30 +30,32 @@ for(i in 1:length(FRAMES)){
   to_keep <- which((SD$lon_0 %in% seq(from = frame[["lon_w"]], to = frame[["lon_e"]], by = 0.5))
                    & 
                      (SD$lat_0 %in% seq(from = frame[["lat_s"]], to = frame[["lat_n"]], by = 0.5))) #target the cells in the frame
-  SD_remain <- SD[to_keep, -c(1:2, which(seq(from = 1, to = ncol(SD)+1, by = 1) %%2 != 0))] #only keep latitudes (even col indexes) for the selected cells (row indexes in to_keep)
+  SD_remain <- SD[to_keep, -c(which(seq(from = 1, to = ncol(SD)+1, by = 1) %%2 != 0))] #only keep latitudes (even col indexes) for the selected cells (row indexes in to_keep)
+  SD_remain$lat_0 <- 0 #we set to 0 the lat sd at t = 0, which is normal
   
   AVERAGE <- lapply(X = SD_remain, FUN = mean, na.rm = TRUE) #average over space
   ET <- lapply(X = SD_remain, FUN = sd, na.rm = TRUE) #standard deviation (of averaged standard deviations... (yes, it's tricky) 
   
   avet <- data.frame(Time = TIMESCALE,
-                     Av = rev(as.numeric(AVERAGE)), #we invert to plot it in a proper geological way
-                     std = rev(as.numeric(ET)))
+                     Av = as.numeric(AVERAGE), #we invert to plot it in a proper geological way
+                     std = as.numeric(ET))
   
   ts_plot <- ggplot(data = avet, aes(x = Time, y = Av, ymin = Av-std, ymax = Av+std))+
-              geom_line(lwd = 2, colour = '#006837')+
-              geom_smooth(stat = "identity")+
-              theme(text = element_text(size = 25),
-                    axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
-                    axis.text.x = element_text(size = 23),
-                    axis.text.y = element_text(size = 23),
-                    panel.grid.major = element_blank(), # Remove panel grid lines
-                    panel.grid.minor = element_blank(), 
-                    panel.background = element_blank(), # Remove panel background
-                    panel.border = element_rect(colour = "black", fill = NA, size = 1)) + #frame the plot
-              scale_x_reverse(breaks = seq(from = 0, to = 50, by = 10))+
-              geom_vline(xintercept = 200, col = "red", linetype = "dashed") +
-              geom_vline(xintercept = 410, col = "red", linetype = "dashed") +
-              labs(x = "Time (x10Ma)", y= "Averaged Latitude SD (°)")
+    scale_x_reverse(breaks = seq(from = 0, to = 500, by = 100))+
+    scale_y_continuous(expand = c(0,0), limits = c(-8, 40)) +
+    geom_line(lwd = 2, colour = '#006837')+
+    geom_smooth(stat = "identity")+ #get the 
+    theme(text = element_text(size = 25),
+          axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
+          axis.text.x = element_text(size = 23),
+          axis.text.y = element_text(size = 23),
+          panel.grid.major = element_blank(), # Remove panel grid lines
+          panel.grid.minor = element_blank(), 
+          panel.background = element_blank(), # Remove panel background
+          panel.border = element_rect(colour = "black", fill = NA, size = 1)) + #frame the plot
+    geom_vline(xintercept = 200, col = "red", linetype = "dashed", lwd = 1) +
+    geom_vline(xintercept = 410, col = "red", linetype = "dashed", lwd = 1) +
+    labs(x = "Time (Ma)", y= "Averaged Latitude SD (°)")
   
   ggsave(filename = paste0("./figures/time_series/FRAME_", i, ".pdf" ),
          plot = ts_plot,
