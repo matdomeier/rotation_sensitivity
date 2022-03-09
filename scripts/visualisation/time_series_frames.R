@@ -42,7 +42,7 @@ for(i in 1:length(FRAMES)){
   
   ts_plot <- ggplot(data = avet, aes(x = Time, y = Av, ymin = Av-std, ymax = Av+std))+
     scale_x_reverse(breaks = seq(from = 0, to = 500, by = 100))+
-    scale_y_continuous(expand = c(0,0), limits = c(-8, 40)) +
+    scale_y_continuous(expand = c(0,0), limits = c(-8, 44)) + #although no values <0, he confidence interval can be "theoretically" negative, hence the -8
     geom_line(lwd = 2, colour = '#006837')+
     geom_smooth(stat = "identity")+ #get the 
     theme(text = element_text(size = 25),
