@@ -50,8 +50,8 @@ barplt <- ggplot(data = final_df, aes(fill = CAT, x = TIME, y = COUNTS)) +
         panel.border = element_rect(colour = "black", fill = NA, size = 1) #frame the plot
         ) +
   labs(x = "Time (Ma)", y = "Counts", fill = "Category") +
-  geom_vline(xintercept = 200, col = "red", linetype = "dashed") +
-  geom_vline(xintercept = 410, col = "red", linetype = "dashed")
+  geom_vline(xintercept = 200, col = "red", linetype = "dashed", lwd = 1) +
+  geom_vline(xintercept = 410, col = "red", linetype = "dashed", lwd = 1)
 
 print(barplt)
 

@@ -21,11 +21,6 @@ for(k in seq(from = 4, to = ncol(df), by = 2)){ #we start with the latitude of t
     png(paste0("./figures/standard_deviation/", true_time, ".png"))
   }
   plot.new()
-  # 
-  # rect(par("usr")[1], par("usr")[3],
-  #      par("usr")[2], par("usr")[4],
-  #      col = "grey92") #set light grey background
-  # par(new = TRUE)
   par(bg = "grey92")
   plot(p,
        axes = FALSE,
