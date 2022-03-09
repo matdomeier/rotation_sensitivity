@@ -51,8 +51,8 @@ for(i in 1:length(FRAMES)){
                     panel.background = element_blank(), # Remove panel background
                     panel.border = element_rect(colour = "black", fill = NA, size = 1)) + #frame the plot
               scale_x_reverse(breaks = seq(from = 0, to = 50, by = 10))+
-              geom_vline(xintercept = 41, col = "#006837")+
-              geom_vline(xintercept = 20, col = "#006837")+
+              geom_vline(xintercept = 200, col = "red", linetype = "dashed") +
+              geom_vline(xintercept = 410, col = "red", linetype = "dashed") +
               labs(x = "Time (x10Ma)", y= "Averaged Latitude SD (°)")
   
   ggsave(filename = paste0("./figures/time_series/FRAME_", i, ".pdf" ),
