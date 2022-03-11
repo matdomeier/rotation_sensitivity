@@ -5,7 +5,7 @@
 # Email: LewisA.Jones@outlook.com
 #
 # Script name:
-# data_prep.R
+# prepare_fossil_croc_data.R
 # Script description:
 # Data preparation and cleaning of Crocodylomorpha occurrence data set
 #---------------------------------------------------------------------
