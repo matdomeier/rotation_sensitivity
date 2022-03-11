@@ -12,15 +12,16 @@
 #load libraries needed for script
 library(dplyr)
 library(tibble)
+library(paleobioDB)
 #---------------------------------------------------------------------
 #Download all Crocodylomorpha occurrences from the Paleobiology Database (https://paleobiodb.org/#/) using the API service
-data <- read.csv("https://paleobiodb.org/data1.2/occs/list.csv?base_name=Crocodylomorpha&show=class") 
+data <- read.csv("https://paleobiodb.org/data1.2/occs/list.csv?base_name=Crocodylomorpha&show=class&show=coords") #show = coords to show coordinates
 #save raw data
 saveRDS(data, "./data/occurrences/raw_croc_dataset.RDS")
 #Analyses focused on terrestrial taxa, load text file and remove all marine taxa from database
 marine_taxa <- read.delim("./data/occurrences/marine_taxa.txt", header = FALSE)[,1]
 #filter data from PBDB classification
-data <- data %>% filter(!family %in% marine_taxa)
+data <- data %>% filter(!family %in% marine_taxa) #filter subsets dataframe according to the condition indicated
 data <- data %>% filter(!genus %in% marine_taxa)
 data <- data %>% filter(!accepted_name %in% marine_taxa)
 #remove all form and ichnotaxa occurrence data
@@ -42,8 +43,10 @@ upper <- seq(from = 530, to = 0, by = -10)
 #assign bins to data
 for(i in 1:length(upper)){
   data[which(data$mid_ma < lower[i] & data$mid_ma > upper[i]),c("bin_mid_ma")] <- mid[i]
+  data[which(data$mid_ma < lower[i] & data$mid_ma > upper[i]),c("bin_max_ma")] <- lower[i]
 }
 
-#SAVE DATA--------------------------------------------------------------
+
+  #SAVE DATA--------------------------------------------------------------
 saveRDS(data, "./data/occurrences/cleaned_croc_dataset.RDS")
 
