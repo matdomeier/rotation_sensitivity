@@ -61,7 +61,7 @@ for(mdl in models){
   }
   colnames(coords_over_time) <- names
   path <- "./extracted_paleocoordinates/"
-  saveRDS(x = coords_over_time, 
+  saveRDS(object = coords_over_time, 
             file = paste0(path, mdl, ".RDS")) #we finally export the coordinates over time as .csv file
 }
 

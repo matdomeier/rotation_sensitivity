@@ -43,10 +43,9 @@ upper <- seq(from = 530, to = 0, by = -10)
 #assign bins to data
 for(i in 1:length(upper)){
   data[which(data$mid_ma < lower[i] & data$mid_ma > upper[i]),c("bin_mid_ma")] <- mid[i]
-  data[which(data$mid_ma < lower[i] & data$mid_ma > upper[i]),c("bin_max_ma")] <- lower[i]
 }
 
 
   #SAVE DATA--------------------------------------------------------------
-saveRDS(data, "./data/occurrences/cleaned_croc_dataset.RDS")
+saveRDS(data, "./data/occurrences/cleaned_Crocos_dataset.RDS")
 

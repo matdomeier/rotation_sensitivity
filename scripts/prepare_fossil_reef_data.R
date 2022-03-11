@@ -46,5 +46,8 @@ upper <- seq(from = 530, to = 0, by = -10)
 for(i in 1:length(upper)){
   PARED[which(PARED$mid_ma < lower[i] & PARED$mid_ma > upper[i]),c("bin_mid_ma")] <- mid[i]
 }
+names(PARED)[names(PARED) == c("latit")] <- "lat" 
+names(PARED)[names(PARED) == c("longit")] <- "lng" #rename these columns to make it easier for the rest of the analysis
 #SAVE DATA--------------------------------------------------------------
-saveRDS(PARED, "./data/occurrences/cleaned_PARED_dataset.RDS")
+saveRDS(PARED, "./data/occurrences/cleaned_Corals_dataset.RDS")
+
