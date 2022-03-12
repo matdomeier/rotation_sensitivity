@@ -6,7 +6,7 @@ library(rgdal)
 dir <- "C:/Users/lucas/OneDrive/Bureau/Internship_2022/project/rotated_fossils/" #the directory where you stored the output shapefiles
 models <- c("Golonka", "Seton", "Matthews", "Scotese")
 MaxT <- list("Golonka" = 235,
-             "Seton" = 200,
+             "Seton" = 195,
              "Matthews" = 235,
              "Scotese"  = 235)
 
@@ -40,8 +40,19 @@ for(mdl in models){
       coords_over_time[to_drop, index+2] <- NA
     }
     
+    if(mdl == "Seton"){ #extend Seton time range
+      for(t in seq(from = 205, to = 235, by = 10)){
+        coords_over_time[, (t/5)+1] = NA
+        names(coords_over_time)[(t/5)+1] <- paste0("lon_", t)
+        
+        coords_over_time[, (t/5)+2] = NA
+        names(coords_over_time)[(t/5)+2] <- paste0("lat_", t)
+      }
+    }
+    
     path <- "./data/fossil_extracted_paleocoordinates/"
     saveRDS(object = coords_over_time, 
             file = paste0(path, "/", taxon, "/", mdl, ".RDS")) #we finally export the coordinates over time as .RDS file
   }
 }
+
