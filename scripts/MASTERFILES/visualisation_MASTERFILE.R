@@ -32,4 +32,4 @@ source("./scripts/data_analysis/quantification.R")
 
 ###### CASE STUDY ######
 ## Plot and save tropical/subtropical zone crossed reconstructions --------------------
-source("./scripts/visualisation/plot_corals.R") #corals
+source("./scripts/visualisation/plot_north_trop_lim.R") #evolution of the northern subtropical limit
