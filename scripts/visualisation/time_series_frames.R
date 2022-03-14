@@ -20,10 +20,10 @@ FRAME3 <- list("lon_w" = 112,
                "lat_n" = 23,
                "lat_s" = -13)
 
-TIMESCALE <- seq(from = 0, to = 540, by = 10)
+TIMESCALE <- seq(from = 0, to = 200, by = 10)
 
 FRAMES <- list(FRAME1, FRAME2, FRAME3)
-SD <- readRDS("./data/standard_deviation_4mdls.RDS")
+SD <- readRDS("./data/standard_deviation_4mdls.RDS")[, -seq(from = 43, to = 110, by = 1)] #we only keep the first 200Myrs
 
 for(i in 1:length(FRAMES)){
   frame = FRAMES[[i]]
@@ -41,8 +41,8 @@ for(i in 1:length(FRAMES)){
                      std = as.numeric(ET))
   
   ts_plot <- ggplot(data = avet, aes(x = Time, y = Av, ymin = Av-std, ymax = Av+std))+
-    scale_x_reverse(breaks = seq(from = 0, to = 500, by = 100))+
-    scale_y_continuous(expand = c(0,0), limits = c(-8, 44)) + #although no values <0, he confidence interval can be "theoretically" negative, hence the -8
+    scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50))+
+    scale_y_continuous(expand = c(0,0), limits = c(-8, 30)) + #although no values <0, he confidence interval can be "theoretically" negative, hence the -8
     geom_line(lwd = 2, colour = '#006837')+
     geom_smooth(stat = "identity")+
     theme(text = element_text(size = 25),
@@ -53,8 +53,6 @@ for(i in 1:length(FRAMES)){
           panel.grid.minor = element_blank(), 
           panel.background = element_blank(), # Remove panel background
           panel.border = element_rect(colour = "black", fill = NA, size = 1)) + #frame the plot
-    geom_vline(xintercept = 200, col = "red", linetype = "dashed", lwd = 1) +
-    geom_vline(xintercept = 410, col = "red", linetype = "dashed", lwd = 1) +
     labs(x = "Time (Ma)", y= "Averaged Latitude SD (°)")
   
   ggsave(filename = paste0("./figures/time_series/FRAME_", i, ".pdf" ),
