@@ -44,7 +44,7 @@ for(i in 1:length(FRAMES)){
     scale_x_reverse(breaks = seq(from = 0, to = 500, by = 100))+
     scale_y_continuous(expand = c(0,0), limits = c(-8, 44)) + #although no values <0, he confidence interval can be "theoretically" negative, hence the -8
     geom_line(lwd = 2, colour = '#006837')+
-    geom_smooth(stat = "identity")+ #get the 
+    geom_smooth(stat = "identity")+
     theme(text = element_text(size = 25),
           axis.line = element_line(colour = "black", size = 1, linetype = "solid"),
           axis.text.x = element_text(size = 23),
@@ -62,3 +62,4 @@ for(i in 1:length(FRAMES)){
          width = 10,
          height = 6)
 }
+
