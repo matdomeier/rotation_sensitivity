@@ -17,7 +17,7 @@ source("./scripts/visualisation/plot_MST.R")
     ### FOR THE SCRIPT TO WRITE THE GIFS, SEE THE PYTHON NOTEBOOK "make_GIFs.ipynb"
 
 ## Plot and save plateIDs assignement discrepancies -----------------------------------
-source("./scripts/visualisation/plot_ID_weight.R")
+source("./scripts/visualisation/plot_ID_score.R")
 
 ## Plot and save time series for the three selected frames ----------------------------
 source("./scripts/visualisation/time_series_frames.R")

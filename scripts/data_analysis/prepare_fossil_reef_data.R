@@ -50,4 +50,3 @@ names(PARED)[names(PARED) == c("latit")] <- "lat"
 names(PARED)[names(PARED) == c("longit")] <- "lng" #rename these columns to make it easier for the rest of the analysis
 #SAVE DATA--------------------------------------------------------------
 saveRDS(PARED, "./data/occurrences/cleaned_Corals_dataset.RDS")
-

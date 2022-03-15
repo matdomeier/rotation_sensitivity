@@ -5,7 +5,7 @@
 library(RCurl)
 library(raster) #just in case, although may have been loaded before
 
-## File built in the "ID_weight.R" script ------------------------------------------------------------------------
+## File built in the "ID_score.R" script ------------------------------------------------------------------------
 store <- readRDS("./data/data_pts_plate_IDs_according_to_the_four_models.RDS")
 
 ## Rasterizing ---------------------------------------------------------------------------------------------------
@@ -15,18 +15,19 @@ p <- projectRaster(r, crs = proj_moll)
 
 ## Plotting ------------------------------------------------------------------------------------------------------
 png("./figures/PlateID_discrepancies.png") #nb: to save as pdf, set width = 10, heigth = 7, and onefile = FALSE
+pdf("./figures/PlateID_discrepancies.pdf", width = 10, height = 7, onefile = F)
 plot.new()
 par(bg = 'grey92')
-plot(p, col = c("grey75", "#377eb8", "#e41a1c"),  
+plot(p, col = c("#fee0d2", "#fc9272", "#ef3b2c"),  
      axes = FALSE,
-     legend.args = list(text = 'ID_weight', side = 4, font = 2, line = 2.5, cex = 0.8))
+     legend.args = list(text = 'ID_score', side = 4, font = 2, line = 2.5, cex = 0.8))
 plot(worldline_mol,
      add = TRUE) #backround map designed in "background_map.R"
 dev.off()
 
 
 
-## Quantifying the amount of Paleodb fossil occurrences located in each zone with different ID_weights -----------
+## Quantifying the amount of Paleodb fossil occurrences located in each zone with different ID_scores -----------
 
 RCurl::curlSetOpt(3000)  # extend the time spent waiting for a large file downloading with the RCurl package
 
@@ -38,15 +39,15 @@ pbdb_collection <- read.csv(textConnection(pbdb_collection))
 
 #we convert these data to spatial data points (xy, only coordinates matter)
 
-ID_weight_pdb <- extract(x = r, y = pbdb_collection[,4:5]) #r instead of p for projection reasons
+ID_score_pdb <- extract(x = r, y = pbdb_collection[,4:5]) #r instead of p for projection reasons
 
-prop1 <- length(which(ID_weight_pdb == 1))/length(ID_weight_pdb) # ~0.54
-print(paste0(prop1*100, "% of Paleobiodb collections are in a grey zone"))
+prop1 <- length(which(ID_score_pdb == 1))/length(ID_score_pdb) # ~0.56
+print(paste0(round(prop1, digit = 1)*100, "% of Paleobiodb collections are in a low discrepancy zone"))
 
-prop2 <- length(which(ID_weight_pdb == 2))/length(ID_weight_pdb) # ~0.28
-print(paste0(prop2*100, "% of Paleobiodb collections are in a grey zone"))
+prop2 <- length(which(ID_score_pdb == 2))/length(ID_score_pdb) # ~0.29
+print(paste0(round(prop2, digit = 1)*100, "% of Paleobiodb collections are in a mid discrepancy zone"))
 
-prop3 <- length(which(ID_weight_pdb == 3))/length(ID_weight_pdb) # ~0.08
-print(paste0(prop3*100, "% of Paleobiodb collections are in a grey zone"))
+prop3 <- length(which(ID_score_pdb == 3))/length(ID_score_pdb) # ~0.08
+print(paste0(round(prop, digit = 1)*100, "% of Paleobiodb collections are in a high discrepancy zone"))
 
-propNA <- length(which(is.na(ID_weight_pdb) == T))/length(ID_weight_pdb) # ~0.1, the fossils not in cells covered by our analysis
+propNA <- length(which(is.na(ID_score_pdb) == T))/length(ID_score_pdb) # <0.1, the fossils not in cells covered by our analysis

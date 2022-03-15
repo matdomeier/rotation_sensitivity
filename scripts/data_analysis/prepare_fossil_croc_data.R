@@ -12,7 +12,7 @@
 #load libraries needed for script
 library(dplyr)
 library(tibble)
-library(paleobioDB)
+
 #---------------------------------------------------------------------
 #Download all Crocodylomorpha occurrences from the Paleobiology Database (https://paleobiodb.org/#/) using the API service
 data <- read.csv("https://paleobiodb.org/data1.2/occs/list.csv?base_name=Crocodylomorpha&show=class&show=coords") #show = coords to show coordinates
@@ -48,4 +48,4 @@ for(i in 1:length(upper)){
 
   #SAVE DATA--------------------------------------------------------------
 saveRDS(data, "./data/occurrences/cleaned_Crocos_dataset.RDS")
-
+crocs = readRDS("./data/occurrences/cleaned_Crocos_dataset.RDS")
