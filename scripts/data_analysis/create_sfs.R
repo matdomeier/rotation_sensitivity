@@ -1,5 +1,11 @@
 ############## This function creates a shapefile from the occurences that will further be rotated using Gplates ##############
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Libraries -------------------------------------------------------------------
 library(raster)
 

@@ -1,6 +1,12 @@
 ################ This script builds a raster to visualise the discrepancies in plateID among the plots... ################
 ############### ... and assess the amount of pbdb collections that are in each of the 3 zones we highlight ###############
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Libraries -----------------------------------------------------------------------------------------------------
 library(RCurl)
 library(raster) #just in case, although may have been loaded before

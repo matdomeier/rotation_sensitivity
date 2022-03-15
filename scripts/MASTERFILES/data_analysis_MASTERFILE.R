@@ -1,5 +1,9 @@
-
 ############################################### DATA ANALYSIS ########################################################
+
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan
+#e-mail: lucas.l.buffan@gmail.com
 
 
 ###### SIMULATION PART ######

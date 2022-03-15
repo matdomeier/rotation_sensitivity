@@ -1,8 +1,15 @@
 ############ This script processes and pools the rotated occurrences into one dataset ##############
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
+## Library -----------------------------------------------------------------------
 library(rgdal)
 
-
+## Pre-processing ----------------------------------------------------------------
 dir <- "C:/Users/lucas/OneDrive/Bureau/Internship_2022/project/rotated_fossils/" #the directory where you stored the output shapefiles
 models <- c("Golonka", "Seton", "Matthews", "Scotese")
 MaxT <- list("Golonka" = 235,

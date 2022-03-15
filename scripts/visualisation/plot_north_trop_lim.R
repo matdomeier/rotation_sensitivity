@@ -1,5 +1,11 @@
 ############## This script plots the crocodiles reconstructed palaeocoordinates according to the 4 different models ##################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Library -----------------------------------------------------------------------------------------------
 library(ggplot2)
 library(rphylopic)

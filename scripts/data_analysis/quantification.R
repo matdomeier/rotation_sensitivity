@@ -1,5 +1,11 @@
 ############### This script estimates and plots the evolution of the MST length according to the different ID_scores zones ################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Import libraries ------------------------------------------------------------------------------------
 
 library(ggplot2)

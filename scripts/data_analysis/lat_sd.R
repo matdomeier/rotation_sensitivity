@@ -1,5 +1,11 @@
 ################## This function evaluates the standard deviation between the outputs of the 4 models ###################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## List of the maximal time coverage for each of the four models ------------------------------------------------------
 
 MaxTime <- c("Scotese2" = 540,

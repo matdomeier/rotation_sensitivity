@@ -1,5 +1,11 @@
 ############ This script draws the barplots illustrating the distribution of cells in the different categories of lat sd ##########
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## import our friend ggplot ------------------------------------------------------------------
 library(ggplot2)
 

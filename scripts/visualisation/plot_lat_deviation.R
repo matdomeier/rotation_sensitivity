@@ -1,6 +1,10 @@
 ################ This script is for latitude deviation estimation between the outputs of the models 2 by 2 ################
 
 
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
 
 #nb: you need to create the folders "mdl1_vs_mdl2" for all mdls in models
 

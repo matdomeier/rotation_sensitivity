@@ -1,3 +1,11 @@
+############# This script creates the 1x1° meshgrid and processes the rotated shapefiles #################
+
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 library(raster)
 library(sp)
 library(rgdal)

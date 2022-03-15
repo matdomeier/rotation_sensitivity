@@ -1,5 +1,11 @@
 ################ This script is to generate the background map using Rnaturalearth ################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Libraries -----------------------------------------------------------------------------------------------------------
 library(rnaturalearth) #INSTALL rnaturalearth, PLEASE FOLLOW THIS LINK => https://cran.r-project.org/web/packages/rnaturalearth/README.html
 library(sf)

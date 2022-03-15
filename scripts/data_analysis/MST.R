@@ -1,5 +1,11 @@
 ############## Compute the MST for each point of the grid we are working on ##############
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 #The MST length will be sort of an extension of the latitudinal deviation assessment
 #Needs to be conjugated with a metric indicating whether the models +/- agree or not => variance of the average distance to the common centroid of the 4 estimates
 

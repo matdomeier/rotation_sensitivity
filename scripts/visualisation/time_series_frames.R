@@ -1,5 +1,11 @@
 ################# This script plot and saves the lat sd time series of the red frames ################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 library(ggplot2)
 
 #CARRIBEAN FRAME

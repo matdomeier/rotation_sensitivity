@@ -1,5 +1,11 @@
 ############ THIS SCRIPT ASSESSES THE INDEXES OF THE CELLS TO DROP FOR THE SPATIAL SCALING ###################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Loading libraries -----------------------------------------------------------------------------------------
 library(sp)
 library(abind)

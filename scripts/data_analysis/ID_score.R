@@ -1,5 +1,11 @@
 ################### This script is to assess the differences between the models in terms of plateID #####################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 #nb: Seton excluded from this analysis
 
 store <- readRDS('./data/georeferenced/Scotese2.RDS')[, c(1,2,8)] #store will be the dataframe containing the plate ID assigned to each point according to the 3 models (all without Seton)

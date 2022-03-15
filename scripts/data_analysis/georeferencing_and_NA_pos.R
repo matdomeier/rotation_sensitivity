@@ -3,6 +3,11 @@
 #In the case of the models that only consider continental plates motion, the points in the oceans will just be attributed to no plateID
 
 
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Loading libraries ---------------------------------------------------------------------------------------------------
 library(raster)
 

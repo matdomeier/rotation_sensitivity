@@ -1,4 +1,11 @@
 ################## This function evaluates the absolute difference between the outputs of the 2 mdls #################
+
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ##In addition, all difference under the threshold thr will be set to NA
 
 

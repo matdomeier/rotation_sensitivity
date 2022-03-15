@@ -1,6 +1,11 @@
 ################ This script is to plot the latitude STANDARD DEVIATION between the four models over time ################
 
 
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 pal <- c('#f7fcb9','#d9f0a3','#addd8e','#78c679','#41ab5d','#238443','#006837','#004529') #set the palette
 
 df <- readRDS("./data/standard_deviation_4mdls.RDS")
