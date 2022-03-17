@@ -20,7 +20,7 @@ Timescale <- seq(from = 10, to = 540, by = 10) #The timescale of the study will 
 
 ## OUTPUTS OF THE FOUR MODELS ----------------------------------------------------------------------------------------
 
-GOLONKA <- readRDS('./data/extracted_paleocoordinates/Golonka.RDS')[-MAX,] #we directly get rid of the elements that are not further treated, to lower computing time
+WRIGHT <- readRDS('./data/extracted_paleocoordinates/Wright.RDS')[-MAX,-c(1)] #we directly get rid of the elements that are not further treated, to lower computing time
 SETON <- readRDS('./data/extracted_paleocoordinates/Seton.RDS')[-MAX,]
 SETON[, seq(from = ncol(SETON), to = 2*(max(Timescale)/10+1), by = 1)] = NA #temporal scaling: we artificially extend the duration of SETON and MATTHEWS so we could assess MST until 540Ma (vegan ignores NAs)
 MATTHEWS <- readRDS('./data/extracted_paleocoordinates/Matthews.RDS')[-MAX,]
@@ -36,13 +36,13 @@ MST_mat <- matrix(0,
                   ncol = length(Timescale)+2 #as many wows as we have time intervals + 2 supplementary for the coordinates
 )
 MST_df <- data.frame(MST_mat)
-MST_df[, 1:2] <- GOLONKA[, 1:2] #coordinates
+MST_df[, 1:2] <- WRIGHT[, 1:2] #coordinates
 cnames <- c("lon_0", "lat_0")
 
 for(t in Timescale){
   cnames <- c(cnames, paste0("MST_length_", t))
   for(i in 1:nrow(MST_df)){
-    dist_mat <- distm(rbind(cbind(GOLONKA[i, 2*t/10+1], GOLONKA[i, 2*t/10+2]), 
+    dist_mat <- distm(rbind(cbind(WRIGHT[i, 2*t/10+1], WRIGHT[i, 2*t/10+2]), 
                             cbind(SETON[i, 2*t/10+1], SETON[i, 2*t/10+2]),
                             cbind(SCOTESE[i, 2*t/10+1], SCOTESE[i, 2*t/10+2]),
                             cbind(MATTHEWS[i, 2*t/10+1], MATTHEWS[i, 2*t/10+2])),
@@ -53,3 +53,6 @@ for(t in Timescale){
 colnames(MST_df) <- cnames
 
 saveRDS(MST_df, "./data/MST_length.RDS")
+
+
+

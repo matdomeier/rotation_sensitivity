@@ -15,7 +15,7 @@ while(i < length(without_seton)){
   i = i+1
   store[,i+2] <- readRDS(paste0('./data/georeferenced/', models[i], '.RDS'))$georef
 }
-colnames(store) <- c("lon_0", "lat_0", "Scotese2_ID", "Matthews_ID", "Golonka_ID")
+colnames(store) <- c("lon_0", "lat_0", "Scotese2_ID", "Matthews_ID", "Wright_ID")
 
 store <- store[-MAX,] #we get rid of the points we don't want to work on (MAX defined in the "cells_to_drop.R" script)
 

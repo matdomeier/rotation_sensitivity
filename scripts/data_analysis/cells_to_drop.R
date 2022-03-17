@@ -14,7 +14,7 @@ library(abind)
 ## List of model's names -------------------------------------------------------------------------------------
 models <- c("Scotese2",  #PALEOMAP latest version
             "Matthews",  
-            "Golonka",
+            "Wright",
             "Seton")
 
 
@@ -34,23 +34,23 @@ while(i<4){
   test <- get_na_pos(models[i])
   if(length(test) > length(MAX)){
     MAX <- test
-    print(models[i]) #GOLONKA IS THE MODEL WITH THE SMALLER NUMBER OF CELLS WITH VALUES
+    print(models[i]) #WRIGHT IS THE MODEL WITH THE SMALLER NUMBER OF CELLS WITH VALUES
   }
 }
 
 MAX <- unique(MAX)
 
-#we look for potential remaining NAs in the other models after removing all cells not covered by Golonka
+#we look for potential remaining NAs in the other models after removing all cells not covered by Wright
 
 
-to_add <- c() #list that will contain the indexes to add, ie remaining NAs in the Matthew and Scotese datasets after cleaning golonka's NAs position 
+to_add <- c() #list that will contain the indexes to add, ie remaining NAs in the Matthew and Scotese datasets after cleaning Wright's NAs position 
 for(mdl in c("Scotese2", "Matthews")){
   georef <- readRDS(paste0("./data/georeferenced/", mdl,".RDS"))
-  to_add <- c(to_add, which(is.na(georef$georef[-MAX]) == TRUE)) #we add the remaining NAs after cleaning up Golonka's ones
+  to_add <- c(to_add, which(is.na(georef$georef[-MAX]) == TRUE)) #we add the remaining NAs after cleaning up Wright's ones
 }
 
 MAX <- c(MAX, unique(to_add)) #these NAs are added and we use unique() to avoid adding twice the same indexes
-#length(MAX) = 35300 => we work with 64800-length(MAX) = 29500 cells
+#length(MAX) = 43381 => we work with 64800-length(MAX) = 21419 cells
 
 
 

@@ -34,12 +34,12 @@ raster::shapefile(xy.df, paste0(getwd(),"/meshgrid.shp"), overwrite = TRUE)  #cr
 
 models <- c("Scotese2",  #PALEOMAP latest version
             "Matthews",  
-            "Golonka",
+            "Wright",
             "Seton")
 
 MaxTime <- c("Scotese2" = 540,
              "Matthews" = 410,
-             "Golonka" = 540,
+             "Wright" = 540,
              "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
                                #rounded to 540 (instead of 544) for Golonka and Wright
 

@@ -11,7 +11,7 @@
 
 models <- c("Scotese2",  #PALEOMAP latest version
             "Matthews",  
-            "Golonka",
+            "Wright",
             "Seton")
 
 

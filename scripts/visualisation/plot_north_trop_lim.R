@@ -6,12 +6,12 @@
 #e-mail: lucas.l.buffan@gmail.com
 
 
-## Library -----------------------------------------------------------------------------------------------
+## Libraries ---------------------------------------------------------------------------------------------
 library(ggplot2)
 library(rphylopic)
 
 palette <- c("#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f")
-models <- c("Golonka", "Seton", "Matthews", "Scotese")
+models <- c("Wright", "Seton", "Matthews", "Scotese")
 
 silhouettes <- c("d148ee59-7247-4d2a-a62f-77be38ebb1c7", #Cnidaria
                  "dffda000-77cb-4251-b837-0cd2ab21ed5b") #Crocodylia

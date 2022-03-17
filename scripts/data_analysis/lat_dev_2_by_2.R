@@ -13,7 +13,7 @@
 
 MaxTime <- c("Scotese2" = 540,
              "Matthews" = 410,
-             "Golonka" = 540, #rounded to 540 (instead of 544) for Golonka
+             "Wright" = 540, #rounded to 540 (instead of 544) for Golonka
              "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
 
 
