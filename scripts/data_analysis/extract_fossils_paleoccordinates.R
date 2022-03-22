@@ -11,8 +11,8 @@ library(rgdal)
 
 ## Pre-processing ----------------------------------------------------------------
 dir <- "C:/Users/lucas/OneDrive/Bureau/Internship_2022/project/rotated_fossils/" #the directory where you stored the output shapefiles
-models <- c("Golonka", "Seton", "Matthews", "Scotese")
-MaxT <- list("Golonka" = 235,
+models <- c("Wright", "Seton", "Matthews", "Scotese")
+MaxT <- list("Wright" = 235,
              "Seton" = 195,
              "Matthews" = 235,
              "Scotese"  = 235)

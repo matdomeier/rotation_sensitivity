@@ -8,7 +8,6 @@
 
 ## Loading libraries -----------------------------------------------------------------------------------------
 library(sp)
-library(abind)
 
 
 ## List of model's names -------------------------------------------------------------------------------------
@@ -34,7 +33,7 @@ while(i<4){
   test <- get_na_pos(models[i])
   if(length(test) > length(MAX)){
     MAX <- test
-    print(models[i]) #WRIGHT IS THE MODEL WITH THE SMALLER NUMBER OF CELLS WITH VALUES
+    print(models[i]) #Wright IS THE MODEL WITH THE SMALLER NUMBER OF CELLS WITH VALUES
   }
 }
 
@@ -50,7 +49,7 @@ for(mdl in c("Scotese2", "Matthews")){
 }
 
 MAX <- c(MAX, unique(to_add)) #these NAs are added and we use unique() to avoid adding twice the same indexes
-#length(MAX) = 43381 => we work with 64800-length(MAX) = 21419 cells
+#length(MAX) = 359111 => we work with 64800-length(MAX) = 28889 cells
 
 
 

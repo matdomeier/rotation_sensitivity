@@ -20,7 +20,7 @@ Timescale <- seq(from = 10, to = 540, by = 10) #The timescale of the study will 
 
 ## OUTPUTS OF THE FOUR MODELS ----------------------------------------------------------------------------------------
 
-WRIGHT <- readRDS('./data/extracted_paleocoordinates/Wright.RDS')[-MAX,-c(1)] #we directly get rid of the elements that are not further treated, to lower computing time
+WRIGHT <- readRDS('./data/extracted_paleocoordinates/Wright.RDS')[-MAX,] #we directly get rid of the elements that are not further treated, to lower computing time
 SETON <- readRDS('./data/extracted_paleocoordinates/Seton.RDS')[-MAX,]
 SETON[, seq(from = ncol(SETON), to = 2*(max(Timescale)/10+1), by = 1)] = NA #temporal scaling: we artificially extend the duration of SETON and MATTHEWS so we could assess MST until 540Ma (vegan ignores NAs)
 MATTHEWS <- readRDS('./data/extracted_paleocoordinates/Matthews.RDS')[-MAX,]

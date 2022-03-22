@@ -48,4 +48,3 @@ for(i in 1:length(upper)){
 
   #SAVE DATA--------------------------------------------------------------
 saveRDS(data, "./data/occurrences/cleaned_Crocos_dataset.RDS")
-crocs = readRDS("./data/occurrences/cleaned_Crocos_dataset.RDS")

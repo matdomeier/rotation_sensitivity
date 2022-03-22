@@ -5,12 +5,16 @@
 #Copyright (c) Lucas Buffan 2022
 #e-mail: lucas.l.buffan@gmail.com
 
+## Library ------------------------------------------------------------------------------------------------------------
+
+library(abind)
+
 
 ## List of the maximal time coverage for each of the four models ------------------------------------------------------
 
 MaxTime <- c("Scotese2" = 540,
              "Matthews" = 410,
-             "Wright" = 540, #rounded to 540 (instead of 544) for Golonka
+             "Wright" = 540, #rounded to 540 (instead of 544) for Wright
              "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
 
 
@@ -32,7 +36,7 @@ assess_sd <- function(thr){
     #we combine the 2-dimensional arrays in one 3D array (along = 3) for which we'll assess sd
   comb_array4 <- abind(df1[, 1:42], df2[, 1:42], df3[, 1:42], df4[, 1:42], along = 3) #from 10 to 200Ma (4models)
   comb_array3 <- abind(df1[, 43:84], df2[, 43:84], df3[, 43:84], along = 3) #from 210 to 410 (3 models: all except Seton)
-  comb_array2 <- abind(df1[, 85:110], df3[, 85:110], along = 3) #from 420 to 540 (2 models: Scotese and Golonka, Matthews eliminated)
+  comb_array2 <- abind(df1[, 85:110], df3[, 85:110], along = 3) #from 420 to 540 (2 models: Scotese and Wright, Matthews eliminated)
   
   
   #Standard deviation assessment on the 3 arrays
