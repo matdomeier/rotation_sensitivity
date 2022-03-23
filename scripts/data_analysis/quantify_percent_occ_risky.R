@@ -1,5 +1,11 @@
 ############ This script quantifies the amount of fossil occurrences (crocs and corals) located in a risky zon (high ID_sc or frames) ################
 
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan
+#e-mail: lucas.l.buffan@gmail.com
+
+
 ## Libraries -------------------------------------------------------------------
 library(raster)
 library(dplyr)

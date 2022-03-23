@@ -12,60 +12,33 @@ library(rphylopic)
 library(abind)
 
 
-## Plot --------------------------------------------------------------------------------------------------
+## Data --------------------------------------------------------------------------------------------------
 taxon <- "Crocos"
-models <- c("Wright", "Seton", "Matthews", "Scotese")
+models <- c("PALEOMAP",
+            "SETON2012",
+            "MATTHEWS2016",
+            "GOLONKA")
 silhouettes <- c("d148ee59-7247-4d2a-a62f-77be38ebb1c7", #Cnidaria
                  "dffda000-77cb-4251-b837-0cd2ab21ed5b") #Crocodylia
 palette <- c("#33a02c", "#fb9a99", "#e31a1c", "blue")
 
 
-data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/Scotese.RDS"))
-coverage <- sort(unique(data_ex$TB))[-which(sort(unique(data_ex$TB)) > 200)] #the time coverage: all the bins under 200Ma
+data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/PALEOMAP.RDS"))
+over_timed <- which(data_ex$AGE > 200) #indexes of teh occurrences older than 200Ma
 
-TIME <- c()
-GROUP <- c() #SPECIFY TIME AND GROUP SO THEY END SAME LENGTH AS LAT
-LAT <- c()
-
-#We get the indexes of the cells corresponding to fossils older than 195Ma
-indexes <- c()
-for(i in 1:nrow(data_ex)){
-  L <- length(which(is.na(data_ex[i, seq(from = ncol(data_ex)-7, to = ncol(data_ex), by = 1)]) == FALSE))
-  if(L>0){
-    indexes <- c(indexes, i)
-  }
-} #length(indexes) = 66 for crocos, 5 for corals
-
-
-
+## Raw scatter plot --------------------------------------------------------------------------------------
+data <- c()
 for(mdl in models){
-  print(mdl)
-  data <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/", mdl, ".RDS"))
-  data <- data[-indexes, ] #filter rows for fossils going further than 195Ma 
-  data <- data[, -c(1, seq(from = ncol(data)-7, to = ncol(data), by = 1))] #erase TB column and all time older than 195Ma
-  data <- data[, -c(which(seq(from = 1, to = ncol(data), by = 1) %% 2 != 0))] #erase odd column indexes, corresponding to longitudes
-  lat <- c()
-  time <- c()
-  group <- c()
-  for(t in coverage){
-    COL <- paste0("lat_", t)
-    print(COL)
-    IND <- which(is.na(data[, c(COL)]) == FALSE)
-    lat <- c(lat, data[IND, c(COL)])
-    time <- c(time, rep(t, length(IND)))
-    group <- c(group, rep(mdl, length(IND)))
-  }
-  LAT <- c(LAT, lat)
-  TIME <- c(TIME, time)
-  GROUP <- c(GROUP, group)
+  df_mod <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/", mdl, ".RDS"))[-over_timed,
+                                                                                                              c("AGE", "PALEO_LON", "PALEO_LAT")]
+  group <- rep(mdl, nrow(df_mod))
+  df_mod <- cbind(df_mod, group)
+  data <- rbind(data, df_mod)
 }
 
+colnames(data) <- c("AGE", "PALEO_LON", "PALEO_LAT", "GROUP")
 
-to_plot <- data.frame(TIME = TIME,
-                      LAT = LAT,
-                      GROUP = GROUP)
-
-raw_scatter <- ggplot(data = to_plot, aes(x = TIME, y = LAT, group = GROUP, color = factor(GROUP)))+
+raw_scatter <- ggplot(data = data, aes(x = AGE, y = PALEO_LAT, group = GROUP, color = factor(GROUP)))+
   geom_point(size = 3) +
   ggtitle(taxon) +
   scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
@@ -83,35 +56,40 @@ raw_scatter <- ggplot(data = to_plot, aes(x = TIME, y = LAT, group = GROUP, colo
 raw_scatter
 
 
-
-df_comp <- data.frame(D = rep(1, 4539)) #initialisation column (4539 for crocos, 415 for corals)
-
-
-for(mdl in models){
-  data <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/", mdl, ".RDS"))
-  data <- data[-indexes, ] #filter rows for fossils going further than 195Ma 
-  data <- data[, -c(1, seq(from = ncol(data)-7, to = ncol(data), by = 1))] #erase TB column and all time older than 195Ma
-  data <- data[, -c(which(seq(from = 1, to = ncol(data), by = 1) %% 2 != 0))] #erase odd column indexes, corresponding to longitudes
-  lat <- c()
-  time <- c()
-  for(t in coverage){
-    COL <- paste0("lat_", t)
-    IND <- which(is.na(data[, c(COL)]) == FALSE)
-    lat <- c(lat, data[IND, c(COL)])
-    time <- c(time, rep(t, length(IND)))
-  }
-  df_comp[, c(mdl)] <- lat
+## Plot median max min -----------------------------------------------------------------------------------
+data <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/PALEOMAP.RDS"))[-over_timed,"PALEO_LAT"]
+for(mdl in models[-c(1)]){
+  data <- cbind(data, readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/", mdl, ".RDS"))[-over_timed, c("PALEO_LAT")])
 }
-df_comp$TIME <- time
-df_comp <- df_comp[, -c(1)]
-df_comp$length <- apply(X = df_comp[, models], MARGIN = 1,  FUN = max) - apply(X = df_comp[, models], MARGIN = 1,  FUN = min)
-df_comp$med <- apply(X = df_comp[, models], MARGIN = 1,  FUN = median)
+colnames(data) <- c("Scotese_lat", "Seton_lat", "Matthews_lat", "Wright_lat")
+data <- data.frame(data)
+data$TIME <- data_ex$AGE[-over_timed]
+data$med_lat <- apply(X = data[, 1:4], MARGIN = 1, FUN = median, na.rm = T)
+data$MAX <- apply(X = data[, 1:4], MARGIN = 1, FUN = max, na.rm = T)
+data$MIN <- apply(X = data[, 1:4], MARGIN = 1, FUN = min, na.rm = T)
 
-t = 165
-dni = which(df_comp$TIME == t)
-plot(df_comp$med[dni], df_comp$length[dni])
+if(taxon == "Corals"){
+  data <- data[-c(193, 206, 230),]
+  fill_col <- "#ef6548"
+}
 
-heatmap <- ggplot(data = df_comp, aes(x = TIME, y = med, fill = length))+
-  geom_tile()
+if(taxon == "Crocos"){
+  fill_col <- "#41ab5d"
+}
 
-heatmap
+distrib_plot <- ggplot(data = data, aes(x = TIME, y = med_lat)) +
+  geom_point(colour = fill_col) +
+  geom_errorbar(aes(ymin = MIN, ymax = MAX), colour = fill_col) +
+  ggtitle(taxon) +
+  scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
+  theme(text = element_text(size = 22),
+        plot.title = element_text(size = 20),
+        axis.text.x = element_text(size = 19),
+        axis.text.y = element_text(size = 19),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        panel.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
+  labs(x = "Time (Ma)", y = "Latitude (°)")
+
+distrib_plot
