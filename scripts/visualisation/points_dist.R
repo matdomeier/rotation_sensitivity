@@ -8,18 +8,15 @@
 
 ## Libraries ---------------------------------------------------------------------------------------------
 library(ggplot2)
-library(rphylopic)
 library(abind)
 
 
 ## Data --------------------------------------------------------------------------------------------------
-taxon <- "Crocos"
+taxon <- "Corals"
 models <- c("PALEOMAP",
             "SETON2012",
             "MATTHEWS2016",
             "GOLONKA")
-silhouettes <- c("d148ee59-7247-4d2a-a62f-77be38ebb1c7", #Cnidaria
-                 "dffda000-77cb-4251-b837-0cd2ab21ed5b") #Crocodylia
 palette <- c("#33a02c", "#fb9a99", "#e31a1c", "blue")
 
 
@@ -68,6 +65,10 @@ data$med_lat <- apply(X = data[, 1:4], MARGIN = 1, FUN = median, na.rm = T)
 data$MAX <- apply(X = data[, 1:4], MARGIN = 1, FUN = max, na.rm = T)
 data$MIN <- apply(X = data[, 1:4], MARGIN = 1, FUN = min, na.rm = T)
 
+for(t in unique(data$TIME)){
+  to_compare <- which(data$TIME == t)
+}
+
 if(taxon == "Corals"){
   data <- data[-c(193, 206, 230),]
   fill_col <- "#ef6548"
@@ -77,8 +78,8 @@ if(taxon == "Crocos"){
   fill_col <- "#41ab5d"
 }
 
-distrib_plot <- ggplot(data = data, aes(x = TIME, y = med_lat)) +
-  geom_point(colour = fill_col) +
+distrib_plot <- ggplot(data = data, aes(x = TIME, y = med_lat)) + 
+  geom_point(colour = "black", fill = fill_col, alpha = 0.7, shape = 21) +
   geom_errorbar(aes(ymin = MIN, ymax = MAX), colour = fill_col) +
   ggtitle(taxon) +
   scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
@@ -90,6 +91,21 @@ distrib_plot <- ggplot(data = data, aes(x = TIME, y = med_lat)) +
         panel.grid.minor = element_blank(), 
         panel.background = element_blank(),
         panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
-  labs(x = "Time (Ma)", y = "Latitude (°)")
+  labs(x = "Time (Ma)", y = "Latitude (°)") +
+  scale_y_continuous(limits = c(-100, 83), 
+                   breaks = c(-50, 0, 50), 
+                   labels = c(-50, 0, 50)) +
+  annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+  annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
+  annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+  annotate("text", x = (200+145)/2, y = -98, label = "J", size = 7)+
+  annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+  annotate("text", x = (145+66)/2, y = -98, label = "K", size = 7)+
+  annotate("rect", xmin = 66, xmax= 23.03, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
+  annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+  annotate("text", x = (66+23.03)/2, y = -98, label = "Pg", size = 7)+
+  annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+  annotate("text", x = (23.03+2.58)/2, y = -98, label = "Ng", size = 7)+
+  annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")
 
 distrib_plot
