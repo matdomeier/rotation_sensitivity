@@ -54,3 +54,10 @@ get_na_pos <- function(mdl){
   
   return(indexes)
 }
+
+
+## Evaluating the indexes of the cells covered by all the 4 models ----------------------------------------------------------
+
+MAX_raw <- lapply(X = models, FUN = get_na_pos)
+MAX <- unique(unlist(MAX_raw)) #length(MAX) = 35911, hence we work with n = 64800-35911 = 28889 cells.
+
