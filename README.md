@@ -1,12 +1,12 @@
 # Evaluating the influence of model choice on palaeogeographic reconstructions in Palaeobiology
 
-Our goal is to assess the impact of using different plates rotation models while reconstructing the surface of the Earth deep in time for Palaebiological purposes. Our study focuses on four of the most widely used open-sourced models. We first adopt a simulation approach, and compare the outputs of the models directy to assess how different they are. Next, we apply the models to two case studies, corals and terrestrial crocodiles datasets covering the last XXX Myrs, to illustrate the influence of using different models in the result that we obtain. This file details how the codes provided with this repository are linked to the analyses.
+Our goal is to assess the impact of using different plates rotation models while reconstructing the surface of the Earth deep in time for Palaebiological purposes. Our study focuses on four of the most widely used open-sourced models. We first adopt a simulation approach, and compare the outputs of the models directly across the entire Phanerozoic to assess how different they are. Next, we apply the models to two palaeobiological datasets for two taxa that can be used as proxies of either the subtropics or the tropics: terrestrial crocodiles and coral reefs. The latter part covers the last 200 Ma, and aims to illustrate the repercussion of the differences between models in a palaeobiological framework. This file details how the codes provided with this repository are linked to the analyses.
 
-To facilitate the execution and make it as clear and reproducible as possible, the scripts are organised in a sense that to run all the analysis (except <strong>1.1</strong>), <strong>, you just have to open the Rproject [rot_sens.Rproj](https://github.com/Buffan3369/rotation_sensitivity/blob/main/rot_sens.Rproj) and, from there, execute the two masterfiles in the [MASTERFILE](https://github.com/Buffan3369/rotation_sensitivity/tree/main/scripts/MASTERFILES) folder </strong>. They will automatically source the other scripts.
+To facilitate the execution and make it as clear and reproducible as possible, the scripts are organised in a sense that to run all the analysis (except <strong>1.1</strong>), <strong>, you just have to open the Rproject [rot_sens.Rproj](https://github.com/Buffan3369/rotation_sensitivity/blob/main/rot_sens.Rproj) in RStudio and, from there, execute the two masterfiles in the [MASTERFILE](https://github.com/Buffan3369/rotation_sensitivity/tree/main/scripts/MASTERFILES) folder </strong>. They will automatically source the other scripts.
 
 ## 1. Simulation approach: Assessing the differences between paleorotation models
 
-### 1.1. Generation of the data
+### 1.1. Generating the data
 
 We generate our data using Gplates according to the following process:
 
@@ -51,10 +51,33 @@ The resulting figure is available [here](https://github.com/Buffan3369/rotation_
 
 #### 1.4.4. Minimum Spanning Tree (MST) length
 
-To best spatially figure out how different the outputs of the models are, we compute, for each of our 29500 points and at a given time, the length of the Minimum Spanning Tree connecting the centroids of the projection of the point according to the four models and plot this on a present-day map (see [*MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/MST.R) and [*plot_MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_MST.R)).
+To best spatially figure out how different the outputs of the models are, we compute, for each of our 29500 points and at a given time, the length of the Minimum Spanning Tree connecting the centroids of the projection of the point according to the four models and plot this on a present-day map. This metric is a proxy of the geographical spread arising when comparing the models (see [*MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/MST.R) and [*plot_MST.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_MST.R)).
 
 
-*nb: these analyses involved producing time-series maps that were further assembled in GIFs with the detailed procedure in the [*make_GIFS.ipynb](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/make_GIFs.ipynb) notebook, designed to be run in google colab.*
+*nb: these analyses involved producing time-series maps that were further assembled in GIFs with the detailed procedure in the [*make_GIFS.ipynb](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/make_GIFs.ipynb) notebook, designed to be run in Google Colab.*
 
 
+## 2. Case study: quantifying the repercussions of the differences between plate models on a true biological analysis
+
+### 2.1. Fossil data pre-processing
+#### 2.1.1. Crocodiles
+
+We download all Crocodylomorpha occurrences from [The Paleobiology Database](https://paleobiodb.org/#/) and we filter out all marine taxa, as their past distribution was shown [not to exhibit any climate-driven pattern](https://www.nature.com/articles/ncomms9438). This made us work with 4205 occurrences (see [*prepare_fossil_croc_data.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/prepare_fossil_croc_data.R)).
+
+#### 2.1.2. Coral reefs
+
+We use all Reefs occurrences from [The Paleo Reefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/), and filter in Tropical (warm-water) coral reefs with Scelarctinian skeleton, main current indicators of the tropics. We ended up having 420 occurrences (see [*prepare_fossil_reef_data.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/prepare_fossil_reef_data.R)).
+
+### 2.2. Rotating occurrences 
+
+As the occurrences are not provided with an absolute age estimate but within an age interval, we rotate each occurrence for its corresponding mid-age rounded to the nearest Myrs, using the `reconstruct()` function of the [Chronosphere](https://cran.r-project.org/web/packages/chronosphere/index.html) R package (see [*rotate_fossils_with_chronosphere.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/rotate_fossils_with_chronosphere.R)).
+
+### 2.3. Analysis
+#### 2.3.1. Tropics and subtropics reconstruction in deep time
+
+For each taxon, we represent the minimum, maximum and median occurrence's latitude reconstruction over time (see [points_dist.R](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/points_dist.R)). Furthermore, we plot the extrapolated northern (sub)tropical limit from the latter representation, given as the temporal interpolation between the most northern occurrences of each taxon at each time step (see [plot_north_trop_lim.R](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_north_trop_lim.R)).
+
+#### 2.3.2. Quantification of the amount of occurrences in different ID_score zones
+
+According to the partitioning of the globe in zones of different ID_scores we proposed in <strong>1.4.3.</strong>, we quantify the amount of fossil occurrences present in each zone of different ID_score (see [quantify_percent_occ_risky](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/quantify_percent_occ_risky.R)).
 
