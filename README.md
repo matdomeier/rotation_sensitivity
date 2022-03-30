@@ -29,9 +29,7 @@ The output files are provided [here](https://github.com/Buffan3369/rotation_sens
 
 ### 1.3. Georeferencing and spatial scaling of the outputs
 
-The georeferencing step consists of re-assigning to each spatial point the ID of the plate it belongs to, according to the four models. Due to models' spatial coverage, some points may be assigned no plate. These are tracked by the `get_na_pos()` function. (see [*georeferencing_and_NA_pos.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/georeferencing_and_NA_pos.R)). 
-
-As not all model have the same spatial coverage, before we compare the outputs of the models together, a spatial scaling step is needed. The procedure involves to select the model with the smallest spatial coverage by minimising the `get_na_pos()` function previously introduced. This model reveals to be Golonka (34651 cells). We therefore set as NA the values of these cells for all our models, and the cells that are not covered by the output of at least one of the three other models imputed from Golonka’s 34651 ones. This finally led us to work with n=29500 cells (see [*cells_to_drop.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/cells_to_drop.R)).
+The georeferencing step consists of re-assigning to each spatial point the ID of the plate it belongs to, according to the four models. Due to models' spatial coverage, some points may be assigned no plate. These are tracked by the `get_na_pos()` function. We then apply it to the four models and identify all the cells that are not covered by at least one model, of which we will finally get rid (spatial scaling) (see [*georeferencing_and_NA_pos.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/georeferencing_and_NA_pos.R)). 
 
 
 ### 1.4. Comparing the outputs
