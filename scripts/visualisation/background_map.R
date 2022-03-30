@@ -9,6 +9,7 @@
 ## Libraries -----------------------------------------------------------------------------------------------------------
 library(rnaturalearth) #INSTALL rnaturalearth, PLEASE FOLLOW THIS LINK => https://cran.r-project.org/web/packages/rnaturalearth/README.html
 library(sf)
+library(sp)
 
 ## Load the worldmaps (countries and coastlines) and project them using the Mollewide projection ------------------------
   

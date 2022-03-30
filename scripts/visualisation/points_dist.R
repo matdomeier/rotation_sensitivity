@@ -10,102 +10,90 @@
 library(ggplot2)
 library(abind)
 
-
 ## Data --------------------------------------------------------------------------------------------------
-taxon <- "Corals"
 models <- c("PALEOMAP",
             "SETON2012",
             "MATTHEWS2016",
             "GOLONKA")
-palette <- c("#33a02c", "#fb9a99", "#e31a1c", "blue")
 
 
-data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/PALEOMAP.RDS"))
-over_timed <- which(data_ex$AGE > 200) #indexes of teh occurrences older than 200Ma
+## function for the scatter plot --------------------------------------------------------------------------
+scatter_plot <- function(taxon){ #taxon = "Corals" or "Crocos"
+  
+  data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/PALEOMAP.RDS"))
+  over_timed <- which(data_ex$AGE > 200) #indexes of teh occurrences older than 200Ma
+  data <- c()
+  for(mdl in models){
+    df_mod <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/", mdl, ".RDS"))[-over_timed,
+                                                                                                                c("AGE", "PALEO_LON", "PALEO_LAT")]
+    group <- rep(mdl, nrow(df_mod))
+    df_mod <- cbind(df_mod, group)
+    data <- rbind(data, df_mod)
+  }
+  
+  colnames(data) <- c("AGE", "PALEO_LON", "PALEO_LAT", "GROUP")
+  
+  ## Plot median max min -----------------------------------------------------------------------------------
+  data <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/PALEOMAP.RDS"))[-over_timed,"PALEO_LAT"]
+  for(mdl in models[-c(1)]){
+    data <- cbind(data, readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/", mdl, ".RDS"))[-over_timed, c("PALEO_LAT")])
+  }
+  colnames(data) <- c("Scotese_lat", "Seton_lat", "Matthews_lat", "Wright_lat")
+  data <- data.frame(data)
+  data$TIME <- data_ex$AGE[-over_timed]
 
-## Raw scatter plot --------------------------------------------------------------------------------------
-data <- c()
-for(mdl in models){
-  df_mod <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/", mdl, ".RDS"))[-over_timed,
-                                                                                                              c("AGE", "PALEO_LON", "PALEO_LAT")]
-  group <- rep(mdl, nrow(df_mod))
-  df_mod <- cbind(df_mod, group)
-  data <- rbind(data, df_mod)
+  if(taxon == "Corals"){
+    data <- data[-c(112, 121, 142),]
+    fill_col <- "#ef6548"
+  }
+  
+  else if(taxon == "Crocos"){
+    fill_col <- "#41ab5d"
+  }
+  data$med_lat <- apply(X = data[, 1:4], MARGIN = 1, FUN = median, na.rm = T)
+  data$MAX <- apply(X = data[, 1:4], MARGIN = 1, FUN = max, na.rm = T)
+  data$MIN <- apply(X = data[, 1:4], MARGIN = 1, FUN = min, na.rm = T)
+  print(paste0("Number of ", taxon, " occurrences finally retained: ", nrow(data)))
+  for(t in unique(data$TIME)){
+    to_compare <- which(data$TIME == t)
+  }
+  
+  distrib_plot <- ggplot(data = data, aes(x = TIME, y = med_lat)) +
+    geom_errorbar(aes(ymin = MIN, ymax = MAX), colour = fill_col) +
+    geom_point(colour = "black", fill = fill_col, alpha = 0.85, shape = 21) +
+    ggtitle(taxon) +
+    scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
+    theme(text = element_text(size = 22),
+          plot.title = element_text(size = 20),
+          axis.text.x = element_text(size = 19),
+          axis.text.y = element_text(size = 19),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), 
+          panel.background = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
+    labs(x = "Time (Ma)", y = "Latitude (°)") +
+    scale_y_continuous(limits = c(-100, 83), 
+                     breaks = c(-50, 0, 50), 
+                     labels = c(-50, 0, 50)) +
+    annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+    annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
+    annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (200+145)/2, y = -98, label = "J", size = 7)+
+    annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (145+66)/2, y = -98, label = "K", size = 7)+
+    annotate("rect", xmin = 66, xmax= 23.03, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
+    annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (66+23.03)/2, y = -98, label = "Pg", size = 7)+
+    annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (23.03+2.58)/2, y = -98, label = "Ng", size = 7)+
+    annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")
+
+  ggsave(filename = paste0("./figures/case_study/", taxon, "_scatter_max_min_med.pdf"), plot = distrib_plot, height = 5, width = 9)
 }
 
-colnames(data) <- c("AGE", "PALEO_LON", "PALEO_LAT", "GROUP")
 
-raw_scatter <- ggplot(data = data, aes(x = AGE, y = PALEO_LAT, group = GROUP, color = factor(GROUP)))+
-  geom_point(size = 3) +
-  ggtitle(taxon) +
-  scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
-  scale_colour_manual(values = palette, name = "Model") +
-  theme(text = element_text(size = 22),
-        plot.title = element_text(size = 20),
-        axis.text.x = element_text(size = 19),
-        axis.text.y = element_text(size = 19),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        panel.background = element_blank(),
-        panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) + #frame the plot
-  labs(x = "Time (Ma)", y = "Latitude (°)")
+## Execute ---------------------------------------------------------------------
 
-raw_scatter
-
-
-## Plot median max min -----------------------------------------------------------------------------------
-data <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/PALEOMAP.RDS"))[-over_timed,"PALEO_LAT"]
-for(mdl in models[-c(1)]){
-  data <- cbind(data, readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/true_MidAge/", mdl, ".RDS"))[-over_timed, c("PALEO_LAT")])
+for(taxon in c("Corals", "Crocos")){
+  scatter_plot(taxon)
 }
-colnames(data) <- c("Scotese_lat", "Seton_lat", "Matthews_lat", "Wright_lat")
-data <- data.frame(data)
-data$TIME <- data_ex$AGE[-over_timed]
-data$med_lat <- apply(X = data[, 1:4], MARGIN = 1, FUN = median, na.rm = T)
-data$MAX <- apply(X = data[, 1:4], MARGIN = 1, FUN = max, na.rm = T)
-data$MIN <- apply(X = data[, 1:4], MARGIN = 1, FUN = min, na.rm = T)
-
-for(t in unique(data$TIME)){
-  to_compare <- which(data$TIME == t)
-}
-
-if(taxon == "Corals"){
-  data <- data[-c(193, 206, 230),]
-  fill_col <- "#ef6548"
-}
-
-if(taxon == "Crocos"){
-  fill_col <- "#41ab5d"
-}
-
-distrib_plot <- ggplot(data = data, aes(x = TIME, y = med_lat)) + 
-  geom_point(colour = "black", fill = fill_col, alpha = 0.7, shape = 21) +
-  geom_errorbar(aes(ymin = MIN, ymax = MAX), colour = fill_col) +
-  ggtitle(taxon) +
-  scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
-  theme(text = element_text(size = 22),
-        plot.title = element_text(size = 20),
-        axis.text.x = element_text(size = 19),
-        axis.text.y = element_text(size = 19),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        panel.background = element_blank(),
-        panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
-  labs(x = "Time (Ma)", y = "Latitude (°)") +
-  scale_y_continuous(limits = c(-100, 83), 
-                   breaks = c(-50, 0, 50), 
-                   labels = c(-50, 0, 50)) +
-  annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
-  annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
-  annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
-  annotate("text", x = (200+145)/2, y = -98, label = "J", size = 7)+
-  annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
-  annotate("text", x = (145+66)/2, y = -98, label = "K", size = 7)+
-  annotate("rect", xmin = 66, xmax= 23.03, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
-  annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
-  annotate("text", x = (66+23.03)/2, y = -98, label = "Pg", size = 7)+
-  annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")+
-  annotate("text", x = (23.03+2.58)/2, y = -98, label = "Ng", size = 7)+
-  annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")
-
-distrib_plot

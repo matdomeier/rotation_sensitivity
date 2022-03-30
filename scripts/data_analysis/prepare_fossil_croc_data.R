@@ -15,9 +15,15 @@ library(tibble)
 
 #---------------------------------------------------------------------
 #Download all Crocodylomorpha occurrences from the Paleobiology Database (https://paleobiodb.org/#/) using the API service
-data <- read.csv("https://paleobiodb.org/data1.2/occs/list.csv?base_name=Crocodylomorpha&show=class&show=coords") #show = coords to show coordinates
+
+#FOR SOME REASON, THE LINK TENDS NOT TO WORK SO PLEASE DIRECTLY OPEN THE SAVED FILE
+#data <- read.csv("https://paleobiodb.org/data1.2/occs/list.csv?base_name=Crocodylomorpha&show=class&show=coords") #show = coords to show coordinates
+
 #save raw data
-saveRDS(data, "./data/occurrences/raw_croc_dataset.RDS")
+
+#saveRDS(data, "./data/occurrences/raw_croc_dataset.RDS")
+
+data <- readRDS(file = "./data/occurrences/raw_croc_dataset.RDS")
 #Analyses focused on terrestrial taxa, load text file and remove all marine taxa from database
 marine_taxa <- read.delim("./data/occurrences/marine_taxa.txt", header = FALSE)[,1]
 #filter data from PBDB classification
@@ -45,6 +51,24 @@ for(i in 1:length(upper)){
   data[which(data$mid_ma < lower[i] & data$mid_ma > upper[i]),c("bin_mid_ma")] <- mid[i]
 }
 
+#SPATIAL CLEANING ------------------------------------------------------
+r <- raster(res = 1) #start with a 1x1 raster
+pos <- xyFromCell(object = r, cell = 1:ncell(r))  #extract coordinates as a df
+xy <- data.frame(pos)
+xy <- xy[-MAX, ]
+xy$z <- 0 #z column, no use but required by rasterfromXYZ
+rast <- rasterFromXYZ(xy)
 
-  #SAVE DATA--------------------------------------------------------------
-saveRDS(data, "./data/occurrences/cleaned_Crocos_dataset.RDS")
+#eliminate elements of data that have no value in rast, i.e fall out of the plotting zone
+L = which(is.na(extract(x = rast, y = data[, c("lng", "lat")])) == T)
+data1 <- data[-L, ] #75 occurrences filtered out
+
+#visual validation (uncomment if you want to run it)
+ plot(rast, legend = F, xaxt = "n", yaxt = "n")
+# points(data[, c("lng", "lat")]) #all occurrences
+# 
+# plot(rast, legend = F, xaxt = "n", yaxt = "n")
+# points(data1[, c("lng", "lat")]) #only spatially covered ones
+
+#SAVE DATA--------------------------------------------------------------
+saveRDS(data1, "./data/occurrences/cleaned_Crocos_dataset.RDS")

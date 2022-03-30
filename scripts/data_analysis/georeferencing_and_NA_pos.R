@@ -11,7 +11,8 @@
 ## Loading libraries ---------------------------------------------------------------------------------------------------
 library(raster)
 
-
+## Models vector -------------------------------------------------------------------------------------------------------
+models <- c("Wright", "Matthews", "Scotese2", "Seton")
 
 ## BUILD THE GRID AGAIN ------------------------------------------------------------------------------------------------
 
@@ -61,3 +62,10 @@ get_na_pos <- function(mdl){
 MAX_raw <- lapply(X = models, FUN = get_na_pos)
 MAX <- unique(unlist(MAX_raw)) #length(MAX) = 35911, hence we work with n = 64800-35911 = 28889 cells.
 
+
+## Checking the cells we get rid of visually --------------------------------------------------------------------------------
+
+# xy_check <- xy[-MAX, 1:2]
+# xy_check$z <- 0 #z column, no use but required by rasterfromXYZ
+# rast <- rasterFromXYZ(xy_check)
+# plot(rast)

@@ -8,14 +8,13 @@
 
 #nb: Seton excluded from this analysis
 
-store <- readRDS('./data/georeferenced/Scotese2.RDS')[, c(1,2,8)] #store will be the dataframe containing the plate ID assigned to each point according to the 3 models (all without Seton)
-without_seton <- models[-c(4)]
-i = 1
-while(i < length(without_seton)){
-  i = i+1
-  store[,i+2] <- readRDS(paste0('./data/georeferenced/', models[i], '.RDS'))$georef
+store <- xy[, 1:2] #store will be the dataframe containing the plate ID assigned to each point according to the 3 models (all without Seton)
+colnames(store) <- c("lon_0", "lat_0")
+without_seton <- models[-which(models == "Seton")]
+for(mdl in without_seton){
+  store[,c(mdl)] <- readRDS(paste0('./data/georeferenced/', mdl, '.RDS'))$georef
 }
-colnames(store) <- c("lon_0", "lat_0", "Scotese2_ID", "Matthews_ID", "Wright_ID")
+
 
 store <- store[-MAX,] #we get rid of the points we don't want to work on (MAX defined in the "cells_to_drop.R" script)
 

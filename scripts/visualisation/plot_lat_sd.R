@@ -5,6 +5,8 @@
 #Copyright (c) Lucas Buffan 2022
 #e-mail: lucas.l.buffan@gmail.com
 
+library(raster)
+
 
 pal <- c('#f7fcb9','#d9f0a3','#addd8e','#78c679','#41ab5d','#238443','#006837','#004529') #set the palette
 
