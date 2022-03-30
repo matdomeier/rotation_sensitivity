@@ -88,7 +88,7 @@ scatter_plot <- function(taxon){ #taxon = "Corals" or "Crocos"
     annotate("text", x = (23.03+2.58)/2, y = -98, label = "Ng", size = 7)+
     annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = -90, alpha = 1, color = "black", fill = "white")
 
-  ggsave(filename = paste0("./figures/case_study/", taxon, "_scatter_max_min_med.pdf"), plot = distrib_plot, height = 5, width = 9)
+  ggsave(filename = paste0("./figures/case_study/", taxon,"/", taxon, "_scatter_max_min_med.pdf"), plot = distrib_plot, height = 5, width = 9)
 }
 
 

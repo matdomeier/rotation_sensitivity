@@ -34,7 +34,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
     fill_col <- "#ef6548"
   }
   
-  data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/Scotese.RDS"))
+  data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/10Myrs_time_bins/Scotese.RDS"))
   coverage <- sort(unique(data_ex$TB))[-which(sort(unique(data_ex$TB)) > 200)] #we constrain ourselves to the early jurassic
   
   TIME <- c()
@@ -42,7 +42,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
   MINI <- c()
   GROUP <- c()
   for(mdl in models){
-    data <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/", mdl, ".RDS"))
+    data <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/10Myrs_time_bins/", mdl, ".RDS"))
     TIME <- c(TIME, sort(unique(data$TB)))
     GROUP <- c(GROUP, rep(mdl, length(coverage)))
     for(t in coverage){
@@ -90,7 +90,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
     annotate("text", x = (23.03+2.58)/2, y = yrange[1]+0.5, label = "Ng", size = 7)+
     annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = yrange[1]+3, alpha = 1, color = "black", fill = "white")
   
-  ggsave(filename = paste0("./figures/case_study/", taxon, "/lat_north_bound_4mdl.pdf"),
+  ggsave(filename = paste0("./figures/case_study/", taxon, "/lat_north_bound_4mdl_10Myrs_bins.pdf"),
          plot = northern_border,
          height = 5,
          width = 9)
@@ -144,7 +144,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
     annotate("text", x = (23.03+2.58)/2, y = yrange[1]+0.5, label = "Ng", size = 7)+
     annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = yrange[1]+3, alpha = 1, color = "black", fill = "white")
   
-  ggsave(filename = paste0("./figures/case_study/", taxon, "/lat_north_bound_deviation.pdf"),
+  ggsave(filename = paste0("./figures/case_study/", taxon, "/lat_north_bound_deviation_10Myrs_bins.pdf"),
          plot = dist_plot,
          height = 5,
          width = 9)

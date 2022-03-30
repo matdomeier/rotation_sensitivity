@@ -32,5 +32,7 @@ source("./scripts/data_analysis/quantification.R")
 
 ###### CASE STUDY ######
 ## Plot and save tropical/subtropical zone crossed reconstructions --------------------
-source("./scripts/visualisation/plot_north_trop_lim.R") #evolution of the northern subtropical limit
+source("./scripts/visualisation/plot_north_trop_lim_10Myrs_binning.R") #evolution of the northern subtropical limit (Gplates 10Myrs-step rotated occurrences)
+source("./scripts/visualisation/plot_north_trop_lim_1Myrs_step.R") #same with chronosphere 1Myrs-step rotated occurrences
+source("./scripts/visualisation/points_dist.R") #scatterplot with median/max/min lat
 
