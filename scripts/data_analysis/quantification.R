@@ -62,10 +62,10 @@ for(metric in c("sd", "MST")){
                   n = length(na.omit(METRIC[index_IDsc3, t/10])))
     
     final <- rbind(final,
-                   final <- data.frame(TIME = c(t,t,t),
-                                       AVERAGE_METRIC = c(av_1, av_2, av_3),
-                                       ID_w = c("ID_score = 1", "ID_score = 2", "ID_score = 3"),
-                                       CI_95 = c(IC_1, IC_3, IC_3)))
+                   data.frame(TIME = c(t,t,t),
+                              AVERAGE_METRIC = c(av_1, av_2, av_3),
+                              ID_w = c("ID_score = 1", "ID_score = 2", "ID_score = 3"),
+                              CI_95 = c(IC_1, IC_3, IC_3)))
   }
   
   
