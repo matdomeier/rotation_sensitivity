@@ -108,6 +108,8 @@ round_and_up <- function(x){
 }
 
 cut_indexes <- list("Corals" = 25, "Crocos" = 35) #latitudinal threshold, under which we consider the occurrence in low and high latitude
+fill_col <- list("Corals" = "#ef6548", "Crocos" = "#41ab5d") #colour to fill the boxplots
+
 for(taxon in c("Corals", "Crocos")){
   cut_index <- cut_indexes[[taxon]] #this threshold was set arbitrarily for both taxa, in the view of the distribution of the absolute value of the reconstructed lat median
   data <- scatter_plot(taxon, plt = FALSE)
@@ -118,9 +120,18 @@ for(taxon in c("Corals", "Crocos")){
   
   #boxplot illutrating temporal trends of standard deviation between the four palaeolatitude reconstructions of each occurrence
   g1 <- ggplot(data, aes(x = TIME, y = std, group = time_binning)) +
-    geom_boxplot(position = position_dodge()) +
+    geom_boxplot(fill = fill_col[[taxon]], position = position_dodge()) +
     ggtitle(taxon) +
     scale_x_reverse() +
+    theme(text = element_text(size = 22),
+          plot.title = element_text(size = 20),
+          axis.text.x = element_text(size = 19),
+          axis.text.y = element_text(size = 19),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), 
+          panel.background = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
+    ylim(0, 15) +
     labs(x = "Time (Ma)", y = "Latitude standard deviation (°)")
   ggsave(filename = paste0("./figures/case_study/temporal_trends/", taxon, "_time_boxplot.png"), plot = g1)
   
