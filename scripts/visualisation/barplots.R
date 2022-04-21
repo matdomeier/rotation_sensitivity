@@ -14,24 +14,14 @@ BaRploTs <- function(metric){
   
   ## Read sd results and get rid of longitude (odd indexes) ----------------------------------
   if(metric == "lat_standard_deviation"){
-    metric_ds <- readRDS("./data/standard_deviation_4mdls_nothresh.RDS")
-    metric_ds <- metric_ds[-MAX, -c(1:2, which(seq(from = 3, to = ncol(metric_ds)+1, by = 1) %%2 != 0))] #MAX comes from the "cell_to_drop.R" script. We get rid of the long as well
+    metric_ds <- readRDS("./data/lat_standard_deviation_4mdls.RDS")[, -c(1)]
+    metric_ds[, 1] <- 0 #we get rid of the two first columns (lon and lat of the cells) and set to 0 the col t = 0
     CAT <- c("A: 0-5°", "B: 5-10°", "C: 10-20°", "D: 20-30°", "E: >30°")
     CAT_values <- c(5,10,20,30)
     main <- "Latitudinal Standard Deviation"
     pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529')
   }
-  
-  ## Or same getting rid of latitude --------------------------------------------------------
-  else if(metric == "lon_standard_deviation"){
-    metric_ds <- readRDS("./data/standard_deviation_4mdls_nothresh.RDS")
-    metric_ds <- metric_ds[-MAX, -c(1:2, which(seq(from = 3, to = ncol(metric_ds)+1, by = 1) %%2 == 0))]
-    CAT <- c("A: 0-5°", "B: 5-10°", "C: 10-20°", "D: 20-30°", "E: >30°")
-    CAT_values <- c(5,10,20,30)
-    main <- "Longitudinal Standard Deviation"
-    pal <- c('#edf8b1','#7fcdbb','#1d91c0','#253494','#081d58')
-  }
-  
+
   ## Or read MST length results -------------------------------------------------------------
   else if(metric == "MST_length"){
     metric_ds <- readRDS("./data/MST_length.RDS")[,-c(1,2)]
@@ -95,9 +85,8 @@ BaRploTs <- function(metric){
 }
 
 
-
 ## EXECUTE -------------------------------------------------------------------------------------
 
-for(metric in c("standard_deviation", "MST_length")){
+for(metric in c("lat_standard_deviation", "MST_length")){
   BaRploTs(metric)
 }

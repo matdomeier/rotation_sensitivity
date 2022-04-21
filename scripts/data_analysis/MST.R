@@ -20,20 +20,20 @@ Timescale <- seq(from = 10, to = 540, by = 10) #The timescale of the study will 
 
 ## OUTPUTS OF THE FOUR MODELS ----------------------------------------------------------------------------------------
 
-WRIGHT <- readRDS('./data/extracted_paleocoordinates/Wright.RDS')[-MAX,] #we directly get rid of the elements that are not further treated, to lower computing time
-SETON <- readRDS('./data/extracted_paleocoordinates/Seton.RDS')[-MAX,]
+WRIGHT <- readRDS('./data/extracted_paleocoordinates/Wright.RDS') #we directly get rid of the elements that are not further treated, to lower computing time
+SETON <- readRDS('./data/extracted_paleocoordinates/Seton.RDS')
 SETON[, seq(from = ncol(SETON), to = 2*(max(Timescale)/10+1), by = 1)] = NA #temporal scaling: we artificially extend the duration of SETON and MATTHEWS so we could assess MST until 540Ma (vegan ignores NAs)
-MATTHEWS <- readRDS('./data/extracted_paleocoordinates/Matthews.RDS')[-MAX,]
+MATTHEWS <- readRDS('./data/extracted_paleocoordinates/Matthews.RDS')
 MATTHEWS[, seq(from = ncol(MATTHEWS), to = 2*(max(Timescale)/10+1), by = 1)] = NA 
-SCOTESE <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')[-MAX,]
+SCOTESE <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')
 
 
 
 ## MST with Lewis' delicate method -------------------------------------------------------------------------------
 
 MST_mat <- matrix(0,
-                  nrow = 64800 - length(unique(MAX)), 
-                  ncol = length(Timescale)+2 #as many wows as we have time intervals + 2 supplementary for the coordinates
+                  nrow = nrow(WRIGHT),  #as many rows as we have cells
+                  ncol = length(Timescale)+2 #as many cols as we have time intervals + 2 supplementary for the coordinates
 )
 MST_df <- data.frame(MST_mat)
 MST_df[, 1:2] <- WRIGHT[, 1:2] #coordinates
