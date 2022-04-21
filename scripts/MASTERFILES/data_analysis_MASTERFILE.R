@@ -8,8 +8,12 @@
 
 ###### SIMULATION PART ######
 
-## Import model's polygons as shapefiles and proceed to the georeferencing ----------------------------
-source("./scripts/data_analysis/georeferencing_and_NA_pos.R") #georeferencing and spatial scaling
+## Build the equal-area grid that we are going to rotate ----------------------------------------------
+source("./scripts/data_analysis/build_grid.R")   #may take some time, maybe don't run
+
+
+# Rotating in Gplates, treatment of the outputs in the "rotating.R" file, raw outputs not joined in this repo as too heavy 
+
 
 ## COMPARISON ------------------------------------------------------------------------------------------
 source("./scripts/data_analysis/lat_sd.R") # Latitude and Longitude standard deviations: TAKES A WHILE TO RUN

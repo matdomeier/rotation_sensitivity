@@ -7,27 +7,6 @@
 
 
 library(raster)
-library(sp)
-library(rgdal)
-
-
-
-
-#### First, build a 1x1° meshgrid and convert it to shapefile that will further be opened in Gplates ####
-
-r <- raster(res = 1) #start with a 1x1 raster
-pos <- xyFromCell(object = r, cell = 1:ncell(r))  #extract coordinates as a df
-xy <- data.frame(pos)
-
-xy$Beginning <- 544 #500Ma ago, beginning of rotation, max time
-xy$End <- 0
-
-xy.df <- SpatialPointsDataFrame(coords = xy[,1:2], data = xy)
-proj4string(xy.df)<- CRS("+proj=longlat +datum=WGS84") #assign coord system to the SpatialPointsDataFrame
-
-raster::shapefile(xy.df, paste0(getwd(),"/meshgrid.shp"), overwrite = TRUE)  #create shapefile from the SpatialPtsDF and save it with the same command
-
-
 
 
 #### Then read the data and extract the paleocoordinates model per model ####
@@ -43,8 +22,7 @@ MaxTime <- c("Scotese2" = 540,
              "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
                                #rounded to 540 (instead of 544) for Golonka and Wright
 
-setwd('DIRECTORY WHERE YOU STORED THE OUTPUT SHAPEFILES')
-setwd("C:/Users/lucas/OneDrive/Bureau/Internship_2022/project")
+dir0 <- "C:/Users/lucas/OneDrive/Bureau/Internship_2022/project" # DIRECTORY WHERE YOU STORED THE OUTPUT SHAPEFILES
 
 #extraction loop
 for(mdl in models){
@@ -60,7 +38,7 @@ for(mdl in models){
   }
   
   for(t in Timeframe){
-    dir <- paste0("./rotated_shapefiles_10My_intervals/", mdl, "/meshgrid/reconstructed_", t, ".00Ma.shp")
+    dir <- paste0(dir0, "/rotated_shapefiles_10My_intervals/", mdl, "/meshgrid/reconstructed_", t, ".00Ma.shp")
     shape <- shapefile(x = dir) #shapefile of the corresonding model at the corresponding time
     df <- as.data.frame(shape)  #we convert the shapefile into a dataframe, therefore containing the paleocoordinates of the spatial data points
     
@@ -69,7 +47,7 @@ for(mdl in models){
     coords_over_time[,index+2] <- df$coords.x2
   }
   colnames(coords_over_time) <- names
-  path <- "./extracted_paleocoordinates/"
+  path <- "./data/extracted_paleocoordinates/"
   saveRDS(object = coords_over_time, 
-            file = paste0(path, mdl, ".RDS")) #we finally export the coordinates over time as .csv file
+            file = paste0(path, mdl, ".RDS")) #we finally export the coordinates over time as .RDS file
 }
