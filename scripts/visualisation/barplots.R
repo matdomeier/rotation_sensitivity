@@ -90,3 +90,4 @@ BaRploTs <- function(metric){
 for(metric in c("lat_standard_deviation", "MST_length")){
   BaRploTs(metric)
 }
+
