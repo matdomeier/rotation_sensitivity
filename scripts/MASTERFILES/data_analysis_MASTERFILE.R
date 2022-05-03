@@ -17,7 +17,6 @@ source("./scripts/data_analysis/build_grid.R")   #may take some time, maybe don'
 
 ## COMPARISON ------------------------------------------------------------------------------------------
 source("./scripts/data_analysis/lat_sd.R") # Latitude and Longitude standard deviations: TAKES A WHILE TO RUN
-source("./scripts/data_analysis/lat_dev_2_by_2.R") # Latitude deviation (between outputs 2 by 2)
 source("./scripts/data_analysis/MST.R") # MST computation (TAKES A WHILE.. should consider a parallelisation!!)
 
 

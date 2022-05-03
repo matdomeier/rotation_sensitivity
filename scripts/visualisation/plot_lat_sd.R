@@ -41,10 +41,10 @@ for(t in seq(from = 10, to = 540, by = 10)){
   grid1$geometry[getout] = NA
   
   if(t < 100){  #add a zero in front of tin the name of the file so that the program used to compile the plot as a GIF could sort them properely
-    png(paste0("C:/Users/lucas/OneDrive/Bureau/Internship_2022/For_Chris/", 0, t, ".png"), height = 2000, width = 2000)
+    png(paste0("./figures/standard_deviation/", 0, t, ".png"), height = 2000, width = 2000)
   }
   else{
-    png(paste0("C:/Users/lucas/OneDrive/Bureau/Internship_2022/For_Chris/", t, ".png"), height = 2000, width = 2000)
+    png(paste0("./figures/standard_deviation/", t, ".png"), height = 2000, width = 2000)
   }
   
   plot(grid1[col], 
