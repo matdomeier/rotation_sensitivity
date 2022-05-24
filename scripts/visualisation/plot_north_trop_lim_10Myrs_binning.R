@@ -26,12 +26,14 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
     phylo_coords <- c(-33, 80)
     img <- image_data(silhouettes[[2]], size = 512)[[1]]
     fill_col <- "#41ab5d"
+    tax <- "Terrestrial Crocodylomorphs"
     }
   else if(taxon == "Corals"){
-    yrange <- c(10, 60)
+    yrange <- c(10, 73)
     phylo_coords <- c(-8, 55)
     img <- image_data(silhouettes[[1]], size = 512)[[1]]
     fill_col <- "#ef6548"
+    tax <- "Warm-water Coral Reefs"
   }
   
   data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/10Myrs_time_bins/Scotese.RDS"))
@@ -61,7 +63,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
   ######################## Plot with the 4 models reconstruction of the Northern limit of the (sub)tropical zone (max lat occurrence)######################
   northern_border <- ggplot(data = to_plot, aes(x = TIME, y = lat_max, group = GROUP, color = factor(GROUP))) +
     geom_point() +
-    ggtitle(paste0("Northern (sub)tropical limit based on ", taxon)) +
+    ggtitle(paste0("Northern subtropical limit based on ", tax)) +
     scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
     scale_y_continuous(limits = c(yrange[1], yrange[2]), 
                        breaks = seq(from = yrange[1]+10, to = yrange[2], by = 10), 
@@ -120,7 +122,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
     scale_y_continuous(limits = c(yrange[1], yrange[2]), 
                        breaks = seq(from = yrange[1]+10, to = yrange[2], by = 10), 
                        labels = seq(from = yrange[1]+10, to = yrange[2], by = 10))+
-    ggtitle(paste0("Northern (sub)tropical limit based on ", taxon))+
+    ggtitle(paste0("Northern subtropical limit based on ", tax))+
     add_phylopic(img, alpha = 1, x = phylo_coords[1], y = phylo_coords[2], ysize = 10)+
     theme(text = element_text(size = 25),
           plot.title = element_text(size = 20),
