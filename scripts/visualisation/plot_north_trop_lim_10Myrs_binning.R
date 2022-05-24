@@ -29,7 +29,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
     tax <- "Terrestrial Crocodylomorphs"
     }
   else if(taxon == "Corals"){
-    yrange <- c(10, 73)
+    yrange <- c(10, 60)
     phylo_coords <- c(-8, 55)
     img <- image_data(silhouettes[[1]], size = 512)[[1]]
     fill_col <- "#ef6548"
