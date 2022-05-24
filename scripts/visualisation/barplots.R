@@ -20,6 +20,7 @@ BaRploTs <- function(metric){
     CAT_values <- c(5,10,20,30)
     main <- "Latitudinal Standard Deviation"
     pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529')
+    brk <- c()
   }
 
   ## Or read MST length results -------------------------------------------------------------
@@ -29,6 +30,8 @@ BaRploTs <- function(metric){
     CAT_values <- c(3,6,9,12)
     main <- "MST Length"
     pal <- c('#fde0dd','#fa9fb5','#dd3497','#7a0177','#49006a')
+    brk <- c(0, 200, 320, 400)
+    
   }
   
   ## Df for the barplot ----------------------------------------------------------------------
@@ -52,14 +55,13 @@ BaRploTs <- function(metric){
   
   ## Plotting ---------------------------------------------------------------------------------
   
-  #raw counts
   barplt <- ggplot(data = final_df, aes(fill = CAT, x = TIME, y = COUNTS)) +
     geom_bar(position = "stack", #display counts
              stat = "identity") +
     scale_fill_manual(values = pal) +
     # scale_fill_viridis(discrete = T) +
-    scale_x_reverse() +
-    scale_y_continuous(limits = c(-1500, 26000), 
+    scale_x_reverse(breaks = brk) +
+    scale_y_continuous(limits = c(-1000, 26000), 
                        breaks = seq(from = 0, to = 25000, by = 5000), 
                        labels = seq(from = 0, to = 25000, by = 5000)) +
     ggtitle(main) +
@@ -83,27 +85,27 @@ BaRploTs <- function(metric){
     annotate(geom = "text", x = 415, y = 23000, label = "Matthews Time Limit", angle = 90, size = 3, fontface = "italic", col = "red") +
     #geological timescale displaying
     annotate("rect", xmin = Inf, xmax = 485.8, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (540+485.8)/2, y = -1200, label = "Cm", size = 7)+
+    annotate("text", x = (540+485.8)/2, y = -1000, label = "Cm", size = 7)+
     annotate("rect", xmin = 485.4, xmax = 443.8, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (485.4+443.8)/2, y = -1200, label = "O", size = 7)+
+    annotate("text", x = (485.4+443.8)/2, y = -1000, label = "O", size = 7)+
     annotate("rect", xmin = 443.8, xmax = 419.2, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (443.8+419.2)/2, y = -1200, label = "S", size = 7)+
+    annotate("text", x = (443.8+419.2)/2, y = -1000, label = "S", size = 7)+
     annotate("rect", xmin = 419.2, xmax = 358.9, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (419.2+358.9)/2, y = -1200, label = "D", size = 7)+
+    annotate("text", x = (419.2+358.9)/2, y = -1000, label = "D", size = 7)+
     annotate("rect", xmin = 358.9, xmax = 298.9, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (358.9+298.9)/2, y = -1200, label = "C", size = 7)+
+    annotate("text", x = (358.9+298.9)/2, y = -1000, label = "C", size = 7)+
     annotate("rect", xmin = 298.9, xmax = 251.9, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (298.9+251.9)/2, y = -1200, label = "P", size = 7)+
+    annotate("text", x = (298.9+251.9)/2, y = -1000, label = "P", size = 7)+
     annotate("rect", xmin = 251.9, xmax = 201.3, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (251.9+201.3)/2, y = -1200, label = "T", size = 7)+
+    annotate("text", x = (251.9+201.3)/2, y = -1000, label = "T", size = 7)+
     annotate("rect", xmin = 201.3, xmax = 145, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (201.3+145)/2, y = -1200, label = "Ju", size = 7)+
+    annotate("text", x = (201.3+145)/2, y = -1000, label = "Ju", size = 7)+
     annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (145+66)/2, y = -1200, label = "Cr", size = 7)+
+    annotate("text", x = (145+66)/2, y = -1000, label = "Cr", size = 7)+
     annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (66+23.03)/2, y = -1200, label = "Pg", size = 7)+
+    annotate("text", x = (66+23.03)/2, y = -1000, label = "Pg", size = 7)+
     annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (23.03+2.58)/2, y = -1200, label = "Ng", size = 7)+
+    annotate("text", x = (23.03+2.58)/2, y = -1000, label = "Ng", size = 7)+
     annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")
   
   

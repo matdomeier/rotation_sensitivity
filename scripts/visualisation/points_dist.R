@@ -123,6 +123,9 @@ for(taxon in c("Corals", "Crocos")){
     geom_boxplot(fill = fill_col[[taxon]], position = position_dodge()) +
     ggtitle(taxon) +
     scale_x_reverse() +
+    scale_y_continuous(limits = c(-2.5, 16), 
+                       breaks = c(0, 5, 10, 15), 
+                       labels = c(0, 5, 10, 15)) +
     theme(text = element_text(size = 22),
           plot.title = element_text(size = 20),
           axis.text.x = element_text(size = 19),
@@ -132,7 +135,20 @@ for(taxon in c("Corals", "Crocos")){
           panel.background = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
     ylim(0, 15) +
-    labs(x = "Time (Ma)", y = "Latitude standard deviation (°)")
+    labs(x = "Time (Ma)", y = "Latitude standard deviation (°)") +
+    annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
+    annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
+    annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (200+145)/2, y = -2.5, label = "J", size = 7)+
+    annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (145+66)/2, y = -2.5, label = "K", size = 7)+
+    annotate("rect", xmin = 66, xmax= 23.03, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
+    annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (66+23.03)/2, y = -2.5, label = "Pg", size = 7)+
+    annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
+    annotate("text", x = (23.03+2.58)/2, y = -2.5, label = "Ng", size = 7)+
+    annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")
+    
   ggsave(filename = paste0("./figures/case_study/temporal_trends/", taxon, "_time_boxplot.png"), plot = g1)
   
   #barplot to show the differences in std between "high latitude" and "low latitude" occurrences
