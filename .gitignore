@@ -31,8 +31,10 @@
 MST_heavy_greedy.R
 MST_length_loaf.RDS
 MST_parallelised.R
+ID_score.R
 plates_area.R
 quantification_area_latsd.R
 quantify_percent_occ_risk.R
+area_cross_categorisation.RS
 #mac files
 .DS_Store
