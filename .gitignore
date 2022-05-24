@@ -27,8 +27,12 @@
 .Rproj.user
 #Rhistory
 .Rhistory
-#Heavy MST computation
+#Unuseful scripts
 MST_heavy_greedy.R
 MST_length_loaf.RDS
+MST_parallelised.R
+plates_area.R
+quantification_area_latsd.R
+quantify_percent_occ_risk.R
 #mac files
 .DS_Store
