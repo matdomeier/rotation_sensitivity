@@ -1,4 +1,4 @@
-############# This script creates the 1x1° meshgrid and processes the rotated shapefiles #################
+############# This script processes the rotated shapefiles #################
 
 
 #Author: Lucas Buffan
@@ -9,7 +9,7 @@
 library(raster)
 
 
-#### Then read the data and extract the paleocoordinates model per model ####
+#### Read the data and extract the paleocoordinates model per model ####
 
 models <- c("Scotese2",  #PALEOMAP latest version
             "Matthews",  
