@@ -13,10 +13,6 @@ source("./scripts/visualisation/plot_MST.R")
 ## Plot and save barplot ncells = f(t) ------------------------------------------------
 source("./scripts/visualisation/barplots.R")
 
-## Assess, plot and barplots MST_len = f(t) for  ID_score categories ------------------
-source("./scripts/data_analysis/quantification.R")
-
-
 
 ###### CASE STUDY ######
 ## Plot and save tropical/subtropical zone crossed reconstructions --------------------
