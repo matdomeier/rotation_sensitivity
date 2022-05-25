@@ -41,10 +41,10 @@ for(t in seq(from = 10, to = 540, by = 10)){
   grid1$geometry[getout] = NA
   
   if(t < 100){  #add a zero in front of tin the name of the file so that the program used to compile the plot as a GIF could sort them properely
-    png(paste0("./figures/standard_deviation/", 0, t, ".png"), height = 230, width = 400, units = "mm", res = 800)
+    png(paste0("./figures/standard_deviation/", 0, t, ".png"), height = 230, width = 400, units = "mm", res = 200)
   }
   else{
-    png(paste0("./figures/standard_deviation/", t, ".png"), height = 230, width = 400, units = "mm", res = 800)
+    png(paste0("./figures/standard_deviation/", t, ".png"), height = 230, width = 400, units = "mm", res = 200)
   }
   
   raster::plot(grid1[col], 
