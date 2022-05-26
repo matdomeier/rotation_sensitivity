@@ -29,11 +29,11 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
     tax <- "Terrestrial Crocodylomorphs"
     }
   else if(taxon == "Corals"){
-    yrange <- c(10, 60)
+    yrange <- c(10, 73)
     phylo_coords <- c(-8, 55)
     img <- image_data(silhouettes[[1]], size = 512)[[1]]
     fill_col <- "#ef6548"
-    tax <- "Warm-water Coral Reefs"
+    tax <- "warm-water Coral Reefs"
   }
   
   data_ex <- readRDS(paste0("./data/fossil_extracted_paleocoordinates/", taxon, "/10Myrs_time_bins/Scotese.RDS"))
@@ -78,7 +78,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
           panel.grid.minor = element_blank(), 
           panel.background = element_blank(),
           panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) + #frame the plot
-    labs(x = "Time (Ma)", y = "Latitude (°)") +
+    labs(x = "Time (Ma)", y = "Palaeolatitude (°)") +
     annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = yrange[1]+3, alpha = 1, color = "black", fill = "white")+
     annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
     annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = yrange[1]+3, alpha = 1, color = "black", fill = "white")+
@@ -132,7 +132,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
           panel.grid.minor = element_blank(), 
           panel.background = element_blank(), # Remove panel background
           panel.border = element_rect(colour = "black", fill = NA, size = 1))+
-    labs(x = "Time (Ma)", y= "Latitude (°)") +
+    labs(x = "Time (Ma)", y= "Palaeolatitude (°)") +
     annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = yrange[1]+3, alpha = 1, color = "black", fill = "white")+
     annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
     annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = yrange[1]+3, alpha = 1, color = "black", fill = "white")+
@@ -159,4 +159,3 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
 for(taxon in c("Corals", "Crocos")){
   make_plots(taxon)
 }
-

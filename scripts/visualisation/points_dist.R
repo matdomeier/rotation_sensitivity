@@ -55,7 +55,7 @@ scatter_plot <- function(taxon, plt){ #taxon = "Corals" or "Crocos"
   data$MIN <- apply(X = data[, 1:4], MARGIN = 1, FUN = min, na.rm = T)
   print(paste0("Number of ", taxon, " occurrences finally retained: ", nrow(data)))
   
-  if(plt == T){
+  if(plt){
     distrib_plot <- ggplot(data = data, aes(x = TIME, y = med_lat)) +
       geom_errorbar(aes(ymin = MIN, ymax = MAX), colour = fill_col) +
       geom_point(colour = "black", fill = fill_col, alpha = 0.85, shape = 21) +
@@ -109,6 +109,8 @@ round_and_up <- function(x){
 
 cut_indexes <- list("Corals" = 25, "Crocos" = 35) #latitudinal threshold, under which we consider the occurrence in low and high latitude
 fill_col <- list("Corals" = "#ef6548", "Crocos" = "#41ab5d") #colour to fill the boxplots
+titles <- list("Corals" = "SD between the 4 rotations of each reef occurrence",
+               "Crocos" = "SD between the 4 rotations of each crocodile occurrence") 
 
 for(taxon in c("Corals", "Crocos")){
   cut_index <- cut_indexes[[taxon]] #this threshold was set arbitrarily for both taxa, in the view of the distribution of the absolute value of the reconstructed lat median
@@ -118,46 +120,35 @@ for(taxon in c("Corals", "Crocos")){
   data$space_binning[which(abs(data$med_lat) >= cut_index)] <- "High Latitude"
   data$std <- apply(X = data[, c("Scotese_lat", "Seton_lat", "Matthews_lat", "Wright_lat")], MARGIN = 1, FUN = sd, na.rm = TRUE)
   
-  #boxplot illutrating temporal trends of standard deviation between the four palaeolatitude reconstructions of each occurrence
+  #boxplot illutrating temporal trends of standard deviation between the four palaeolatitude reconstructions of each occurrence (ignore warnings, outliers excluded)
   g1 <- ggplot(data, aes(x = TIME, y = std, group = time_binning)) +
-    geom_boxplot(fill = fill_col[[taxon]], position = position_dodge()) +
-    ggtitle(taxon) +
+    geom_boxplot(fill = fill_col[[taxon]]) +
+    ggtitle(titles[taxon]) +
     scale_x_reverse() +
-    scale_y_continuous(limits = c(-2.5, 16), 
+    scale_y_continuous(limits = c(-1, 16), 
                        breaks = c(0, 5, 10, 15), 
                        labels = c(0, 5, 10, 15)) +
-    theme(text = element_text(size = 22),
-          plot.title = element_text(size = 20),
-          axis.text.x = element_text(size = 19),
-          axis.text.y = element_text(size = 19),
+    theme(text = element_text(size = 30),
+          plot.title = element_text(size = 28),
+          axis.text.x = element_text(size = 27),
+          axis.text.y = element_text(size = 27),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), 
           panel.background = element_blank(),
-          panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
-    ylim(0, 15) +
-    labs(x = "Time (Ma)", y = "Latitude standard deviation (°)") +
-    annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
-    annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (200+145)/2, y = -2.5, label = "J", size = 7)+
-    annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (145+66)/2, y = -2.5, label = "K", size = 7)+
-    annotate("rect", xmin = 66, xmax= 23.03, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+
-    annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (66+23.03)/2, y = -2.5, label = "Pg", size = 7)+
-    annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (23.03+2.58)/2, y = -2.5, label = "Ng", size = 7)+
-    annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")
+          panel.border = element_rect(colour = "black", fill = NA, size = 1.5)) +
+    labs(x = "Time (Ma)", y = "Latitudinal standard deviation (°)") +
+    #for some reason, couldn't display GTS as it left a blank space with the frame. Added it manually on Inkscape
+    annotate("rect", xmin = 200, xmax = 145, ymin = 0, ymax = Inf, alpha = 0.2, fill = "grey40") +
+    annotate("rect", xmin = 66, xmax= 23.03, ymin = 0, ymax = Inf, alpha = 0.2, fill = "grey40")
     
-  ggsave(filename = paste0("./figures/case_study/temporal_trends/", taxon, "_time_boxplot.png"), plot = g1)
+  ggsave(filename = paste0("./figures/case_study/temporal_trends/", taxon, "_time_boxplot.pdf"), plot = g1, width = 11, height = 7, units = "in")
   
-  #barplot to show the differences in std between "high latitude" and "low latitude" occurrences
-  g2 <- ggplot(data, aes(x = time_binning, y = std, fill = space_binning, width = 5)) +
-    geom_bar(stat = "identity", color = "black", position = position_dodge(5)) +
-    ggtitle(taxon) +
-    scale_x_reverse() +
-    labs(x = "Time (Ma)", y = "Latitude standard deviation (°)")
-  ggsave(filename = paste0("./figures/case_study/temporal_trends/", taxon, "_lat_cats_barplot.png"), plot = g2)
+  # #barplot to show the differences in std between "high latitude" and "low latitude" occurrences
+  # g2 <- ggplot(data, aes(x = time_binning, y = std, fill = space_binning, width = 5)) +
+  #   geom_bar(stat = "identity", color = "black", position = position_dodge(5)) +
+  #   ggtitle(taxon) +
+  #   scale_x_reverse() +
+  #   labs(x = "Time (Ma)", y = "Latitude standard deviation (°)")
+  # ggsave(filename = paste0("./figures/case_study/temporal_trends/", taxon, "_lat_cats_barplot.png"), plot = g2)
 }
-
 
