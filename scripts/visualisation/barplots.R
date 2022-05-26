@@ -101,7 +101,7 @@ BaRploTs <- function(metric){
     annotate("rect", xmin = 201.3, xmax = 145, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
     annotate("text", x = (201.3+145)/2, y = -1000, label = "Ju", size = 7)+
     annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (145+66)/2, y = -1000, label = "Cr", size = 7)+
+    annotate("text", x = (145+66)/2, y = -1000, label = "K", size = 7)+
     annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
     annotate("text", x = (66+23.03)/2, y = -1000, label = "Pg", size = 7)+
     annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
