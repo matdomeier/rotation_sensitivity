@@ -37,7 +37,7 @@ BaRploTs <- function(metric){
   ## Df for the barplot ----------------------------------------------------------------------
   final_df <- data.frame(TIME = rep(x = 0, 5),
                          CAT = CAT,
-                         COUNTS = c(25351, 0, 0, 0, 0))
+                         COUNTS = c(nrow(metric_ds), 0, 0, 0, 0))
   
   for(t in seq(from = 10, to = 540, by = 10)){
     final_df <- rbind(final_df,
