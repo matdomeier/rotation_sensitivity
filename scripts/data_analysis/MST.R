@@ -47,12 +47,16 @@ for(t in Timescale){
                             cbind(SCOTESE[i, 2*t/10+1], SCOTESE[i, 2*t/10+2]),
                             cbind(MATTHEWS[i, 2*t/10+1], MATTHEWS[i, 2*t/10+2])),
                       fun = distGeo)
-    MST_df[i, t/10+2] = sum(spantree(dist_mat)$dist)/10**6 #in 10^3 km
+    ST <- spantree(dist_mat)
+    if(FALSE %in% is.na(ST$kid)){ #if at least 2 nodes are connected (one parent and one kid). If we have 4 times the same cell, although of length 0, the connection exists
+      MST_df[i, t/10+2] = sum(ST$dist)/10**6 #in 10^3 km
+    }
+    else{ #no nodes are connected, which means that we have no node in fact
+      MST_df[i, t/10+2] = NA
+    }
   }
 }
 colnames(MST_df) <- cnames
 
 saveRDS(MST_df, "./data/MST_length.RDS")
-
-
 
