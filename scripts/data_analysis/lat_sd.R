@@ -37,15 +37,18 @@ assess_sd <- function(){
     
     SD4 <- apply(comb_array4, 
                  MARGIN = c(1,2), #on the 2 dimensions of the resulting array 
-                 FUN = sd) #we apply the sd function
+                 FUN = sd,
+                 na.rm = TRUE) #we apply the sd function
     
     SD3 <- apply(comb_array3, 
                  MARGIN = c(1,2), 
-                 FUN = sd)
+                 FUN = sd,
+                 na.rm = TRUE)
     
     SD2 <- apply(comb_array2, 
                  MARGIN = c(1,2),
-                 FUN = sd)
+                 FUN = sd,
+                 na.rm = TRUE)
 
   #Arrays finally re-assembled
   
