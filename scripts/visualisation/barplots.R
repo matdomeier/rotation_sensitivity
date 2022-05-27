@@ -26,7 +26,7 @@ BaRploTs <- function(metric){
   ## Or read MST length results -------------------------------------------------------------
   else if(metric == "MST_length"){
     metric_ds <- readRDS("./data/MST_length.RDS")[,-c(1,2)]
-    CAT <- c("A: 0-3000 km", "B: 30-6000 km", "C: 60-9000 km", "D: 9-12000 km", "E: >12000 km")
+    CAT <- c("A: 0-3000 km", "B: 3-6000 km", "C: 6-9000 km", "D: 9-12000 km", "E: >12000 km")
     CAT_values <- c(3,6,9,12)
     main <- "MST Length"
     pal <- c('#fde0dd','#fa9fb5','#dd3497','#7a0177','#49006a')

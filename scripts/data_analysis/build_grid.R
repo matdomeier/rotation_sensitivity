@@ -31,7 +31,7 @@ proj4string(xy.df)<- CRS("+proj=longlat +datum=WGS84") #assign coord system to t
 
 ## Eliminate points not covered by at least one model --------------------------
 
-models <- c("Scotese2", "Matthews", "Wright") #Seton covers all the earth surface
+models <- c("Scotese2", "Matthews", "Wright", "Seton")
 index_to_drop <- c()
 for(mdl in models){
   path <- paste0("./data/continental_polygons/", mdl, "/", mdl, "_PresentDay_ContinentalPolygons.shp")
