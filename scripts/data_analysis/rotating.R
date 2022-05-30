@@ -27,6 +27,8 @@ dir0 <- "C:/Users/lucas/OneDrive/Bureau/Internship_2022/project" # DIRECTORY WHE
 for(mdl in models){
   coords_over_time <- data.frame(lon_init = xy.df$x,   #xy.df object comes from the "build_grid.R" script
                                  lat_init = xy.df$y)   #in this dataframe, we'll store the evolution of the coordinates of the spatial points over time, given a model
+  
+  rownames(coords_over_time) = 1:nrow(coords_over_time)
   maxTime <- MaxTime[[mdl]]
   Timeframe <- seq(from = 10, to = maxTime, by = 10)   #from 10 to the maximal duration covered with a timestep of 10My (we don't consider 0 as we initialise our storing dataframe with initial coordianates, corresponding to 0)
   
@@ -52,10 +54,4 @@ for(mdl in models){
   saveRDS(object = coords_over_time, 
             file = paste0(path, mdl, ".RDS")) #we finally export the coordinates over time as .RDS file
 }
-
-
-
-
-
-
 

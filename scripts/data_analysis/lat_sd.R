@@ -13,7 +13,12 @@ library(abind)
 
 ## List of the maximal time coverage for each of the four models ------------------------------------------------------
 
-MaxTime <- c("Scotese2" = 540,
+models <- c("Scotese2",  #PALEOMAP latest version
+            "Matthews",  
+            "Wright",
+            "Seton")
+
+MaxTime <- list("Scotese2" = 540,
              "Matthews" = 410,
              "Wright" = 540, #rounded to 540 (instead of 544) for Wright
              "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
@@ -63,3 +68,16 @@ assess_sd <- function(){
 coords_ref <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')[,1:2] #we get the initial coordinates of the spatial data points (as subtracting two dfs makes them = 0, which is annoying)
 final <- cbind(coords_ref, assess_sd()) #we bound the ref coordinates of each cell to the lat sd assessment
 saveRDS(final, file = "./data/lat_standard_deviation_4mdls.RDS")
+
+
+
+## Ncells counter ------------------------------------------------------------------------------------------
+
+lat_sd <- readRDS("./data/lat_standard_deviation_4mdls.RDS")
+t <- seq(from = 0, to = 540, by = 10)
+
+  #Blind (no cell tracker)
+ncells_over_time <- apply(X = lat_sd[,-c(1)], MARGIN = c(2), FUN = function(x){return(length(which(is.na(x) == FALSE)))})
+plot(x = t, y = ncells_over_time)
+
+  #Cell tracking

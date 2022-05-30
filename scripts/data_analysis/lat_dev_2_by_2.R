@@ -11,7 +11,12 @@
 
 ## List of the maximal time coverage for each of the four models ------------------------------------------------------
 
-MaxTime <- c("Scotese2" = 540,
+models <- c("Scotese2",  #PALEOMAP latest version
+            "Matthews",  
+            "Wright",
+            "Seton")
+
+MaxTime <- list("Scotese2" = 540,
              "Matthews" = 410,
              "Wright" = 540, #rounded to 540 (instead of 544) for Wright
              "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
@@ -19,7 +24,7 @@ MaxTime <- c("Scotese2" = 540,
 
 ## Function ------------------------------------------------------------------------------------------------------------
 
-assess_diff <- function(mdl1, mdl2, thr){
+assess_diff <- function(mdl1, mdl2){
   
   df1 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl1, '.RDS')) #open the datasets containing the paleocoordinates over time of the corresponding models
   df2 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", mdl2, '.RDS')) #and erase the first column, residual indexes with no interest
@@ -27,7 +32,6 @@ assess_diff <- function(mdl1, mdl2, thr){
   #select the temporal coverage of the model that has the minimal one
   t1 <- MaxTime[[mdl1]]
   t2 <- MaxTime[[mdl2]]
-  
   chosen_time <- min(t1, t2)
   
   #temporal scaling (as far as the model with the minimal temporal coverage goes)
@@ -40,14 +44,7 @@ assess_diff <- function(mdl1, mdl2, thr){
   
   #difference assessment
   difference <- abs(df1-df2)
-  
-  #all difference values under the threshold set to NA
-  for(k in 1:ncol(difference)){
-    under_thresh <- which(difference[,k] < thr) #index of the values under the threshold
-    difference[under_thresh, k] <- NA #these values set to NA
-  }
-  
-  difference[,1:2] = coords_ref
+  difference[,1:2] <-  coords_ref
   return(difference)
 }
 
