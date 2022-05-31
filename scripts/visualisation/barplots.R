@@ -40,15 +40,16 @@ BaRploTs <- function(metric){
                          COUNTS = c(nrow(metric_ds), 0, 0, 0, 0))
   
   for(t in seq(from = 10, to = 540, by = 10)){
+    N <- length(which(is.na(metric_ds[, t/10]) == F))
     final_df <- rbind(final_df,
                       data.frame(TIME = rep(x = t, 5),
                                  CAT = CAT,  #the five categories we're considering
                                  COUNTS = c(
-                                   length(which(metric_ds[, t/10] < CAT_values[[1]])),
-                                   length(which((metric_ds[, t/10] < CAT_values[[2]]) & (metric_ds[, t/10] >= CAT_values[[1]]))), #translating these categories in terms of logical condition
-                                   length(which((metric_ds[, t/10] < CAT_values[[3]]) & (metric_ds[, t/10] >= CAT_values[[2]]))),
-                                   length(which((metric_ds[, t/10] < CAT_values[[4]]) & (metric_ds[, t/10] >= CAT_values[[3]]))),
-                                   length(which(metric_ds[, t/10] >= CAT_values[[4]]))
+                                   length(which(metric_ds[, t/10] < CAT_values[[1]]))/N,
+                                   length(which((metric_ds[, t/10] < CAT_values[[2]]) & (metric_ds[, t/10] >= CAT_values[[1]])))/N, #translating these categories in terms of logical condition
+                                   length(which((metric_ds[, t/10] < CAT_values[[3]]) & (metric_ds[, t/10] >= CAT_values[[2]])))/N,
+                                   length(which((metric_ds[, t/10] < CAT_values[[4]]) & (metric_ds[, t/10] >= CAT_values[[3]])))/N,
+                                   length(which(metric_ds[, t/10] >= CAT_values[[4]]))/N
                                  )
                       ))
   }
@@ -61,9 +62,9 @@ BaRploTs <- function(metric){
     scale_fill_manual(values = pal) +
     # scale_fill_viridis(discrete = T) +
     scale_x_reverse(breaks = brk) +
-    scale_y_continuous(limits = c(-1000, 26000), 
-                       breaks = seq(from = 0, to = 25000, by = 5000), 
-                       labels = seq(from = 0, to = 25000, by = 5000)) +
+    scale_y_continuous(limits = c(-0.1, 1.1), 
+                       breaks = seq(from = 0, to = 1, by = 0.2), 
+                       labels = seq(from = 0, to = 1, by = 0.2)) +
     ggtitle(main) +
     theme(axis.title.x = element_text(size = 18),
           axis.title.y = element_text(size = 18),
@@ -77,7 +78,7 @@ BaRploTs <- function(metric){
           panel.background = element_blank(), # Remove panel background
           panel.border = element_rect(colour = "black", fill = NA, size = 1) #frame the plot
     ) +
-    labs(x = "Time (Ma)", y = "Cell count", fill = "Category") +
+    labs(x = "Time (Ma)", y = "Cells proportion", fill = "Category") +
     geom_vline(xintercept = 200, col = "red", linetype = "dashed", lwd = 1) +
     geom_vline(xintercept = 410, col = "red", linetype = "dashed", lwd = 1) +
     #sub-periods delimitations
@@ -85,27 +86,27 @@ BaRploTs <- function(metric){
     annotate(geom = "text", x = 415, y = 23000, label = "Matthews Time Limit", angle = 90, size = 3, fontface = "italic", col = "red") +
     #geological timescale displaying
     annotate("rect", xmin = Inf, xmax = 485.8, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (540+485.8)/2, y = -1000, label = "Cm", size = 7)+
+    annotate("text", x = (540+485.8)/2, y = -0.1, label = "Cm", size = 7)+
     annotate("rect", xmin = 485.4, xmax = 443.8, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (485.4+443.8)/2, y = -1000, label = "O", size = 7)+
+    annotate("text", x = (485.4+443.8)/2, y = -0.1, label = "O", size = 7)+
     annotate("rect", xmin = 443.8, xmax = 419.2, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (443.8+419.2)/2, y = -1000, label = "S", size = 7)+
+    annotate("text", x = (443.8+419.2)/2, y = -0.1, label = "S", size = 7)+
     annotate("rect", xmin = 419.2, xmax = 358.9, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (419.2+358.9)/2, y = -1000, label = "D", size = 7)+
+    annotate("text", x = (419.2+358.9)/2, y = -0.1, label = "D", size = 7)+
     annotate("rect", xmin = 358.9, xmax = 298.9, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (358.9+298.9)/2, y = -1000, label = "C", size = 7)+
+    annotate("text", x = (358.9+298.9)/2, y = -0.1, label = "C", size = 7)+
     annotate("rect", xmin = 298.9, xmax = 251.9, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (298.9+251.9)/2, y = -1000, label = "P", size = 7)+
+    annotate("text", x = (298.9+251.9)/2, y = -0.1, label = "P", size = 7)+
     annotate("rect", xmin = 251.9, xmax = 201.3, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (251.9+201.3)/2, y = -1000, label = "T", size = 7)+
+    annotate("text", x = (251.9+201.3)/2, y = -0.1, label = "T", size = 7)+
     annotate("rect", xmin = 201.3, xmax = 145, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
-    annotate("text", x = (201.3+145)/2, y = -1000, label = "Ju", size = 7)+
+    annotate("text", x = (201.3+145)/2, y = -0.1, label = "Ju", size = 7)+
     annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (145+66)/2, y = -1000, label = "K", size = 7)+
+    annotate("text", x = (145+66)/2, y = -0.1, label = "K", size = 7)+
     annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (66+23.03)/2, y = -1000, label = "Pg", size = 7)+
+    annotate("text", x = (66+23.03)/2, y = -0.1, label = "Pg", size = 7)+
     annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (23.03+2.58)/2, y = -1000, label = "Ng", size = 7)+
+    annotate("text", x = (23.03+2.58)/2, y = -0.1, label = "Ng", size = 7)+
     annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")
   
   
