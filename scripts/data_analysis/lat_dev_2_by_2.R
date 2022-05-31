@@ -35,16 +35,12 @@ assess_diff <- function(mdl1, mdl2){
   chosen_time <- min(t1, t2)
   
   #temporal scaling (as far as the model with the minimal temporal coverage goes)
-  df1 <- df1[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-  df2 <- df2[, seq(from = 1, to = 2*(chosen_time/10 + 1), by = 1)]
-  
-  #spatial scaling (same points as the model that covers the minimal number of points)
-  df1[MAX, ] = NA #MAX defined in the "cells_to_drop.R" file
-  df2[MAX, ] = NA
+  df1 <- df1[, c(1:2, seq(from = 4, to = 2*(chosen_time/10 + 1), by = 2))]
+  df2 <- df2[, c(1:2, seq(from = 4, to = 2*(chosen_time/10 + 1), by = 2))]
   
   #difference assessment
   difference <- abs(df1-df2)
-  difference[,1:2] <-  coords_ref
+  difference[, 1:2] <- df1[, 1:2] #initial lon and lat
   return(difference)
 }
 
@@ -52,13 +48,12 @@ assess_diff <- function(mdl1, mdl2){
 #while loop to run the functions comparing the outputs of each model 2 by 2 (avoiding to compare twice the same models and also not comparing a model with itself)
 models_copy = models #defined in "cells_to_drop.R"
 i = 1
-thr = 0.5 #all values under 0.5 degrees will be considered as unsignificant change
 
 while(i <= length(models)){
   mdl1 <- models[[i]]
   for(mdl2 in models_copy){
     if(mdl1 != mdl2){
-      difference <- assess_diff(mdl1, mdl2, thr)
+      difference <- assess_diff(mdl1, mdl2)
       saveRDS(difference, 
               file = paste0("./data/latitude_deviation_2_by_2/", mdl1, '_', mdl2, 'diff.RDS'))
     }
@@ -66,3 +61,4 @@ while(i <= length(models)){
   models_copy = models_copy[-1]  #we get rid of the new first element
   i = i+1
 }
+
