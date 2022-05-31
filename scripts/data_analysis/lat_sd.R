@@ -23,6 +23,8 @@ MaxTime <- list("Scotese2" = 540,
              "Wright" = 540, #rounded to 540 (instead of 544) for Wright
              "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
 
+
+
 ## Big sd function ----------------------------------------------------------------------------------------------------
 assess_sd <- function(){
   df1 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", models[[1]], '.RDS')) #models list created in the "build_grid.R" file
@@ -79,5 +81,3 @@ t <- seq(from = 0, to = 540, by = 10)
   #Blind (no cell tracker)
 ncells_over_time <- apply(X = lat_sd[,-c(1)], MARGIN = c(2), FUN = function(x){return(length(which(is.na(x) == FALSE)))})
 plot(x = t, y = ncells_over_time)
-
-  #Cell tracking
