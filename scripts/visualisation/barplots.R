@@ -10,6 +10,7 @@
 library(ggplot2)
 library(ggpubr)
 
+
 BaRploTs <- function(metric){
   
   ## Read sd results and get rid of longitude (odd indexes) ----------------------------------
@@ -20,18 +21,18 @@ BaRploTs <- function(metric){
     CAT_values <- c(5,10,20,30)
     main <- "Latitudinal Standard Deviation"
     pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529')
-    brk <- c(0, 200, 400)
+    brk <- c(0, 100, 200, 300, 400, 500, 540)
     xlab <- c()
   }
 
   ## Or read MST length results -------------------------------------------------------------
   else if(metric == "MST_length"){
     metric_ds <- readRDS("./data/MST_length.RDS")[,-c(1,2)]
-    CAT <- c("A: 0-3k km", "B: 3-6k km", "C: 6-9k km", "D: 9-12k km", "E: >12k km")
+    CAT <- c("A: 0-3", "B: 3-6", "C: 6-9", "D: 9-12", "E: >12")
     CAT_values <- c(3,6,9,12)
-    main <- "MST Length"
+    main <- paste0("MST Length (x10e3 km)")
     pal <- c('#fde0dd','#fa9fb5','#dd3497','#7a0177','#49006a')
-    brk <- c(0, 200, 320, 400)
+    brk <- c(0, 100, 200, 300, 400, 500, 540)
     xlab <- "Time (Ma)"
   }
   
@@ -62,7 +63,8 @@ BaRploTs <- function(metric){
              stat = "identity") +
     scale_fill_manual(values = pal) +
     # scale_fill_viridis(discrete = T) +
-    scale_x_reverse(breaks = brk) +
+    scale_x_reverse(limits = c(545, 0),
+                    breaks = brk) +
     scale_y_continuous(limits = c(-0.05, 1), 
                        breaks = seq(from = 0, to = 1, by = 0.2), 
                        labels = seq(from = 0, to = 1, by = 0.2)) +
@@ -79,14 +81,14 @@ BaRploTs <- function(metric){
           panel.background = element_blank(), # Remove panel background
           panel.border = element_rect(colour = "black", fill = NA, size = 1) #frame the plot
     ) +
-    labs(x = xlab, y = "Cell proportion", fill = "Category") +
+    labs(x = xlab, y = "Cell proportion", fill = NULL) +
     geom_vline(xintercept = 195, col = "black", linetype = "dashed", lwd = 1.5) +
     geom_vline(xintercept = 405, col = "black", linetype = "dashed", lwd = 1.5) +
     #sub-periods delimitations
-    annotate(geom = "text", x = 200, y = 0.85, label = "Seton Time Limit", angle = 90, size = 4, fontface = "italic", col = "black") +
-    annotate(geom = "text", x = 410, y = 0.85, label = "Matthews Time Limit", angle = 90, size = 4, fontface = "italic", col = "black") +
+    annotate(geom = "text", x = 205, y = 0.9, label = "S", angle = 90, size = 8, col = "black") +
+    annotate(geom = "text", x = 415, y = 0.9, label = "M", angle = 90, size = 8, col = "black") +
     #geological timescale displaying
-    annotate("rect", xmin = Inf, xmax = 485.8, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
+    annotate("rect", xmin = 541, xmax = 485.8, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
     annotate("text", x = (540+485.8)/2, y = -0.05, label = "Cm", size = 7)+
     annotate("rect", xmin = 485.4, xmax = 443.8, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
     annotate("text", x = (485.4+443.8)/2, y = -0.05, label = "O", size = 7)+
@@ -102,13 +104,13 @@ BaRploTs <- function(metric){
     annotate("text", x = (251.9+201.3)/2, y = -0.05, label = "Tr", size = 7)+
     annotate("rect", xmin = 201.3, xmax = 145, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
     annotate("text", x = (201.3+145)/2, y = -0.05, label = "J", size = 7)+
-    annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (145+66)/2, y = -0.05, label = "K", size = 7)+
-    annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (66+23.03)/2, y = -0.05, label = "Pg", size = 7)+
-    annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")+
-    annotate("text", x = (23.03+2.58)/2, y = -0.05, label = "Ng", size = 7)+
-    annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")
+    annotate("rect", xmin = 145, xmax = 66, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
+    annotate("text", x = (145+66)/2, y = -0.05, label = "K", size = 7) +
+    annotate("rect", xmin = 66, xmax = 23.03, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
+    annotate("text", x = (66+23.03)/2, y = -0.05, label = "Pg", size = 7) +
+    annotate("rect", xmin = 23.03, xmax = 2.58, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white") +
+    annotate("text", x = (23.03+2.58)/2, y = -0.05, label = "Ng", size = 7) +
+    annotate("rect", xmin = 2.58, xmax = 0, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")
   
   return(barplt)
 }
@@ -119,5 +121,5 @@ BaRploTs <- function(metric){
 bp_lsd <- BaRploTs(metric = "lat_standard_deviation")
 bp_mst <- BaRploTs(metric = "MST_length")
 
-arr <- ggarrange(bp_lsd, bp_mst, ncol = 1, nrow = 2, align = "hv")
-ggsave(filename = "./figures/barplots/barplots.png", plot = arr, device = "png", width = 350, height = 300, unit = "mm")
+arr <- ggarrange(bp_lsd, bp_mst, ncol = 1, nrow = 2, align = "hv", labels = "AUTO", font.label = list(size = 27))
+ggsave(filename = "./figures/barplots/barplots.png", plot = arr, device = "png", width = 350, height = 350, unit = "mm")
