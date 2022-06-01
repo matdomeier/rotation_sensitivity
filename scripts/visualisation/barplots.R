@@ -8,7 +8,7 @@
 
 ## import our friend ggplot ------------------------------------------------------------------
 library(ggplot2)
-
+library(ggpubr)
 
 BaRploTs <- function(metric){
   
@@ -20,18 +20,19 @@ BaRploTs <- function(metric){
     CAT_values <- c(5,10,20,30)
     main <- "Latitudinal Standard Deviation"
     pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529')
-    brk <- c()
+    brk <- c(0, 200, 400)
+    xlab <- c()
   }
 
   ## Or read MST length results -------------------------------------------------------------
   else if(metric == "MST_length"){
     metric_ds <- readRDS("./data/MST_length.RDS")[,-c(1,2)]
-    CAT <- c("A: 0-3000 km", "B: 3-6000 km", "C: 6-9000 km", "D: 9-12000 km", "E: >12000 km")
+    CAT <- c("A: 0-3k km", "B: 3-6k km", "C: 6-9k km", "D: 9-12k km", "E: >12k km")
     CAT_values <- c(3,6,9,12)
     main <- "MST Length"
     pal <- c('#fde0dd','#fa9fb5','#dd3497','#7a0177','#49006a')
     brk <- c(0, 200, 320, 400)
-    
+    xlab <- "Time (Ma)"
   }
   
   ## Df for the barplot ----------------------------------------------------------------------
@@ -78,7 +79,7 @@ BaRploTs <- function(metric){
           panel.background = element_blank(), # Remove panel background
           panel.border = element_rect(colour = "black", fill = NA, size = 1) #frame the plot
     ) +
-    labs(x = "Time (Ma)", y = "Cell proportion", fill = "Category") +
+    labs(x = xlab, y = "Cell proportion", fill = "Category") +
     geom_vline(xintercept = 195, col = "black", linetype = "dashed", lwd = 1.5) +
     geom_vline(xintercept = 405, col = "black", linetype = "dashed", lwd = 1.5) +
     #sub-periods delimitations
@@ -109,16 +110,14 @@ BaRploTs <- function(metric){
     annotate("text", x = (23.03+2.58)/2, y = -0.05, label = "Ng", size = 7)+
     annotate("rect", xmin = 2.58, xmax = -Inf, ymin = -Inf, ymax = 0, alpha = 1, color = "black", fill = "white")
   
-  
-  ggsave(filename = paste0("./figures/barplots/", metric, "_barplot_counts.pdf"), plot = barplt, width = 14, height = 7, units = "in") #save as pdf
-  ggsave(filename = paste0("./figures/barplots/", metric, "_barplot_counts.png"), plot = barplt, width = 14, height = 7, units = "in") #and png
-  
-  return()
+  return(barplt)
 }
 
 
 ## EXECUTE -------------------------------------------------------------------------------------
 
-for(metric in c("lat_standard_deviation", "MST_length")){
-  BaRploTs(metric)
-}
+bp_lsd <- BaRploTs(metric = "lat_standard_deviation")
+bp_mst <- BaRploTs(metric = "MST_length")
+
+arr <- ggarrange(bp_lsd, bp_mst, ncol = 1, nrow = 2, align = "hv")
+ggsave(filename = "./figures/barplots/barplots.png", plot = arr, device = "png", width = 350, height = 300, unit = "mm")
