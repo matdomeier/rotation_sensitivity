@@ -76,7 +76,7 @@ make_plots <- function(taxon){ #taxon = Crocos or Corals
   northern_border <- ggplot(data = to_plot, aes(x = TIME, y = lat_max_per_model, group = GROUP)) +
     geom_ribbon(aes(ymin = lower_boundary, ymax = upper_boundary), fill = fill_col, alpha = 0.5)+
     geom_point(aes(shape = factor(GROUP)), size = 3) +
-    geom_line(lwd = 0.5) +
+    geom_line(lwd = 0.85) +
     ggtitle(paste0("Northern subtropical limit based on ", tax)) +
     add_phylopic(img, alpha = 1, x = phylo_coords[1], y = phylo_coords[2], ysize = 10)+
     scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
