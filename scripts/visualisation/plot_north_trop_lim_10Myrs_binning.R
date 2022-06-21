@@ -26,6 +26,7 @@ make_plots <- function(taxon, bound = TRUE){ #taxon = Crocos or Corals, bound is
     yrange <- c(20, 83, -2, 30)
     phylo_coords <- c(-6, 60, -25, 8)
     img <- image_data(silhouettes[[2]], size = 512)[[1]]
+    leg_pos <- c(20, 40)
     fill_col <- "#41ab5d"
     xlab = "Time (Ma)"
     tax <- "Terrestrial Crocodylomorphs"
@@ -35,6 +36,7 @@ make_plots <- function(taxon, bound = TRUE){ #taxon = Crocos or Corals, bound is
     yrange <- c(10, 73, -2, 30)
     phylo_coords <- c(-8, 55, -25, 10)
     img <- image_data(silhouettes[[1]], size = 512)[[1]]
+    leg_pos <- c(20, 30)
     fill_col <- "#ef6548"
     xlab = NULL
     tax <- "warm-water Coral Reefs"
@@ -83,16 +85,17 @@ make_plots <- function(taxon, bound = TRUE){ #taxon = Crocos or Corals, bound is
     add_phylopic(img, alpha = 1, x = phylo_coords[1], y = phylo_coords[2], ysize = 10)+
     scale_x_reverse(breaks = seq(from = 0, to = 200, by = 50)) +
     scale_y_continuous(limits = c(yrange[1], yrange[2]), 
-                       breaks = seq(from = yrange[1]+10, to = yrange[2], by = 10), 
-                       labels = seq(from = yrange[1]+10, to = yrange[2], by = 10))+
-    theme(text = element_text(size = 22),
+                       breaks = seq(from = yrange[1], to = yrange[2], by = 10), 
+                       labels = seq(from = yrange[1], to = yrange[2], by = 10))+
+    theme(text = element_text(size = 20),
           plot.title = element_text(size = 20),
           axis.text.x = element_text(size = 19),
           axis.text.y = element_text(size = 19),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(), 
           panel.background = element_blank(),
-          panel.border = element_rect(colour = "black", fill = NA, size = 2)) + #frame the plot
+          panel.border = element_rect(colour = "black", fill = NA, size = 2), #frame the plot
+          legend.position = leg_pos) +
     labs(x = xlab, y = "Absolute palaeolatitude (°)", shape = "Model") +
     annotate("rect", xmin = Inf, xmax = 200, ymin = -Inf, ymax = yrange[1]+3, alpha = 1, color = "black", fill = "white", size = 1.5)+
     annotate("rect", xmin = 200, xmax = 145, ymin = -Inf, ymax = Inf, alpha = 0.2, fill = "grey40")+

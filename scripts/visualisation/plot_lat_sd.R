@@ -1,3 +1,11 @@
+################ This script plots as time series maps the MST length assessment ###################
+
+
+#Author: Lucas Buffan
+#Copyright (c) Lucas Buffan 2022
+#e-mail: lucas.l.buffan@gmail.com
+
+
 library(dggridR)
 library(sp)
 
@@ -58,5 +66,3 @@ for(t in seq(from = 10, to = 540, by = 10)){
   
   dev.off()
 }
-
-

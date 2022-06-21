@@ -5,43 +5,63 @@
 #Copyright (c) Lucas Buffan 2022
 #e-mail: lucas.l.buffan@gmail.com
 
-library(raster)
 
+library(dggridR)
+library(sp)
+
+
+## Global initial grid ---------------------------------------------------------
+init_grid <- dgconstruct(spacing = 150)
+
+
+## mst_length df -------------------------------------------------------------------
+mst_length <- readRDS("./data/MST_length.RDS")
+
+
+## Palette ---------------------------------------------------------------------
 pal <- c('#fde0dd','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177','#49006a')
 
+## Overlay cells of mst_length df with cells of the initial grid -------------------
+#(lat_0 and lon_0, the two first columns of mst_length, are the coordinates on the present-day map of the rotated centroids of each cell of the grid)
+mst_length$seqnum <- dgGEO_to_SEQNUM(dggs = init_grid, in_lon_deg = mst_length$lon_0, in_lat_deg = mst_length$lat_0)$seqnum
 
-df <- readRDS("./data/MST_length.RDS")
 
-for(k in seq(from = 3, to = ncol(df), by = 1)){ #we start with the latitude of the -10My point (4th column)
-  true_time <- (k-2)*10 #for the plot title
-  xyz <- df[, c(1,2,k)] #select the corresponding latitude deviation
-  r <- rasterFromXYZ(xyz, 
-                     crs = "+proj=longlat +datum=WGS84")  #write the raster file with the UTM projection coord sys
+## Build a grid with cells only containing a mst_length value ----------------------
+grid <- dgcellstogrid(init_grid, mst_length$seqnum)
+
+
+## Loop to plot mst_length over time out of this grid ------------------------------
+for(t in seq(from = 10, to = 540, by = 10)){
+  col <- paste0("MST_length_", t) #column name in mst_length dataset
   
-  proj_moll <- "+proj=moll +lon_0=0 +x_0=0 +y_0=0"  #mollweide projection
-  p <- projectRaster(r, crs = proj_moll)
+  #merge with the lat sd values at t
+  grid1 <- merge(grid, mst_length[,c("seqnum", col)], by = c("seqnum"))
   
-  if(true_time < 100){  #add a zero in front of true_time in the name of the file so that the program used to compile the plot as a GIF could sort them properely
-    png(paste0("./figures/MST/", 0, true_time, ".png"))
+  #getting rid of the cells that will be weirdly plotted (i.e that have wrapping-around coordinates, hence represented as straight east-west lines along the plot)
+  getout <- c()
+  for(index in 1:length(grid1$geometry)){
+    poly <- data.frame(grid1$geometry[[index]][1]) #dataframe containing the coordinates of the index-th polygon
+    if( abs(max(poly[,1]) - min(poly[,1])) > 300 ){ 
+      getout <- c(getout, index)
+    }
+  }
+  
+  grid1$seqnum[getout] = NA
+  grid1[getout, col] = NA
+  grid1$geometry[getout] = NA
+  
+  if(t < 100){  #add a zero in front of tin the name of the file so that the program used to compile the plot as a GIF could sort them properely
+    png(paste0("./figures/MST/", 0, t, ".png"), height = 230, width = 400, units = "mm", res = 200)
   }
   else{
-    png(paste0("./figures/MST/", true_time, ".png"))
+    png(paste0("./figures/MST/", t, ".png"), height = 230, width = 400, units = "mm", res = 200)
   }
-  plot.new()
-  # 
-  # rect(par("usr")[1], par("usr")[3],
-  #      par("usr")[2], par("usr")[4],
-  #      col = "grey92") #set light grey background
-  # par(new = TRUE)
-  par(bg = "grey92")
-  plot(p,
-       axes = FALSE,
-       col = pal,
-       main = paste0("MST length between the 4 models ", "(", true_time ,"Ma)"),
-       legend.args = list(text = 'MST length (x10^3 km)', side = 4, font = 2, line = 2.5, cex = 0.8),
-       zlim = c(0,17))  #display the output
-  plot(worldline_mol,
-       add = TRUE,
-       col = adjustcolor("grey30",alpha.f=0.5)) #add background map with a semi-transparent grey colour
+  
+  raster::plot(grid1[col], 
+               pal = pal, 
+               breaks = seq(from = 0, to = 12, by = 1.5),
+               main = paste0("MST length between the models (", t, " Ma)"),
+               cex.main = 1.5)
+  
   dev.off()
 }
