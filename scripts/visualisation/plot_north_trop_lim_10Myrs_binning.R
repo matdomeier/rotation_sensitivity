@@ -78,7 +78,7 @@ make_plots <- function(taxon, bound = TRUE){ #taxon = Crocos or Corals, bound is
   
   ########## Plot the 4 models reconstruction of the Northern (and Southern by symmetry) limit of the subtropical zone (max |lat| occurrence with uncertainty zone) ##########
   northern_border <- ggplot(data = to_plot, aes(x = TIME, y = lat_max_per_model, group = GROUP, color = factor(GROUP))) +
-    ggtitle(paste0("Northern subtropical limit based on ", tax)) +
+    ggtitle(paste0("Latitudinal limit of the subtropics based on ", tax)) +
     geom_point(aes(shape = factor(GROUP)), size = 3) +
     geom_line(lwd = 0.85) +
     scale_colour_manual(values = palette, name = "Model") +
