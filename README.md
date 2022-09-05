@@ -1,46 +1,41 @@
-# Spatial discrepancies in the palaeorotation of fossil data impacts the reconstruction of deep-time macroecological patterns
+# Spatial discrepancies between plate rotation models in the reconstruction of macroecological patterns
 
-Our goal is to assess the impact of using different plate rotation models while reconstructing the surface of the Earth deep in time for Palaebiological purposes. Our study focuses on four of the most widely used open-sourced models. We first adopt a simulation approach, and compare the outputs of the models directly across the entire Phanerozoic to assess how different they are. Next, we apply the models to two palaeobiological datasets for two taxa that can be used as proxies of either the tropical/subtropical climate zone: terrestrial crocodiles and coral reefs. The latter part covers the last 200 Ma, and aims to illustrate the repercussion of the differences between models in a palaeobiological framework. This file details how the codes provided with this repository are linked to the analyses.
+We evaluated the impact of using different plate rotation models to reconstruct the surface of the Earth over geological timescales. Our study focuses on four of the most widely used open-source models. We first adopt a simulation approach, and compare model reconstructions from the entire Phanerozoic to test for spatiotemporal discrepancies. Next, using empirical data with the plate rotation models, we reconstruct the distribution of two entities that serve as proxies of tropical/subtropical conditions: terrestrial crocodiles and coral reefs. The latter approach (with empirical data) covers the last 200 Myr, and aims to illustrate the impact of model choice within a palaeobiological framework. Below, we detail how the code provided within this repository are linked to the analyses.
 
-To facilitate the execution and make it as clear and reproducible as possible, the scripts are organised in a sense that to run all the analysis (except <strong>1.1</strong>), <strong>, you just have to open the Rproject [rot_sens.Rproj](https://github.com/Buffan3369/rotation_sensitivity/blob/main/rot_sens.Rproj) in RStudio and, from there, execute the two masterfiles in the [MASTERFILE](https://github.com/Buffan3369/rotation_sensitivity/tree/main/scripts/MASTERFILES) folder </strong>. They will automatically source the other scripts.
+To implement the execution and enable reproducibility, the scripts are organised in a way that to run the analyses (except **1.1**), you must open **rot_sens.Rproj** in RStudio and execute the two files in the MAIN folder. They will automatically source the other scripts.
 
 ## 1. Simulation approach: Assessing the differences between paleorotation models
 
 ### 1.1. Generating the data
 
-We generate our data using Gplates according to the following process:
+We generate our data using [GPlates](https://www.gplates.org) according to the following process:
 
-<ol>
-  <li> Creating a 1x1° meshgrid in a shapefile format
-  <li> Opening it in Gplates
-  <li> Merging it with continental polygons associated with a given model
-  <li> Applying rotation to the resulting spatial data points with a 10 Myrs time step, going as far as the model goes
-  <li> Exporting the results as shapefile polygons
-</ol>
+1. Create a 1&deg; x 1&deg; grid (stored as a `.shp` file). For the code producing the grid see `scripts/data_analysis/rotation.R`.
+1. Open the `.shp` in GPlates
+1. Assign plate IDs (i.e. georeference cell centroids to continental polygons) for each model.
+1. Rotate cell centroids for each model with a 10 Myr time step across the temporal range of the model.
+1. Exporting the results as a `.shp` file for processing in `R`.
 
-As, exept for generating the grid (see the first part of the [*rotating.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/rotating.R) script), this step doesn't involve coding, hence no script is provided for it. However, a scheme was made available in the supplementary materials. As they were too heavy (>7Go), the output shapefiles were not provided with this repository. If you feel the need to have access to them please contact the main author.
+As the spatial grid was rotated using the GPlates interface, no script is provided for this part of the study. However, a schematic was produced and is available in the supplementary material for reviewing. As the generated `.shp` files are heavy (> 1 GB), they are not provided within this repository. The user may reproduce these `.shp` files by using the provided code, or contacting the main author.
 
+### 1.2. Extracting the palaeocoordinates from GPlates' output
 
-### 1.2. Extracting the palaeocoordinates from Gplates' output
-
-Model per model, we extract the coordinates of the rotated spatial data points in the polygons time series built in the previous step. We finally store them in one dataframe. We end-up having four dataframes, one per model, with as many rows as points (64800), and coordinates over time in columns (see second part of the [*rotating.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/rotating.R) script).
-The output files are provided [here](https://github.com/Buffan3369/rotation_sensitivity/tree/main/data/extracted_paleocoordinates).
-
+For each model, we extract the palaeocoordinates of the rotated cell centroids across our studied time series and wrangle this data into a single dataframe, resulting in four dataframes with each containing 64,800 rows (the number of cells within a 1&deg; x 1&deg; grid), and coordinate pairs over time in columns (see second part of the `/scripts/data_analysis/rotating.R` script).
+The output file for each model is provided in `/data/extracted_paleocoordinates/`.
 
 ### 1.3. Georeferencing and spatial scaling of the outputs
 
-The georeferencing step consists of re-assigning to each spatial point the ID of the plate it belongs to, according to the four models. Due to models' spatial coverage, some points may be assigned no plate. These are tracked by the `get_na_pos()` function. We then apply it to the four models and identify all the cells that are not covered by at least one model, of which we will finally get rid (spatial scaling) (see [*georeferencing_and_NA_pos.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/georeferencing_and_NA_pos.R)). 
+In `R`, we conduct further processing and assign plate IDs to each cell centroid according to the four models. We do so due to varying spatial coverage between models (i.e. some cell centroids may not be assigned to any plate). These are tracked by the `get_na_pos()` function (`/scripts/data_analysis/georeferences_and_NA_pos.R`). We then apply it to the four models and identify which cells are not covered by at least one model (those cells are excluded from analysis as they are interpreted as non-continental zones).
 
+### 1.4. Comparing model outputs
 
-### 1.4. Comparing the outputs
+#### 1.4.1. Latitude and longitude
 
-#### 1.4.1. Latitudinal and Longitudinal standard deviation assessment
-
-We used our scaled georeferenced outputs to estimate, time interval per time interval and cell by cell, the standard deviation between the four latitude and longitude reconstructions (see [*lat_sd.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/lat_sd.R)) and projected the results on a present-day map (see [*plot_lat_deviation.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_lat_deviation.R) and [*background_map.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/background_map.R) for the background map). We store the resulting plots in [this folder](https://github.com/Buffan3369/rotation_sensitivity/tree/main/figures/standard_deviation).
+We used our scaled outputs to estimate the standard deviation of palaeolatitude and palaeolongitude from the four models (see `scripts/data_analysis/lat_sd.R`) and projected the results onto a present-day map (see `scripts/visualisation/plot_lat_deviation.R` and `scripts/visualisation/background_map.R`). We store the resulting plots in `figures/standard_deviaton/`.
 
 #### 1.4.2. Latitudinal deviation assessment
 
-We also estimated and plotted the same way the deviation in the latitude estimation between the outputs of the models two by two, expressed as the absolute value of the difference between the reconstructed latitudes according to the two models (see [*lat_dev_2_by_2.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/lat_dev_2_by_2.R) and [*plot_lat_deviation.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/visualisation/plot_lat_deviation.R)).
+We also calculated (and plotted) pairwise deviation in palaeolatitude between model outputs, expressed as the absolute value of the difference between the reconstructed latitudes according to the two models (see `scripts/data_analysis/lat_dev_2_by_2.R` and `scripts/visualisation/plot_lat_deviation.R`).
 
 #### 1.4.3. Plate discrepancies assessment
 
