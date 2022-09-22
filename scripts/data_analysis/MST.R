@@ -1,62 +1,77 @@
-############## Compute the MST for each point of the grid we are working on ##############
-
-
-#Author: Lucas Buffan
-#Copyright (c) Lucas Buffan 2022
-#e-mail: lucas.l.buffan@gmail.com
-
-
-#The MST length will be sort of an extension of the latitudinal deviation assessment
-#Needs to be conjugated with a metric indicating whether the models +/- agree or not => variance of the average distance to the common centroid of the 4 estimates
-
+# Script details ----------------------------------------------------------
+# Purpose: Calculate minimum-spanning tree
+# Author(s): Lucas Buffan & Lewis A. Jones
+# Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
+# Load libraries ----------------------------------------------------------
 library(geosphere)
 library(vegan)
+# Timesteps  -------------------------------------------------------------
+Timescale <- seq(from = 10, to = 540, by = 10)
+# Load model outputs -----------------------------------------------------
+models <- c("Scotese2", 
+            "Matthews",  
+            "Wright",
+            "Seton")
 
+for (i in models) {
+  assign(i, 
+         readRDS(file = paste0("./data/extracted_paleocoordinates/", i, ".RDS")))
+}
 
-## TIMESCALE  --------------------------------------------------------------------------------------------------------
+# Expand dfs to be consistent (use Scotese2 as reference frame)
+Seton[(ncol(Seton) + 1):ncol(Scotese2)] <- NA
+Matthews[(ncol(Matthews) + 1):ncol(Scotese2)] <- NA
 
-Timescale <- seq(from = 10, to = 540, by = 10) #The timescale of the study will the upper bound of the models going deeper in time: SETON, 540Ma
+# Update column names
+colnames(Seton) <- colnames(Scotese2)
+colnames(Matthews) <- colnames(Scotese2)
 
-
-## OUTPUTS OF THE FOUR MODELS ----------------------------------------------------------------------------------------
-
-WRIGHT <- readRDS('./data/extracted_paleocoordinates/Wright.RDS') #we directly get rid of the elements that are not further treated, to lower computing time
-SETON <- readRDS('./data/extracted_paleocoordinates/Seton.RDS')
-SETON[, seq(from = ncol(SETON), to = 2*(max(Timescale)/10+1), by = 1)] = NA #temporal scaling: we artificially extend the duration of SETON and MATTHEWS so we could assess MST until 540Ma (vegan ignores NAs)
-MATTHEWS <- readRDS('./data/extracted_paleocoordinates/Matthews.RDS')
-MATTHEWS[, seq(from = ncol(MATTHEWS), to = 2*(max(Timescale)/10+1), by = 1)] = NA 
-SCOTESE <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')
-
-
-
-## MST with Lewis' delicate method -------------------------------------------------------------------------------
-
+# Calculate MST ----------------------------------------------------------
+# Generate empty matrix for populating
 MST_mat <- matrix(0,
-                  nrow = nrow(WRIGHT),  #as many rows as we have cells
-                  ncol = length(Timescale)+2 #as many cols as we have time intervals + 2 supplementary for the coordinates
+                  nrow = nrow(Matthews),  
+                  ncol = length(Timescale) + 2
 )
+# Convert to dataframe
 MST_df <- data.frame(MST_mat)
-MST_df[, 1:2] <- WRIGHT[, 1:2] #coordinates
+# Add reference coordinates
+MST_df[, 1:2] <- Matthews[, 1:2]
 cnames <- c("lon_0", "lat_0")
 
-for(t in Timescale){
+# Run for loop across time
+for (t in Timescale) {
   cnames <- c(cnames, paste0("MST_length_", t))
-  for(i in 1:nrow(MST_df)){
-    dist_mat <- distm(rbind(cbind(WRIGHT[i, 2*t/10+1], WRIGHT[i, 2*t/10+2]), 
-                            cbind(SETON[i, 2*t/10+1], SETON[i, 2*t/10+2]),
-                            cbind(SCOTESE[i, 2*t/10+1], SCOTESE[i, 2*t/10+2]),
-                            cbind(MATTHEWS[i, 2*t/10+1], MATTHEWS[i, 2*t/10+2])),
-                      fun = distGeo)
-    ST <- spantree(dist_mat)
-    if(FALSE %in% is.na(ST$kid)){ #if at least 2 nodes are connected (one parent and one kid). If we have 4 times the same cell, although of length 0, the connection exists
-      MST_df[i, t/10+2] = sum(ST$dist)/10**6 #in 10^3 km
+  for (i in 1:nrow(MST_df)) {
+    # Set up column index
+    col_indx <- c(paste0("lon_", t), paste0("lat_", t))
+    # Generate temp df for each model 
+    tmp <- rbind(Wright[i, col_indx],
+                    Seton[i, col_indx],
+                    Scotese2[i, col_indx],
+                    Matthews[i, col_indx])
+    # Remove NAs
+    tmp <- na.omit(tmp)
+    # If only one point available no distance is calculated
+    # Add NA value in these instances
+    if (nrow(tmp) <= 1) {
+      # Add to dataframe
+      col_indx <- t / 10 + 2
+      MST_df[i, col_indx] <- NA
+      next
     }
-    else{ #no nodes are connected, which means that we have no node in fact
-      MST_df[i, t/10+2] = NA
-    }
+    # Calculate distance matrix
+    dist_mat <- distm(tmp, fun = distGeo)
+    # Calculate MST
+    mst_dist <- spantree(dist_mat)$dist
+    # Sum tree and convert to km
+    mst_dist <- sum(mst_dist) / 10^3
+    # Add to dataframe
+    col_indx <- t / 10 + 2
+    MST_df[i, col_indx] <- mst_dist
   }
 }
+# Add column names
 colnames(MST_df) <- cnames
-
+# Save data
 saveRDS(MST_df, "./data/MST_length.RDS")
 
