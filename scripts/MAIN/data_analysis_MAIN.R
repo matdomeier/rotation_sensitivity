@@ -1,24 +1,25 @@
-############################################### DATA ANALYSIS ########################################################
+# ------------------------------------------------------------------------- #
+# Purpose: Run main data analysis
+# Author(s): Lucas Buffan & Lewis A. Jones
+# Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
+# Simulation component ----------------------------------------------------
+## Build the equal-area grid to rotate ------------------------------------
+source("./scripts/data_analysis/build_grid.R")
+rm(list = ls())
 
+# Rotations are then carried out in the GPlates desktop software
+# Processing of rotation files provided in the script below
+# Raw outputs are not provided here as they are too large for the repository
+# These outputs are avaialble upon request, however the processed files 
+# are available via ./data/extracted_coordinates
+# source("./scripts/data_analysis/process_rotations.R")
 
-#Author: Lucas Buffan
-#Copyright (c) Lucas Buffan
-#e-mail: lucas.l.buffan@gmail.com
-
-
-###### SIMULATION PART ######
-
-## Build the equal-area grid that we are going to rotate ----------------------------------------------
-source("./scripts/data_analysis/build_grid.R")   #may take some time, maybe don't run
-
-
-# Rotating in Gplates, treatment of the outputs in the "rotating.R" file, raw outputs not joined in this repo as too heavy. Feel free to ask the corresponding author if you need them.
-
-
-## COMPARISON ------------------------------------------------------------------------------------------
-source("./scripts/data_analysis/lat_sd.R") # Latitude and Longitude standard deviations: TAKES A WHILE TO RUN
+## Comparison  ------------------------------------------------------------
+# Latitudinal standard deviations
+source("./scripts/data_analysis/lat_sd.R") 
+rm(list = ls())
 source("./scripts/data_analysis/MST.R") # MST computation (TAKES A WHILE!!)
-
+rm(list = ls())
 
 ###### CASE STUDY ######
 

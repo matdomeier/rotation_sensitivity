@@ -1,18 +1,12 @@
-################## This function evaluates the latitudinal standard deviation between the outputs of the 4 models ###################
-
-
-#Author: Lucas Buffan
-#Copyright (c) Lucas Buffan 2022
-#e-mail: lucas.l.buffan@gmail.com
-
-
-## Library ------------------------------------------------------------------------------------------------------------
-
-library(abind)
-
-
-## List of the maximal time coverage for each of the four models ------------------------------------------------------
-
+# Script details ----------------------------------------------------------
+# Purpose: Calculate latitudinal standard deviation
+# Author(s): Lucas Buffan & Lewis A. Jones
+# Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
+# Load libraries ----------------------------------------------------------
+library(tidyverse)
+library(matrixStats)
+# Analysis ----------------------------------------------------------------
+# Define available models and their temporal extent
 models <- c("Scotese2",  #PALEOMAP latest version
             "Matthews",  
             "Wright",
@@ -20,64 +14,54 @@ models <- c("Scotese2",  #PALEOMAP latest version
 
 MaxTime <- list("Scotese2" = 540,
              "Matthews" = 410,
-             "Wright" = 540, #rounded to 540 (instead of 544) for Wright
-             "Seton" = 200)  #the maximum time we want to reach, we basically go as far as the model goes
+             "Wright" = 540, # Rounded to 540 (instead of 544) for Wright
+             "Seton" = 200)
 
+# Load files --------------------------------------------------------------
+for (i in models) {
+  assign(i, 
+         readRDS(file = paste0("./data/extracted_paleocoordinates/", i, ".RDS")))
+}
+# Get reference coordinates
+ref_coords <- Seton[, c("lon_0", "lat_0")]
+colnames(ref_coords) <- c("lng", "lat")
 
+# Update files ------------------------------------------------------------
 
-## Big sd function ----------------------------------------------------------------------------------------------------
-assess_sd <- function(){
-  df1 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", models[[1]], '.RDS')) #models list created in the "build_grid.R" file
-  df2 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", models[[2]], '.RDS'))
-  df3 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", models[[3]], '.RDS'))
-  df4 <- readRDS(file = paste0("./data/extracted_paleocoordinates/", models[[4]], '.RDS'))
+# Expand dfs to be consistent (use Scotese2 as reference frame)
+Seton[(ncol(Seton) + 1):ncol(Scotese2)] <- NA
+Matthews[(ncol(Matthews) + 1):ncol(Scotese2)] <- NA
 
-  #temporal scaling: we create 3 three-dimensional combinations of arrays for different time slices so we don't end up assessing sd with NAs (that returns a NA)
-    #we combine the 2-dimensional arrays in one 3D array (along = 3) for which we'll assess sd
-    #note that we only select even indexes as they correspond to lat (the dfs also account for lon)
-    comb_array4 <- abind(df1[, seq(from = 4, to = 42, by = 2)], df2[, seq(from = 4, to = 42, by = 2)], df3[, seq(from = 4, to = 42, by = 2)], df4[, seq(from = 4, to = 42, by = 2)], along = 3) #from 10 to 200Ma (4models)
-    comb_array3 <- abind(df1[, seq(from = 44, to = 84, by = 2)], df2[, seq(from = 44, to = 84, by = 2)], df3[, seq(from = 44, to = 84, by = 2)], along = 3) #from 210 to 410 (3 models: all except Seton)
-    comb_array2 <- abind(df1[, seq(from = 86, to = 110, by = 2)], df3[, seq(from = 86, to = 110, by = 2)], along = 3) #from 420 to 540 (2 models: Scotese and Wright, Matthews eliminated)
-    
-    
-    #Standard deviation assessment on the 3 arrays
-    
-    SD4 <- apply(comb_array4, 
-                 MARGIN = c(1,2), #on the 2 dimensions of the resulting array 
-                 FUN = sd,
-                 na.rm = TRUE) #we apply the sd function
-    
-    SD3 <- apply(comb_array3, 
-                 MARGIN = c(1,2), 
-                 FUN = sd,
-                 na.rm = TRUE)
-    
-    SD2 <- apply(comb_array2, 
-                 MARGIN = c(1,2),
-                 FUN = sd,
-                 na.rm = TRUE)
+# Update column names
+colnames(Seton) <- colnames(Scotese2)
+colnames(Matthews) <- colnames(Scotese2)
 
-  #Arrays finally re-assembled
-  
-  SD <- cbind(SD4, SD3, SD2)
-  SD_df <- data.frame(SD)
-  
-  return(SD_df)
+# Get lat indexes columns for SD calculation
+lat_indx <- grep("lat", colnames(Scotese2))
+
+# Create empty dataframe for populating
+df_sd <- matrix(ncol = length(lat_indx), nrow = nrow(Scotese2))
+df_sd <- data.frame(df_sd)
+# Add col names
+colnames(df_sd) <- colnames(Scotese2)[lat_indx]
+
+# Calculate row SD
+for (i in 1:length(lat_indx)) {
+  wc <- lat_indx[i]
+  mat <- data.frame(Seton[, wc], Matthews[, wc], Wright[, wc], Scotese2[, wc])
+  mat <- as.matrix.data.frame(mat)
+  df_sd[, i] <- rowSds(mat, na.rm = TRUE)
 }
 
+# Tidy up and save --------------------------------------------------------
+df_sd <- cbind.data.frame(ref_coords, df_sd)
+saveRDS(df_sd, file = "./data/lat_standard_deviation_4mdls.RDS")
 
-## Execute -------------------------------------------------------------------------------------------------
-coords_ref <- readRDS('./data/extracted_paleocoordinates/Scotese2.RDS')[,1:2] #we get the initial coordinates of the spatial data points (as subtracting two dfs makes them = 0, which is annoying)
-final <- cbind(coords_ref, assess_sd()) #we bound the ref coordinates of each cell to the lat sd assessment
-saveRDS(final, file = "./data/lat_standard_deviation_4mdls.RDS")
-
-
-
-## Ncells counter ------------------------------------------------------------------------------------------
-
-lat_sd <- readRDS("./data/lat_standard_deviation_4mdls.RDS")
+## Ncells counter ---------------------------------------------------------
+ncells_over_time <- vector("numeric")
+# Count number of NA cells over time
+for (i in 1:(ncol(df_sd) - 2)) {
+  ncells_over_time[i] <- length(which(!is.na(df_sd[, i])))
+}
 t <- seq(from = 0, to = 540, by = 10)
-
-  #Blind (no cell tracker)
-ncells_over_time <- apply(X = lat_sd[,-c(1)], MARGIN = c(2), FUN = function(x){return(length(which(is.na(x) == FALSE)))})
 plot(x = t, y = ncells_over_time)
