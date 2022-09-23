@@ -1,12 +1,8 @@
-############## This function creates a shapefile from the occurences that will further be rotated using Gplates ##############
-
-
-#Author: Lucas Buffan
-#Copyright (c) Lucas Buffan 2022
-#e-mail: lucas.l.buffan@gmail.com
-
-
-## Libraries -------------------------------------------------------------------
+# Script details ----------------------------------------------------------
+# Purpose: Build an equal-area icosahedral grid
+# Author(s): Lucas Buffan & Lewis A. Jones
+# Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
+# Load libraries ----------------------------------------------------------
 library(raster)
 
 ## Split into as many spatial data points dfs as time bins ---------------------
