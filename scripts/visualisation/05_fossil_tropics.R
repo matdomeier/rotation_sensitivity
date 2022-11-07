@@ -5,8 +5,8 @@
 # Load libraries ----------------------------------------------------------
 library(ggplot2)
 library(ggpubr)
-library(MetBrewer)
 library(deeptime)
+pal <- c('#41ab5d', '#004529', '#49006a', '#dd3497')
 # Coral reef --------------------------------------------------------------
 # List files
 files <- list.files("./data/fossil_palaeocoordinates/corals/", full.names = TRUE)
@@ -64,7 +64,8 @@ p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
              y = "Absolute Palaeolatitude (\u00B0)",
              colour = "Model",
              shape = "Model") +
-        scale_colour_met_d(name = "Isfahan1", direction = 1) +
+        scale_colour_manual(values = pal) +
+        scale_shape_manual(values = c(15, 16, 17, 18)) +
         scale_y_continuous(limits = c(10, 70)) + 
         scale_x_reverse(limits = c(200, 0)) +
         theme(plot.margin = margin(5, 10, 5, 10, "mm"),
@@ -81,7 +82,6 @@ p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
               panel.background = element_blank(),
               panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
         deeptime::coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
-p1
 # Crocs -------------------------------------------------------------------
 # List files
 files <- list.files("./data/fossil_palaeocoordinates/crocs/", full.names = TRUE)
@@ -140,7 +140,8 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
              y = "Absolute Palaeolatitude (\u00B0)",
              colour = "Model",
              shape = "Model") +
-        scale_colour_met_d(name = "Isfahan1", direction = 1) +
+        scale_colour_manual(values = pal) +
+        scale_shape_manual(values = c(15, 16, 17, 18)) +
         scale_y_continuous(limits = c(30, 90)) + 
         scale_x_reverse(limits = c(200, 0)) +
         theme(plot.margin = margin(5, 10, 5, 10, "mm"),
