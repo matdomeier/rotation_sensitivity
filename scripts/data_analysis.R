@@ -34,5 +34,6 @@ source("./scripts/data_analysis/06_prepare_fossil_croc_data.R")
 rm(list = ls())
 
 ## Rotate fossil occurrences ----------------------------------------------
-# Rotate fossil occurrences with GPlates API (via chronosphere) 
-source("./scripts/data_analysis/rotate_fossils_with_chronosphere.R")
+# Rotate fossil occurrences with GPlates API (via palaeoverse) 
+source("./scripts/data_analysis/07_rotate_fossils.R")
+rm(list = ls())

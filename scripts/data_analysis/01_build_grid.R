@@ -3,6 +3,7 @@
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
+# devtools::install_github("r-barnes/dggridR")
 library(dggridR)
 library(rgeos)
 library(raster)

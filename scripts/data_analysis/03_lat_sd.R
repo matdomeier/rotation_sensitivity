@@ -20,7 +20,7 @@ MaxTime <- list("Scotese2" = 540,
 # Load files --------------------------------------------------------------
 for (i in models) {
   assign(i, 
-         readRDS(file = paste0("./data/extracted_paleocoordinates/", i, ".RDS")))
+         readRDS(file = paste0("./data/grid_paleocoordinates/", i, ".RDS")))
 }
 # Get reference coordinates
 ref_coords <- Seton[, c("lon_0", "lat_0")]
@@ -55,7 +55,7 @@ for (i in 1:length(lat_indx)) {
 
 # Tidy up and save --------------------------------------------------------
 df_sd <- cbind.data.frame(ref_coords, df_sd)
-saveRDS(df_sd, file = "./data/lat_standard_deviation_4mdls.RDS")
+saveRDS(df_sd, file = "./results/lat_SD.RDS")
 
 ## Ncells counter ---------------------------------------------------------
 ncells_over_time <- vector("numeric")

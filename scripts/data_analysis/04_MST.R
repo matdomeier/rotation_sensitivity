@@ -1,12 +1,13 @@
 # Script details ----------------------------------------------------------
-# Purpose: Calculate minimum-spanning tree
+# Purpose: Calculate minimum-spanning tree length
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
+# WARNING: This script can take a while to run depending on the user's PC.
 # Load libraries ----------------------------------------------------------
 library(geosphere)
 library(vegan)
 # Timesteps  -------------------------------------------------------------
-Timescale <- seq(from = 10, to = 540, by = 10)
+timescale <- seq(from = 10, to = 540, by = 10)
 # Load model outputs -----------------------------------------------------
 models <- c("Scotese2", 
             "Matthews",  
@@ -15,7 +16,7 @@ models <- c("Scotese2",
 
 for (i in models) {
   assign(i, 
-         readRDS(file = paste0("./data/extracted_paleocoordinates/", i, ".RDS")))
+         readRDS(file = paste0("./data/grid_paleocoordinates/", i, ".RDS")))
 }
 
 # Expand dfs to be consistent (use Scotese2 as reference frame)
@@ -30,16 +31,16 @@ colnames(Matthews) <- colnames(Scotese2)
 # Generate empty matrix for populating
 MST_mat <- matrix(0,
                   nrow = nrow(Matthews),  
-                  ncol = length(Timescale) + 2
+                  ncol = length(timescale) + 2
 )
 # Convert to dataframe
 MST_df <- data.frame(MST_mat)
 # Add reference coordinates
 MST_df[, 1:2] <- Matthews[, 1:2]
-cnames <- c("lon_0", "lat_0")
+cnames <- c("lng", "lat")
 
 # Run for loop across time
-for (t in Timescale) {
+for (t in timescale) {
   cnames <- c(cnames, paste0("MST_length_", t))
   for (i in 1:nrow(MST_df)) {
     # Set up column index
@@ -73,5 +74,5 @@ for (t in Timescale) {
 # Add column names
 colnames(MST_df) <- cnames
 # Save data
-saveRDS(MST_df, "./data/MST_length.RDS")
+saveRDS(MST_df, "./results/MST_length.RDS")
 

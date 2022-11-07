@@ -1,5 +1,8 @@
 # Spatial discrepancies between plate rotation models in the reconstruction of macroecological patterns
 
+![](figures/standard_deviation/time_series.gif)
+![](figures/MST/time_series.gif)
+
 We evaluated the impact of using different plate rotation models to reconstruct the surface of the Earth over geological timescales. Our study focuses on four of the most widely used open-source models. We first adopt a simulation approach, and compare model reconstructions from the entire Phanerozoic to test for spatiotemporal discrepancies. Next, using empirical data with the plate rotation models, we reconstruct the distribution of two entities that serve as proxies of tropical/subtropical conditions: terrestrial crocodiles and coral reefs. The latter approach (with empirical data) covers the last 200 Myr, and aims to illustrate the impact of model choice within a palaeobiological framework. Below, we detail how the code provided within this repository are linked to the analyses.
 
 To implement the execution and enable reproducibility, the scripts are organised in a way that to run the analyses (except **1.1**), you must open **rot_sens.Rproj** in RStudio and execute the two files in the MAIN folder. They will automatically source the other scripts.
@@ -53,17 +56,17 @@ To best spatially figure out how different the outputs of the models are, we com
 ## 2. Case study: quantifying the repercussions of the differences between plate models on a true biological analysis
 
 ### 2.1. Fossil data pre-processing
+#### 2.1.1. Coral reefs
+
+We downloaded all reefs occurrences from the [PaleoReefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/), and extracted 'true' coral reefs (scleractinian) with a tropical affinity  (`scripts/data_analysis/05_prepare_fossil_reef_data.R`). After extraction, 420 occurrences remained.
+
 #### 2.1.1. Crocodiles
 
-We download all Crocodylomorpha occurrences from [The Paleobiology Database](https://paleobiodb.org/#/) and we filter out all marine taxa, as their past distribution was shown [not to exhibit any climate-driven pattern](https://www.nature.com/articles/ncomms9438). This made us work with 4205 occurrences (see [*prepare_fossil_croc_data.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/prepare_fossil_croc_data.R)).
-
-#### 2.1.2. Coral reefs
-
-We use all Reefs occurrences from [The Paleo Reefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/), and filter in Tropical (warm-water) coral reefs with Scelarctinian skeleton, main current indicators of the tropics. We ended up having 420 occurrences (see [*prepare_fossil_reef_data.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/prepare_fossil_reef_data.R)).
+We download all crocodile ('Crocodylomorpha') occurrences from the [Paleobiology Database](https://paleobiodb.org/#/). As the past distribution of marine taxa appear unassociated with climate, we removed all marine taxa (`data/occurrences/marine_taxa.txt`) from the dataset [not to exhibit any climate-driven pattern](https://www.nature.com/articles/ncomms9438). This resulted in a dataset of 4205 occurrences (see (`scripts/data_analysis/06_prepare_fossil_croc_data.R`).
 
 ### 2.2. Rotating occurrences 
 
-As the occurrences are not provided with an absolute age estimate but within an age interval, we rotate each occurrence for its corresponding mid-age rounded to the nearest Myrs, using the `reconstruct()` function of the [Chronosphere](https://cran.r-project.org/web/packages/chronosphere/index.html) R package (see [*rotate_fossils_with_chronosphere.R*](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/rotate_fossils_with_chronosphere.R)).
+As the occurrences are not provided with an absolute age estimate but within an age range, we used the midpoint age to rotate each occurrence, using the `palaeorotate()` function from the [palaeoverse](https://cloud.r-project.org/web/packages/palaeoverse/index.html) R package ver. 1.0.0 (`scripts/data_analysis/07_rotate_fossils.R`).
 
 ### 2.3. Analysis
 #### 2.3.1. Tropics and subtropics reconstruction in deep time
@@ -72,5 +75,5 @@ For each taxon, we represent the minimum, maximum and median occurrence's latitu
 
 #### 2.3.2. Quantification of the amount of occurrences in different ID_score zones
 
-According to the partitioning of the globe in zones of different ID_scores we proposed in <strong>1.4.3.</strong>, we quantify the amount of fossil occurrences present in each zone of different ID_score (see [quantify_percent_occ_risky](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/quantify_percent_occ_risky.R)).
+According to the partitioning of the globe in zones of different ID_scores we proposed in **1.4.3.**, we quantify the amount of fossil occurrences present in each zone of different ID_score (see [quantify_percent_occ_risky](https://github.com/Buffan3369/rotation_sensitivity/blob/main/scripts/data_analysis/quantify_percent_occ_risky.R)).
 

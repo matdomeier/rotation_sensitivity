@@ -66,7 +66,7 @@ for (mdl in models) {
   # Add col names
   colnames(coords_over_time) <- names
   # Save data
-  path <- "./data/extracted_paleocoordinates/"
+  path <- "./data/grid_paleocoordinates/"
   saveRDS(object = coords_over_time, 
             file = paste0(path, mdl, ".RDS"))
 }
