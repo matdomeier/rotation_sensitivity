@@ -16,7 +16,7 @@ models <- c("Scotese2",
 
 for (i in models) {
   assign(i, 
-         readRDS(file = paste0("./data/grid_paleocoordinates/", i, ".RDS")))
+         readRDS(file = paste0("./data/grid_palaeocoordinates/", i, ".RDS")))
 }
 
 # Expand dfs to be consistent (use Scotese2 as reference frame)

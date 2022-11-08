@@ -4,24 +4,31 @@
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Simulation component ----------------------------------------------------
 ## Latitudinal standard deviation time series -----------------------------
-# Complete time series and GIF
+### Complete time series and GIF ------------------------------------------
 source("./scripts/visualisation/01a_lat_sd.R")
-# Time frame shots
+rm(list = ls())
+### Time frame shots ------------------------------------------------------
 source("./scripts/visualisation/01b_lat_sd_facet.R")
+rm(list = ls())
 
 ## MST length assessment --------------------------------------------------
-# Complete time series and GIF
+### Complete time series and GIF ------------------------------------------
 source("./scripts/visualisation/02a_MST.R")
-# Time frame shots
+rm(list = ls())
+### Time frame shots ------------------------------------------------------
 source("./scripts/visualisation/02b_MST_facet.R")
+rm(list = ls())
 
 ## Cell proportions -------------------------------------------------------
-# Cell proportions (lat SD and MST)
 source("./scripts/visualisation/03_bar_plots.R")
+rm(list = ls())
 
 # Case study component ----------------------------------------------------
 ## Palaeolatitudinal range plot of occurrences ----------------------------
 source("./scripts/visualisation/04_fossil_palaeolat.R") 
+rm(list = ls())
+
 ## Max absolute palaeolatitudinal limit of occurrences --------------------
 source("./scripts/visualisation/05_fossil_tropics.R") 
+rm(list = ls())
 

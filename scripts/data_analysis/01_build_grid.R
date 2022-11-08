@@ -13,7 +13,7 @@ library(sp)
 grid <- dggridR::dgconstruct(spacing = 150) 
 # Link discrete grid with earth grid and save as .shp
 dggridR::dgearthgrid(dggs = grid,
-            savegrid = "./data/meshgrid/icosahedral_grid.shp")
+            savegrid = "./data/mesh_grid/icosahedral_grid.shp")
 # Extract centroids of grid -----------------------------------------------
 cells <- 1:dggridR::dgmaxcell(dggs = grid)
 cellcenters <- dggridR::dgSEQNUM_to_GEO(dggs = grid, in_seqnum = cells)
@@ -50,4 +50,4 @@ index_to_drop <- unique(index_to_drop)
 # Drop area not present in all models
 xy <- xy[-index_to_drop, ]
 # Save xy as .shp for GPlates ---------------------------------------------
-raster::shapefile(xy, "./data/meshgrid/meshgrid.shp", overwrite = TRUE)  
+raster::shapefile(xy, "./data/mesh_grid/meshgrid.shp", overwrite = TRUE)  

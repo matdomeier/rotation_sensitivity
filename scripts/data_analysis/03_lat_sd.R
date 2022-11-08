@@ -20,7 +20,7 @@ MaxTime <- list("Scotese2" = 540,
 # Load files --------------------------------------------------------------
 for (i in models) {
   assign(i, 
-         readRDS(file = paste0("./data/grid_paleocoordinates/", i, ".RDS")))
+         readRDS(file = paste0("./data/grid_palaeocoordinates/", i, ".RDS")))
 }
 # Get reference coordinates
 ref_coords <- Seton[, c("lon_0", "lat_0")]

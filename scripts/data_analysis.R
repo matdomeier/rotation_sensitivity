@@ -10,16 +10,16 @@ rm(list = ls())
 # Rotations are then carried out in the GPlates desktop software
 # Processing of rotation files provided in the script below
 # Raw outputs are not provided here as they are too large for the repository
-# These outputs are avaialble upon request, however the processed files 
-# are available via ./data/extracted_coordinates
+# These outputs are available upon request, however the processed files 
+# are available via data/grid_palaeocoordinates
 # source("./scripts/data_analysis/02_process_rotations.R")
 
 ## Comparison  ------------------------------------------------------------
-# Latitudinal standard deviations
+# Latitudinal standard deviation
 source("./scripts/data_analysis/03_lat_sd.R") 
 rm(list = ls())
 
-# Calculate minimum spanning tree between points
+# Calculate minimum spanning tree length between points
 source("./scripts/data_analysis/04_MST.R")
 rm(list = ls())
 

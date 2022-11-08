@@ -4,12 +4,12 @@
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
 library(raster)
-xy <- shapefile("./data/meshgrid/meshgrid.shp")
+xy <- shapefile("./data/mesh_grid/meshgrid.shp")
 # Processing --------------------------------------------------------------
 # Read the data and extract the palaeocoordinates model per model
 models <- c("Scotese2",  # PALEOMAP latest version
             "Matthews",  
-            "Wright",
+            "Wright", # Wright is the Golonka model
             "Seton")
 # Define maximum temporal range of models
 MaxTime <- c("Scotese2" = 540,
@@ -31,12 +31,11 @@ for (mdl in models) {
   # Extract max time
   maxTime <- MaxTime[[mdl]]
   # Generate time steps
-  Timeframe <- seq(from = 10, to = maxTime, by = 10)   
-  
+  timeframe <- seq(from = 10, to = maxTime, by = 10)   
   # Create the name of the output datasets' columns
   names <- c("lon_0", "lat_0")
   
-  for(t in Timeframe){
+  for(t in timeframe){
     # Reporting for loop progress
     print(t)
     # Generate df names
@@ -66,7 +65,7 @@ for (mdl in models) {
   # Add col names
   colnames(coords_over_time) <- names
   # Save data
-  path <- "./data/grid_paleocoordinates/"
+  path <- "./data/grid_palaeocoordinates/"
   saveRDS(object = coords_over_time, 
             file = paste0(path, mdl, ".RDS"))
 }
