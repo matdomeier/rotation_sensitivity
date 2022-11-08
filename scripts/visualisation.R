@@ -32,3 +32,8 @@ rm(list = ls())
 source("./scripts/visualisation/05_fossil_tropics.R") 
 rm(list = ls())
 
+# Miscellaneous -----------------------------------------------------------
+# Generate polygon maps
+source("./scripts/visualisation/06_polygon_maps.R") 
+rm(list = ls())
+
