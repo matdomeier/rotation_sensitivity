@@ -1,5 +1,7 @@
 # Mind the uncertainty! Global Plate Model choice impacts past biogeographic reconstructions
 
+<div style="text-align: justify">
+
 Author(s): [Lucas Buffan](lucas.buffan@ens-lyon.fr), [Lewis A. Jones](mailto:LewisA.Jones@outlook.com), Christopher R. Scotese, Sabin Zahirovic, Mathew Domeier, and [Sara Varela](sara.varela@uvigo.es).
 
 This repository contains the data and code required to run the analyses and results of the article, "Mind the uncertainty! Global Plate Model choice impacts past biogeographic reconstructions" (Buffan et al. 2022). 
@@ -43,3 +45,5 @@ The workflow and documentation for data analysis can be found in: `/scripts/data
 The workflow for data visualisation can be found in: `/scripts/visualiation.R`.
 
 Documentation and comments relating to the workflow can be found within the aforementioned scripts, as well as the subscripts.
+
+</div>
