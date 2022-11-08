@@ -25,6 +25,7 @@ In this study, we evaluate the impact of using different plate rotation models t
 We first adopt a simulation approach to evaluate spatiotemporal discrepancies in palaeogeographic reconstructions between the four models. Subsequently, using empirical data, we reconstructed the palaeodistribution of two entities that serve as proxies of tropical/subtropical conditions: terrestrial crocodylomorphs and coral reefs. The latter approach (with empirical data) covers the last 200 Myr, and aims to illustrate the impact of model choice within a palaeobiological framework.
 
 -------
+## Repository structure
 
 In this repository, files and code are organised as:
 
