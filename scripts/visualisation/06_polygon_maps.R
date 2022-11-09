@@ -4,31 +4,42 @@
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
 library(ggplot2)
+library(ggpubr)
 library(sf)
 # Load --------------------------------------------------------------------
 # Load polygons and project to robinson
 
-# Wright polygons
-wright <- read_sf("./data/continental_polygons/Wright/Wright_PresentDay_ContinentalPolygons.shp")
+# Golonka polygons
+golonka <- read_sf("./data/continental_polygons/GOLONKA/GOLONKA_PresentDay_ContinentalPolygons.shp")
 # Robinson projection
-wright <- st_transform(x = wright, crs = "ESRI:54030")
+golonka <- st_transform(x = golonka, crs = "ESRI:54030")
 
 # Scotese polygons
-scotese <- read_sf("./data/continental_polygons/Scotese2/Scotese2_PresentDay_ContinentalPolygons.shp")
+paleomap <- read_sf("./data/continental_polygons/PALEOMAP/PALEOMAP_PresentDay_ContinentalPolygons.shp")
 # Retain only terrestrial plates
-scotese <- scotese[which(scotese$DISAPPEARA == -999), ]
+paleomap <- paleomap[which(paleomap$DISAPPEARA == -999), ]
 # Robinson projection
-scotese <- st_transform(x = scotese, crs = "ESRI:54030")
+paleomap <- st_transform(x = paleomap, crs = "ESRI:54030")
 
 # Matthews polygons
-matthews <- read_sf("./data/continental_polygons/Matthews/Matthews_PresentDay_ContinentalPolygons.shp")
+matthews <- read_sf("./data/continental_polygons/MATTHEWS2016_pmag_ref/MATTHEWS2016_pmag_ref_PresentDay_ContinentalPolygons.shp")
 # Robinson projection
 matthews <- st_transform(x = matthews, crs = "ESRI:54030")
 
 # Seton polygons
-seton <- read_sf("./data/continental_polygons/Seton/Seton_PresentDay_ContinentalPolygons.shp")
+seton <- read_sf("./data/continental_polygons/SETON2012/SETON2012_PresentDay_ContinentalPolygons.shp")
 # Robinson projection
 seton <- st_transform(x = seton, crs = "ESRI:54030")
+
+# Muller polygons
+muller <- read_sf("./data/continental_polygons/MULLER2019/MULLER2019_PresentDay_ContinentalPolygons.shp")
+# Robinson projection
+muller <- st_transform(x = muller, crs = "ESRI:54030")
+
+# Merdith polygons
+merdith <- read_sf("./data/continental_polygons/MERDITH2021/MERDITH2021_PresentDay_ContinentalPolygons.shp")
+# Robinson projection
+merdith <- st_transform(x = merdith, crs = "ESRI:54030")
 
 # Plot --------------------------------------------------------------------
 # Plot function
@@ -42,17 +53,20 @@ plot_map <- function(x, main){
 }
 # Create plots
 p1 <- plot_map(seton, main = "Seton et al. (2012)")
-p2 <- plot_map(wright, main = "Wright et al. (2013)")
+p2 <- plot_map(golonka, main = "Wright et al. (2013)")
 p3 <- plot_map(matthews, main = "Matthews et al. (2016)")
-p4 <- plot_map(scotese, main = "Scotese & Wright (2018)")
+p4 <- plot_map(paleomap, main = "Scotese & Wright (2018)")
+p5 <- plot_map(muller, main = "M\U00FCller et al. (2019)")
+p5
+p6 <- plot_map(merdith, main = "Merdith et al. (2021)")
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot
-p <- ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2, labels = "AUTO",
+p <- ggarrange(p1, p2, p3, p4, p5, p6, ncol = 2, nrow = 3, labels = "AUTO",
                font.label = list(size = 18))
 # Save plot
 ggsave(filename = "./figures/continental_polygons.png",
-       height = 150,
+       height = 250,
        width = 250,
        units = "mm",
        bg = "white",

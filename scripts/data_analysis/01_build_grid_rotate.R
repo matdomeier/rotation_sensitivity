@@ -22,7 +22,8 @@ xy <- sp::SpatialPointsDataFrame(coords = xy[, c("lng", "lat")],
 proj4string(xy) <- CRS("+proj=longlat +datum=WGS84")
 # Remove spatial points not present in all models -------------------------
 # Define models
-models <- c("MERDITH2021", "PALEOMAP", "GOLONKA", "SETON2012", "MATTHEWS2016_pmag_ref")
+models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
+            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
 # Set up vector to populate
 index_to_drop <- vector(mode = "numeric")
 # Run for loop across models
@@ -49,6 +50,7 @@ xy <- as.data.frame(xy)[, c("lng", "lat")]
 # Define maximum temporal range of models
 max_time <- c("MERDITH2021" = 540,
               "PALEOMAP" = 540,
+              "MULLER2019" = 540,
               "GOLONKA" = 540,
               "SETON2012" = 200,
               "MATTHEWS2016_pmag_ref" = 410)
