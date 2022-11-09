@@ -15,7 +15,7 @@ To cite the paper:
 
 ## Study details
 
-In this study, we evaluate the impact of using different plate rotation models to reconstruct the distribution of the Earth's surface over geological timescales. Our study focused on four of the most widely used open-source models:
+In this study, we evaluate the impact of using different plate rotation models to reconstruct the distribution of the Earth's surface over geological timescales. Our study focused on five of the most widely used open-source models available via the [GPlates Web Service](https://gwsdoc.gplates.org/reconstruction-models):
 
 * MERDITH model (Merdith et al., 2021) - GPlates ID = MERDITH2021
 * PALEOMAP model (Scotese & Wright, 2018) - GPlates ID = PALEOMAP
