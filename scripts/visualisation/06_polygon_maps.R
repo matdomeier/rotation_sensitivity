@@ -16,8 +16,6 @@ golonka <- st_transform(x = golonka, crs = "ESRI:54030")
 
 # Scotese polygons
 paleomap <- read_sf("./data/continental_polygons/PALEOMAP/PALEOMAP_PresentDay_ContinentalPolygons.shp")
-# Retain only terrestrial plates
-paleomap <- paleomap[which(paleomap$DISAPPEARA == -999), ]
 # Robinson projection
 paleomap <- st_transform(x = paleomap, crs = "ESRI:54030")
 
