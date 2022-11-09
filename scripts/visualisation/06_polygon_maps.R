@@ -57,7 +57,6 @@ p2 <- plot_map(golonka, main = "Wright et al. (2013)")
 p3 <- plot_map(matthews, main = "Matthews et al. (2016)")
 p4 <- plot_map(paleomap, main = "Scotese & Wright (2018)")
 p5 <- plot_map(muller, main = "M\U00FCller et al. (2019)")
-p5
 p6 <- plot_map(merdith, main = "Merdith et al. (2021)")
 
 # Combine plots -----------------------------------------------------------
