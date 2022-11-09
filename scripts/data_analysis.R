@@ -4,6 +4,7 @@
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Simulation component ----------------------------------------------------
 ## Build the equal-area grid and rotate -----------------------------------
+# Build grid and rotate with GPlates API (via palaeoverse) 
 source("./scripts/data_analysis/01_build_grid_rotate.R")
 rm(list = ls())
 

@@ -6,11 +6,9 @@
 library(palaeoverse)
 library(tibble)
 ## Let's rotate -----------------------------------------------------------
-# Which models should be used?
-models <- c("PALEOMAP",
-            "SETON2012",
-            "MATTHEWS2016_pmag_ref",
-            "GOLONKA") # This names refers to the WRIGHT model!!
+# Define models
+models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
+            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
 
 # Corals reconstruction ---------------------------------------------------
 for (m in models) {
