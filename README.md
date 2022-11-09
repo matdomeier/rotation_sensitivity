@@ -17,10 +17,11 @@ To cite the paper:
 
 In this study, we evaluate the impact of using different plate rotation models to reconstruct the distribution of the Earth's surface over geological timescales. Our study focused on four of the most widely used open-source models:
 
-* PALEOMAP (Scotese) model (Scotese & Wright, 2018)
-* MATTHEWS model (Matthews et al., 2016)
-* GOLONKA (Wright) model (Wright et al., 2013)
-* SETON model (Seton et al., 2012)
+* MERDITH model (Merdith et al., 2021) - GPlates ID = MERDITH2021
+* PALEOMAP model (Scotese & Wright, 2018) - GPlates ID = PALEOMAP
+* MATTHEWS model (Matthews et al., 2016) - GPlates ID = MATTHEWS2016_pmag_ref
+* GOLONKA model (Wright et al., 2013) - GPlates ID = GOLONKA
+* SETON model (Seton et al., 2012) - GPlates ID = SETON2012
 
 We first adopt a simulation approach to evaluate spatiotemporal discrepancies in palaeogeographic reconstructions between the four models. Subsequently, using empirical data, we reconstructed the palaeodistribution of two entities that serve as proxies of tropical/subtropical conditions: terrestrial crocodylomorphs and coral reefs. The latter approach (with empirical data) covers the last 200 Myr, and aims to illustrate the impact of model choice within a palaeobiological framework.
 
