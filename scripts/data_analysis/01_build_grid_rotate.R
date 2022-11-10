@@ -55,9 +55,6 @@ max_time <- c("MERDITH2021" = 540,
               "SETON2012" = 200,
               "MATTHEWS2016_pmag_ref" = 410)
 
-# If model reconstruction files already exist, skip
-files <- tools::file_path_sans_ext(list.files("./data/grid_palaeocoordinates/"))
-models <- models[!models %in% files]
 # Run for loop across models
 for (m in models) {
   print(m)

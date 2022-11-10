@@ -6,16 +6,9 @@
 library(tidyverse)
 library(matrixStats)
 # Analysis ----------------------------------------------------------------
-# Define available models and their temporal extent
-models <- c("Scotese2",  #PALEOMAP latest version
-            "Matthews",  
-            "Wright",
-            "Seton")
-
-MaxTime <- list("Scotese2" = 540,
-             "Matthews" = 410,
-             "Wright" = 540, # Rounded to 540 (instead of 544) for Wright
-             "Seton" = 200)
+# Define available models
+models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
+            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
 
 # Load files --------------------------------------------------------------
 for (i in models) {
@@ -23,32 +16,36 @@ for (i in models) {
          readRDS(file = paste0("./data/grid_palaeocoordinates/", i, ".RDS")))
 }
 # Get reference coordinates
-ref_coords <- Seton[, c("lon_0", "lat_0")]
-colnames(ref_coords) <- c("lng", "lat")
+ref_coords <- SETON2012[, c("lng", "lat")]
 
 # Update files ------------------------------------------------------------
 
-# Expand dfs to be consistent (use Scotese2 as reference frame)
-Seton[(ncol(Seton) + 1):ncol(Scotese2)] <- NA
-Matthews[(ncol(Matthews) + 1):ncol(Scotese2)] <- NA
+# Expand dfs to be consistent (use PALEOMAP as reference frame)
+SETON2012[(ncol(SETON2012) + 1):ncol(PALEOMAP)] <- NA
+MATTHEWS2016_pmag_ref[(ncol(MATTHEWS2016_pmag_ref) + 1):ncol(PALEOMAP)] <- NA
 
 # Update column names
-colnames(Seton) <- colnames(Scotese2)
-colnames(Matthews) <- colnames(Scotese2)
+colnames(SETON2012) <- colnames(PALEOMAP)
+colnames(MATTHEWS2016_pmag_ref) <- colnames(PALEOMAP)
 
 # Get lat indexes columns for SD calculation
-lat_indx <- grep("lat", colnames(Scotese2))
+lat_indx <- grep("lat", colnames(PALEOMAP))
 
 # Create empty dataframe for populating
-df_sd <- matrix(ncol = length(lat_indx), nrow = nrow(Scotese2))
+df_sd <- matrix(ncol = length(lat_indx), nrow = nrow(PALEOMAP))
 df_sd <- data.frame(df_sd)
 # Add col names
-colnames(df_sd) <- colnames(Scotese2)[lat_indx]
+colnames(df_sd) <- colnames(PALEOMAP)[lat_indx]
 
 # Calculate row SD
 for (i in 1:length(lat_indx)) {
   wc <- lat_indx[i]
-  mat <- data.frame(Seton[, wc], Matthews[, wc], Wright[, wc], Scotese2[, wc])
+  mat <- data.frame(SETON2012[, wc],
+                    MATTHEWS2016_pmag_ref[, wc],
+                    GOLONKA[, wc],
+                    PALEOMAP[, wc],
+                    MERDITH2021[, wc],
+                    MULLER2019[, wc])
   mat <- as.matrix.data.frame(mat)
   df_sd[, i] <- rowSds(mat, na.rm = TRUE)
 }

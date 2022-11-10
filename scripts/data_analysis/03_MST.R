@@ -9,34 +9,33 @@ library(vegan)
 # Timesteps  -------------------------------------------------------------
 timescale <- seq(from = 10, to = 540, by = 10)
 # Load model outputs -----------------------------------------------------
-models <- c("Scotese2", 
-            "Matthews",  
-            "Wright",
-            "Seton")
+# Define available models
+models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
+            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
 
 for (i in models) {
   assign(i, 
          readRDS(file = paste0("./data/grid_palaeocoordinates/", i, ".RDS")))
 }
 
-# Expand dfs to be consistent (use Scotese2 as reference frame)
-Seton[(ncol(Seton) + 1):ncol(Scotese2)] <- NA
-Matthews[(ncol(Matthews) + 1):ncol(Scotese2)] <- NA
+# Expand dfs to be consistent (use PALEOMAP as reference frame)
+SETON2012[(ncol(SETON2012) + 1):ncol(PALEOMAP)] <- NA
+MATTHEWS2016_pmag_ref[(ncol(MATTHEWS2016_pmag_ref) + 1):ncol(PALEOMAP)] <- NA
 
 # Update column names
-colnames(Seton) <- colnames(Scotese2)
-colnames(Matthews) <- colnames(Scotese2)
+colnames(SETON2012) <- colnames(PALEOMAP)
+colnames(MATTHEWS2016_pmag_ref) <- colnames(PALEOMAP)
 
 # Calculate MST ----------------------------------------------------------
 # Generate empty matrix for populating
 MST_mat <- matrix(0,
-                  nrow = nrow(Matthews),  
+                  nrow = nrow(PALEOMAP),  
                   ncol = length(timescale) + 2
 )
 # Convert to dataframe
 MST_df <- data.frame(MST_mat)
 # Add reference coordinates
-MST_df[, 1:2] <- Matthews[, 1:2]
+MST_df[, 1:2] <- PALEOMAP[, 1:2]
 cnames <- c("lng", "lat")
 
 # Run for loop across time
@@ -44,12 +43,14 @@ for (t in timescale) {
   cnames <- c(cnames, paste0("MST_length_", t))
   for (i in 1:nrow(MST_df)) {
     # Set up column index
-    col_indx <- c(paste0("lon_", t), paste0("lat_", t))
+    col_indx <- c(paste0("lng_", t), paste0("lat_", t))
     # Generate temp df for each model 
-    tmp <- rbind(Wright[i, col_indx],
-                    Seton[i, col_indx],
-                    Scotese2[i, col_indx],
-                    Matthews[i, col_indx])
+    tmp <- rbind(GOLONKA[i, col_indx],
+                 MATTHEWS2016_pmag_ref[i, col_indx],
+                 PALEOMAP[i, col_indx],
+                 SETON2012[i, col_indx],
+                 MERDITH2021[i, col_indx],
+                 MULLER2019[i, col_indx])
     # Remove NAs
     tmp <- na.omit(tmp)
     # If only one point available no distance is calculated

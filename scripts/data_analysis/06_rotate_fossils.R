@@ -4,7 +4,6 @@
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
 library(palaeoverse)
-library(tibble)
 ## Let's rotate -----------------------------------------------------------
 # Define models
 models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
