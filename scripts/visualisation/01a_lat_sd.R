@@ -53,8 +53,8 @@ for (t in seq(from = 10, to = 540, by = 10)) {
   # Create individual time shot plot
   p <-  ggplot(data = grid1, aes(fill = lat_sd)) +
     scale_fill_stepsn(colours = pal,
-                      limits = c(0, 70),
-                      breaks = c(0, 5, 10, 20, 30, 70)) +
+                      limits = c(0, 90),
+                      breaks = c(0, 5, 10, 20, 30, 90)) +
     geom_sf(colour = "black", size = 0.1) +
     labs(title = paste0("Time step: ", t,
                         " Ma"),
@@ -90,8 +90,8 @@ saveRDS(df, "./results/lat_SD_LF.RDS")
 # Create initial plot for GIF 
 p <-  ggplot(data = df, aes(fill = lat_sd)) +
         scale_fill_stepsn(colours = pal,
-                          limits = c(0, 70),
-                          breaks = c(0, 5, 10, 20, 30, 70)) +
+                          limits = c(0, 90),
+                          breaks = c(0, 5, 10, 20, 30, 90)) +
         geom_sf(colour = "black", size = 0.1) +
         labs(title = paste0("Time step: {as.integer(unique(df$time)[frame])}",
                             " Ma"),

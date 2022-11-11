@@ -66,8 +66,8 @@ p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
         scale_colour_manual(values = pal) +
         scale_shape_manual(values = shps) +
         scale_y_continuous(limits = c(0, 75), 
-                           breaks = seq(0, 75, 30),
-                           labels = seq(0, 75, 30)) + 
+                           breaks = seq(0, 75, 15),
+                           labels = seq(0, 75, 15)) + 
         scale_x_reverse(limits = c(200, 0)) +
         theme(plot.margin = margin(5, 10, 5, 10, "mm"),
               axis.title.x = element_text(size = 14),
@@ -139,8 +139,8 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
         scale_colour_manual(values = pal) +
         scale_shape_manual(values = shps) +
         scale_y_continuous(limits = c(30, 90), 
-                           breaks = seq(30, 90, 30),
-                           labels = seq(30, 90, 30)) + 
+                           breaks = seq(30, 90, 15),
+                           labels = seq(30, 90, 15)) + 
         scale_x_reverse(limits = c(200, 0)) +
         theme(plot.margin = margin(5, 10, 5, 10, "mm"),
               axis.title.x = element_text(size = 14),

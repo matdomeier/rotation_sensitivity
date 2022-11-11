@@ -23,8 +23,8 @@ df$time_lab <- factor(df$time_lab, levels = c("60 Ma", "120 Ma", "180 Ma",
 # Create facet plot
 p <-  ggplot(data = df, aes(fill = lat_sd)) +
   scale_fill_stepsn(colours = pal,
-                    limits = c(0, 70),
-                    breaks = c(0, 5, 10, 20, 30, 70)) +
+                    limits = c(0, 90),
+                    breaks = c(0, 5, 10, 20, 30, 90)) +
   geom_sf(colour = "black", size = 0.1) +
   labs(fill = "Latitudinal standard deviation (\u00B0)") +
   theme_minimal() +
