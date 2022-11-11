@@ -23,8 +23,8 @@ df$time_lab <- factor(df$time_lab, levels = c("60 Ma", "120 Ma", "180 Ma",
 # Create facet plot
 p <-  ggplot(data = df, aes(fill = MST_length)) +
   scale_fill_stepsn(colours = pal,
-                    limits = c(0, 20000),
-                    breaks = c(0, 3000, 6000, 9000, 12000, 20000)) +
+                    limits = c(0, 25000),
+                    breaks = c(0, 3000, 6000, 9000, 12000, 25000)) +
   geom_sf(colour = "black", size = 0.1) +
   labs(fill = "Minimum-spanning-tree length (km)") +
   theme_minimal() +

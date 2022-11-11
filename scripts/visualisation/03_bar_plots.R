@@ -2,8 +2,6 @@
 # Purpose: Plot barplots
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
-# WARNING: This script can take a while to run depending on the user's PC.
-# If you wish to test the script, you can reduce the sequence in line 32.
 # Load libraries ----------------------------------------------------------
 library(ggplot2)
 library(ggpubr)
@@ -59,8 +57,8 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.55, label = "Matthews", angle = 90)) + 
-  geom_text(aes(x = 205, y = 0.55, label = "Seton", angle = 90)) + 
+  geom_text(aes(x = 415, y = 0.48, label = "MATTHEWS2016", angle = 90), size = 3) + 
+  geom_text(aes(x = 205, y = 0.48, label = "SETON2012", angle = 90), size = 3) + 
   scale_fill_manual(values = pal1) +
   scale_x_reverse(limits = c(540, 0),
                   breaks = seq(0, 540, 50),
@@ -71,7 +69,7 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   labs(x = "Time (Ma)",
        y = "Cell proportion",
        fill = "Latitudinal standard \ndeviation") +
-  theme(plot.margin = margin(5, 5, 5, 5, "mm"),
+  theme(plot.margin = margin(5, 10, 5, 10, "mm"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
         axis.text = element_text(size = 12),
@@ -97,7 +95,7 @@ df$time <- df$time - 5
 t <- unique(df$time)
 # Set up count categories
 lower <- c(0, 3000, 6000, 9000, 12000)
-upper <- c(3000, 6000, 9000, 12000, 20000)
+upper <- c(3000, 6000, 9000, 12000, 25000)
 cat <- c("0 \U2013 3000", "3000 \U2013 6000", 
          "6000 \U2013 9000", "9000 \U2013 12000", ">12000")
 # Set up counts df
@@ -133,8 +131,8 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.55, label = "Matthews", angle = 90)) + 
-  geom_text(aes(x = 205, y = 0.55, label = "Seton", angle = 90)) + 
+  geom_text(aes(x = 415, y = 0.48, label = "MATTHEWS2016", angle = 90), size = 3) + 
+  geom_text(aes(x = 205, y = 0.48, label = "SETON2012", angle = 90), size = 3) + 
   scale_fill_manual(values = pal2) +
   scale_x_reverse(limits = c(540, 0),
                   breaks = seq(0, 540, 50),
@@ -145,7 +143,7 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   labs(x = "Time (Ma)",
        y = "Cell proportion",
        fill = "Minimum-spanning \ntree length (km)") +
-  theme(plot.margin = margin(5, 5, 5, 5, "mm"),
+  theme(plot.margin = margin(5, 10, 5, 10, "mm"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
         axis.text = element_text(size = 12),
@@ -167,8 +165,8 @@ p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",
                font.label = list(size = 20))
 # Save plot
 ggsave(filename = "./figures/cell_proportions.png",
-       height = 270,
-       width = 280,
+       height = 280,
+       width = 260,
        units = "mm",
        dpi = 600)
 

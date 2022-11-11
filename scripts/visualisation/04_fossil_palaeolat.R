@@ -20,9 +20,9 @@ for (i in files) {
 }
 
 # Get stats
-df$min <- rowMins(as.matrix.data.frame(df[5:8]), na.rm = TRUE)
-df$median <- rowMedians(as.matrix.data.frame(df[5:8]), na.rm = TRUE)
-df$max <- rowMaxs(as.matrix.data.frame(df[5:8]), na.rm = TRUE)
+df$min <- rowMins(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
+df$median <- rowMedians(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
+df$max <- rowMaxs(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 
 # Remove Inf data for plotting
 df <- df[-which(is.infinite(df$max) == TRUE), ]
@@ -68,9 +68,9 @@ for (i in files) {
 }
 
 # Get stats
-df$min <- rowMins(as.matrix.data.frame(df[5:8]), na.rm = TRUE)
-df$median <- rowMedians(as.matrix.data.frame(df[5:8]), na.rm = TRUE)
-df$max <- rowMaxs(as.matrix.data.frame(df[5:8]), na.rm = TRUE)
+df$min <- rowMins(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
+df$median <- rowMedians(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
+df$max <- rowMaxs(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 
 # Plot
 p2 <- ggplot(data = df[, 1:4], aes(x = time, y = median)) +

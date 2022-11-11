@@ -6,14 +6,15 @@
 library(ggplot2)
 library(ggpubr)
 library(deeptime)
-pal <- c('#41ab5d', '#004529', '#49006a', '#dd3497')
+pal <- rev(c('#41ab5d','#006837','#004529', '#dd3497','#7a0177','#49006a'))
+shps <- c(3, 10, 15, 16, 17, 18, 20)
 # Coral reef --------------------------------------------------------------
 # List files
 files <- list.files("./data/fossil_palaeocoordinates/corals/", full.names = TRUE)
 # Models
 models <- sub("_.*", "", sub(".*/", "", files))
 # Coral Reefs
-df <- data.frame(time = rep(seq(from = 5, to = 195, by = 10), times = 4),
+df <- data.frame(time = rep(seq(from = 5, to = 195, by = 10), times = 6),
                  entity = "Coral Reef",
                  max = NA,
                  model = rep(models, each = 20))
@@ -33,6 +34,8 @@ for (i in files) {
   for (j in bins) {
     # If no vals available skip
     if (nrow(tmp[which(tmp$time == j), ]) == 0) {next}
+    # If all values are NA, skip
+    if (all(is.na(tmp[which(tmp$time == j), c("palaeolat")]))) {next}
     # Get maximum absolute latitude
     val <- max(abs(tmp[which(tmp$time == j), c("palaeolat")]), na.rm = TRUE)
     # Add to dataframe
@@ -40,18 +43,14 @@ for (i in files) {
   }
 }
 
-# Rename models for plotting
-df$model[which(df$model == "GOLONKA")] <- "Golonka"
-df$model[which(df$model == "MATTHEWS2016")] <- "Matthews"
-df$model[which(df$model == "PALEOMAP")] <- "Scotese"
-df$model[which(df$model == "SETON2012")] <- "Seton"
-
 # Calculate ribbon coordinates
 rib <- data.frame(time = bins, max = NA, min = NA, model = NA)
 for (i in 1:nrow(rib)) {
-  rib$max[i] <- max(df$max[which(df$time == rib$time[i])])
-  rib$min[i] <- min(df$max[which(df$time == rib$time[i])])
+  rib$max[i] <- max(df$max[which(df$time == rib$time[i])], na.rm = TRUE)
+  rib$min[i] <- min(df$max[which(df$time == rib$time[i])], na.rm = TRUE)
 }
+# Update -Inf values (no coral reefs in this bin)
+rib[which(is.infinite(rib$max)), c("max", "min")] <- NA
 
 p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
         #geom_line(size = 1) +
@@ -65,8 +64,10 @@ p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
              colour = "Model",
              shape = "Model") +
         scale_colour_manual(values = pal) +
-        scale_shape_manual(values = c(15, 16, 17, 18)) +
-        scale_y_continuous(limits = c(10, 70)) + 
+        scale_shape_manual(values = shps) +
+        scale_y_continuous(limits = c(0, 75), 
+                           breaks = seq(0, 75, 30),
+                           labels = seq(0, 75, 30)) + 
         scale_x_reverse(limits = c(200, 0)) +
         theme(plot.margin = margin(5, 10, 5, 10, "mm"),
               axis.title.x = element_text(size = 14),
@@ -74,21 +75,22 @@ p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
               axis.text = element_text(size = 12),
               legend.background = element_blank(),
               legend.title = element_text(size = 10),
-              legend.text = element_text(size = 10),
-              legend.key.size = unit(0.5, "cm"),
-              legend.position = c(0.93, 0.18),
+              legend.text = element_text(size = 8),
+              legend.key.size = unit(0.4, "cm"),
+              legend.position = c(0.83, 0.85),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), 
               panel.background = element_blank(),
               panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
-        deeptime::coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
+        deeptime::coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line")) +
+  guides(colour=guide_legend(ncol=2))
 # Crocs -------------------------------------------------------------------
 # List files
 files <- list.files("./data/fossil_palaeocoordinates/crocs/", full.names = TRUE)
 # Models
 models <- sub("_.*", "", sub(".*/", "", files))
 # Crocs
-df <- data.frame(time = rep(seq(from = 5, to = 195, by = 10), times = 4),
+df <- data.frame(time = rep(seq(from = 5, to = 195, by = 10), times = 6),
                  entity = "Crocodylomorphs",
                  max = NA,
                  model = rep(models, each = 20))
@@ -116,12 +118,6 @@ for (i in files) {
   }
 }
 
-# Rename models for plotting
-df$model[which(df$model == "GOLONKA")] <- "Golonka"
-df$model[which(df$model == "MATTHEWS2016")] <- "Matthews"
-df$model[which(df$model == "PALEOMAP")] <- "Scotese"
-df$model[which(df$model == "SETON2012")] <- "Seton"
-
 # Calculate ribbon coordinates
 rib <- data.frame(time = bins, max = NA, min = NA, model = NA)
 for (i in 1:nrow(rib)) {
@@ -141,8 +137,10 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
              colour = "Model",
              shape = "Model") +
         scale_colour_manual(values = pal) +
-        scale_shape_manual(values = c(15, 16, 17, 18)) +
-        scale_y_continuous(limits = c(30, 90)) + 
+        scale_shape_manual(values = shps) +
+        scale_y_continuous(limits = c(30, 90), 
+                           breaks = seq(30, 90, 30),
+                           labels = seq(30, 90, 30)) + 
         scale_x_reverse(limits = c(200, 0)) +
         theme(plot.margin = margin(5, 10, 5, 10, "mm"),
               axis.title.x = element_text(size = 14),
@@ -150,14 +148,15 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
               axis.text = element_text(size = 12),
               legend.background = element_blank(),
               legend.title = element_text(size = 10),
-              legend.text = element_text(size = 10),
-              legend.key.size = unit(0.5, "cm"),
-              legend.position = c(0.93, 0.82),
+              legend.text = element_text(size = 8),
+              legend.key.size = unit(0.4, "cm"),
+              legend.position = c(0.18, 0.85),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), 
               panel.background = element_blank(),
               panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
-        deeptime::coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
+        deeptime::coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line")) +
+  guides(colour=guide_legend(ncol=2))
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot

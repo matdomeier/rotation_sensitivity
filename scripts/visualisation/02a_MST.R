@@ -52,8 +52,8 @@ for (t in seq(from = 10, to = 540, by = 10)) {
   # Create individual time shot plot
   p <-  ggplot(data = grid1, aes(fill = MST_length)) +
     scale_fill_stepsn(colours = pal,
-                      limits = c(0, 20000),
-                      breaks = c(0, 3000, 6000, 9000, 12000, 20000)) +
+                      limits = c(0, 25000),
+                      breaks = c(0, 3000, 6000, 9000, 12000, 25000)) +
     geom_sf(colour = "black", size = 0.1) +
     labs(title = paste0("Time step: ", t,
                         " Ma"),
