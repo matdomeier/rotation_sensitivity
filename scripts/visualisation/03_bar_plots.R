@@ -15,7 +15,9 @@ pal2 <- c('#fde0dd','#fa9fb5','#dd3497','#7a0177','#49006a')
 df <- readRDS("./results/lat_SD_LF.RDS")
 # Drop geometry
 df <- sf::st_drop_geometry(df)
-# Update time to update bin midpoint (0--10)
+# Drop time 0
+df <- df[which(df$time != 0), ]
+# Update time to update bin midpoint (10 = 0 to 10)
 df$time <- df$time - 5
 # Unique time intervals 
 t <- unique(df$time)
@@ -83,13 +85,15 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
         panel.border = element_rect(colour = "black", fill = NA, size = 1))
 # Add geological timescale
 p1 <- p1 + coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
-
+p1
 # MST length -------------------------------------------------------------
 # Load data and drop lng/lat column
 df <- readRDS("./results/MST_length_LF.RDS")
 # Drop geometry
 df <- sf::st_drop_geometry(df)
-# Update time to update bin midpoint (0--10)
+# Drop time 0
+df <- df[which(df$time != 0), ]
+# Update time to update bin midpoint (10 = 0 to 10)
 df$time <- df$time - 5
 # Unique time intervals 
 t <- unique(df$time)
@@ -157,8 +161,6 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
         panel.border = element_rect(colour = "black", fill = NA, size = 1))
 # Add geological timescale
 p2 <- p2 + coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
-
-
 # Combine plots -----------------------------------------------------------
 # Arrange plot
 p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",

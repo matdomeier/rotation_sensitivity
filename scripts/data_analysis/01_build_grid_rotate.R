@@ -4,6 +4,7 @@
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
 # devtools::install_github("r-barnes/dggridR")
+# devtools::install_github("palaeoverse-community/palaeoverse") # ver 1.0.0.9
 library(dggridR)
 library(palaeoverse)
 library(sf)
@@ -67,7 +68,7 @@ for (m in models) {
     # Add age
     tmp$age <- x
     # Rotate cell centroids
-    out <- palaeorotate(occdf = tmp, method = "point", model = m, round = 3)
+    out <- palaeorotate(occdf = tmp, method = "point", model = m)
     # Format output
     out <- out[, c("p_lng", "p_lat")]
     colnames(out) <- c(paste0("lng_", x), paste0("lat_", x))

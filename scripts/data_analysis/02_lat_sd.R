@@ -46,8 +46,8 @@ for (i in 1:length(lat_indx)) {
                     PALEOMAP[, wc],
                     MERDITH2021[, wc],
                     MULLER2019[, wc])
-  mat <- as.matrix.data.frame(mat)
-  df_sd[, i] <- rowSds(mat, na.rm = TRUE)
+  row_sd <- apply(mat, 1, sd, na.rm = TRUE)
+  df_sd[, i] <- row_sd
 }
 
 # Tidy up and save --------------------------------------------------------

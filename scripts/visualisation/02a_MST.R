@@ -3,7 +3,7 @@
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # WARNING: This script can take a while to run depending on the user's PC.
-# If you wish to test the script, you can reduce the sequence in line 32.
+# If you wish to test the script, you can reduce the sequence in line 36.
 # Load libraries ----------------------------------------------------------
 library(dggridR)
 library(sf)
@@ -16,6 +16,8 @@ pal <- c('#fde0dd','#fa9fb5','#dd3497','#7a0177','#49006a', 'black')
 # -------------------------------------------------------------------------
 # Load data
 mst_length <- readRDS("./results/MST_length.RDS")
+# Set up 0 column for plotting
+mst_length$MST_length_0 <- 0
 
 # Global initial grid
 init_grid <- dgconstruct(spacing = 150)
@@ -31,10 +33,9 @@ grid <- dgcellstogrid(dggs = init_grid, cells = mst_length$seqnum)
 # Loop to plot MST length over time out of this grid ----------------------
 # Create empty df
 df <- data.frame()
-for (t in seq(from = 10, to = 540, by = 10)) {
+for (t in seq(from = 0, to = 540, by = 10)) {
   # Column name in MST length dataset
   col <- paste0("MST_length_", t)
-  
   # Merge with the lat sd values at t
   grid1 <- merge(grid, mst_length[,c("seqnum", col)], by = c("seqnum"))
   # Transform to Robinson projection and fix cells crossing dateline
@@ -43,7 +44,7 @@ for (t in seq(from = 10, to = 540, by = 10)) {
   trans_grid <- sf::st_as_sf(trans_grid)
   # Drop old geometry
   grid1 <- sf::st_drop_geometry(grid1)
-  grid1 <- st_bind_cols(trans_grid, grid1)
+  grid1 <- cbind(trans_grid, grid1)
   
   # Update column name for binding 
   colnames(grid1)[2] <- "MST_length"
