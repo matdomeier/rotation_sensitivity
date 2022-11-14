@@ -15,10 +15,6 @@ pal2 <- c('#fde0dd','#fa9fb5','#dd3497','#7a0177','#49006a')
 df <- readRDS("./results/lat_SD_LF.RDS")
 # Drop geometry
 df <- sf::st_drop_geometry(df)
-# Drop time 0
-df <- df[which(df$time != 0), ]
-# Update time to update bin midpoint (10 = 0 to 10)
-df$time <- df$time - 5
 # Unique time intervals 
 t <- unique(df$time)
 # Set up count categories
@@ -59,10 +55,10 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.48, label = "MATTHEWS2016", angle = 90), size = 3) + 
-  geom_text(aes(x = 205, y = 0.48, label = "SETON2012", angle = 90), size = 3) + 
+  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 3.5) + 
+  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 3.5) + 
   scale_fill_manual(values = pal1) +
-  scale_x_reverse(limits = c(540, 0),
+  scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
                   labels = seq(0, 540, 50)) + 
   scale_y_continuous(limits = c(0, 1), 
@@ -84,17 +80,13 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
         panel.background = element_blank(),
         panel.border = element_rect(colour = "black", fill = NA, size = 1))
 # Add geological timescale
-p1 <- p1 + coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
+p1 <- p1 + coord_geo(pos = "bottom", xlim = c(545, 0), fill = "grey95", height = unit(1.5, "line"))
 p1
 # MST length -------------------------------------------------------------
 # Load data and drop lng/lat column
 df <- readRDS("./results/MST_length_LF.RDS")
 # Drop geometry
 df <- sf::st_drop_geometry(df)
-# Drop time 0
-df <- df[which(df$time != 0), ]
-# Update time to update bin midpoint (10 = 0 to 10)
-df$time <- df$time - 5
 # Unique time intervals 
 t <- unique(df$time)
 # Set up count categories
@@ -135,10 +127,10 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.48, label = "MATTHEWS2016", angle = 90), size = 3) + 
-  geom_text(aes(x = 205, y = 0.48, label = "SETON2012", angle = 90), size = 3) + 
+  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 3.5) + 
+  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 3.5) + 
   scale_fill_manual(values = pal2) +
-  scale_x_reverse(limits = c(540, 0),
+  scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
                   labels = seq(0, 540, 50)) + 
   scale_y_continuous(limits = c(0, 1), 
@@ -160,7 +152,7 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
         panel.background = element_blank(),
         panel.border = element_rect(colour = "black", fill = NA, size = 1))
 # Add geological timescale
-p2 <- p2 + coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
+p2 <- p2 + coord_geo(pos = "bottom", xlim = c(545, 0), fill = "grey95", height = unit(1.5, "line"))
 # Combine plots -----------------------------------------------------------
 # Arrange plot
 p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",
