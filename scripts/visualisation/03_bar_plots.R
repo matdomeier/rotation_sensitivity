@@ -55,8 +55,8 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 3.5) + 
-  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 3.5) + 
+  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 4.5) + 
+  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 4.5) + 
   scale_fill_manual(values = pal1) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
@@ -127,8 +127,8 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 3.5) + 
-  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 3.5) + 
+  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 4.5) + 
+  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 4.5) + 
   scale_fill_manual(values = pal2) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),

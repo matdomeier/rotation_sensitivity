@@ -23,6 +23,8 @@ for (i in files) {
 df$min <- rowMins(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 df$median <- rowMedians(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 df$max <- rowMaxs(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
+# Number of models - NAs
+df$count <- 6 - rowSums2(is.na(df[5:10]), na.rm = TRUE)
 
 # Remove Inf data for plotting
 df <- df[-which(is.infinite(df$max) == TRUE), ]
@@ -30,7 +32,7 @@ df <- df[-which(is.infinite(df$max) == TRUE), ]
 # Plot
 p1 <- ggplot(data = df[, 1:4], aes(x = time, y = median)) +
   geom_errorbar(aes(ymin = min, ymax = max), colour = "#006837") +
-  geom_point(shape = 21, size = 2.5, colour = "black", fill = "#006837", alpha = 0.7) +
+  geom_point(shape = 21, size = log(df$count), colour = "black", fill = "#006837", alpha = 0.7) +
   scale_y_continuous(limits = c(-90, 90),
                      labels = seq(-90, 90, 30),
                      breaks = seq(-90, 90, 30)) + 
@@ -52,7 +54,6 @@ p1 <- ggplot(data = df[, 1:4], aes(x = time, y = median)) +
         panel.background = element_blank(),
         panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
   deeptime::coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line"))
-
 # Crocs ------------------------------------------------------------------
 # List files
 files <- list.files("./data/fossil_palaeocoordinates/crocs/", full.names = TRUE)
@@ -71,11 +72,13 @@ for (i in files) {
 df$min <- rowMins(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 df$median <- rowMedians(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 df$max <- rowMaxs(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
+# Number of models - NAs
+df$count <- 6 - rowSums2(is.na(df[5:10]), na.rm = TRUE)
 
 # Plot
 p2 <- ggplot(data = df[, 1:4], aes(x = time, y = median)) +
   geom_errorbar(aes(ymin = min, ymax = max), colour = "#7a0177") +
-  geom_point(shape = 21, size = 2.5, colour = "black", fill = "#7a0177", alpha = 0.7) +
+  geom_point(shape = 21, size = log(df$count), colour = "black", fill = "#7a0177", alpha = 0.7) +
   scale_y_continuous(limits = c(-90, 90),
                      labels = seq(-90, 90, 30),
                      breaks = seq(-90, 90, 30)) + 

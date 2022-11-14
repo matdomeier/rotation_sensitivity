@@ -7,55 +7,53 @@ library(ggplot2)
 library(ggpubr)
 library(sf)
 # Load --------------------------------------------------------------------
-# Load polygons and project to robinson
+# Set up bounding box
+ras <- raster::raster(res = 5, val = 1)
+ras <- rasterToPolygons(x = ras, dissolve = TRUE)
+# Robinson projection
+bb <- sf::st_as_sf(x = ras)
+bb <- st_transform(x = bb, crs = "ESRI:54030")
 
+# Load polygons and project to robinson
 # Golonka polygons
 golonka <- read_sf("./data/continental_polygons/GOLONKA/GOLONKA_PresentDay_ContinentalPolygons.shp")
-# Robinson projection
-golonka <- st_transform(x = golonka, crs = "ESRI:54030")
 
 # Scotese polygons
 paleomap <- read_sf("./data/continental_polygons/PALEOMAP/PALEOMAP_PresentDay_ContinentalPolygons.shp")
-# Robinson projection
-paleomap <- st_transform(x = paleomap, crs = "ESRI:54030")
 
 # Matthews polygons
 matthews <- read_sf("./data/continental_polygons/MATTHEWS2016_pmag_ref/MATTHEWS2016_pmag_ref_PresentDay_ContinentalPolygons.shp")
-# Robinson projection
-matthews <- st_transform(x = matthews, crs = "ESRI:54030")
 
 # Seton polygons
 seton <- read_sf("./data/continental_polygons/SETON2012/SETON2012_PresentDay_ContinentalPolygons.shp")
-# Robinson projection
-seton <- st_transform(x = seton, crs = "ESRI:54030")
 
 # Muller polygons
 muller <- read_sf("./data/continental_polygons/MULLER2019/MULLER2019_PresentDay_ContinentalPolygons.shp")
-# Robinson projection
-muller <- st_transform(x = muller, crs = "ESRI:54030")
 
 # Merdith polygons
 merdith <- read_sf("./data/continental_polygons/MERDITH2021/MERDITH2021_PresentDay_ContinentalPolygons.shp")
-# Robinson projection
-merdith <- st_transform(x = merdith, crs = "ESRI:54030")
 
 # Plot --------------------------------------------------------------------
 # Plot function
-plot_map <- function(x, main){
+plot_map <- function(x, main, bb){
   ggplot(x) + 
-    geom_sf(size = 0.25) +
+    geom_sf(data = bb, fill = "lightblue", col = NA) +
+    geom_sf(size = 0.1) +
     labs(title = main) +
-    theme_minimal() +
+    theme_void() +
     theme(
-      plot.title = element_text(hjust = 0.5))
+      plot.margin = margin(5, 5, 5, 5, "mm"),
+      axis.text = element_blank(),
+      plot.title = element_text(hjust = 0.5)) +
+    coord_sf(crs = sf::st_crs("ESRI:54030"))
 }
 # Create plots
-p1 <- plot_map(seton, main = "Seton et al. (2012)")
-p2 <- plot_map(golonka, main = "Wright et al. (2013)")
-p3 <- plot_map(matthews, main = "Matthews et al. (2016)")
-p4 <- plot_map(paleomap, main = "Scotese & Wright (2018)")
-p5 <- plot_map(muller, main = "M\U00FCller et al. (2019)")
-p6 <- plot_map(merdith, main = "Merdith et al. (2021)")
+p1 <- plot_map(seton, main = "Seton et al. (2012)", bb = bb)
+p2 <- plot_map(golonka, main = "Wright et al. (2013)", bb = bb)
+p3 <- plot_map(matthews, main = "Matthews et al. (2016)", bb = bb)
+p4 <- plot_map(paleomap, main = "Scotese & Wright (2018)", bb = bb)
+p5 <- plot_map(muller, main = "M\U00FCller et al. (2019)", bb = bb)
+p6 <- plot_map(merdith, main = "Merdith et al. (2021)", bb = bb)
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot
