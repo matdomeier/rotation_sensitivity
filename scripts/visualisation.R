@@ -37,3 +37,7 @@ rm(list = ls())
 source("./scripts/visualisation/06_polygon_maps.R") 
 rm(list = ls())
 
+# Generate Cambrian polygon maps
+source("./scripts/visualisation/07_cambrian_polygon_maps.R") 
+rm(list = ls())
+
