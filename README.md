@@ -15,7 +15,7 @@ To cite the paper:
 
 ## Study details
 
-In this study, we evaluate the influence of Global Plate Model choice on reconstructions of the Earth's continental surface over geological timescales. Understanding this uncertainty is significant for constraining the distribution of organisms in deep time. Our study focused on six widely used open-source models available via the [GPlates Web Service](https://gwsdoc.gplates.org/reconstruction-models):
+In this study, we evaluate the influence of Global Plate Model choice on reconstructions of the Earth's continental surface over geological timescales. Understanding this uncertainty is key to constraining the distribution of organisms in the past. This has implications for our understanding of deep time macroevolutionary and macroecolgical patterns, as well as palaeoclimatic reconstructions. Our study focused on six widely used open-source models, which are available via the [GPlates Web Service](https://gwsdoc.gplates.org/reconstruction-models):
 
 * MERDITH model (Merdith et al., 2021) - GPlates ID = MERDITH2021
 * MÜLLER model (Müller et al., 2019) - GPlates ID = MULLER2019
@@ -24,7 +24,7 @@ In this study, we evaluate the influence of Global Plate Model choice on reconst
 * GOLONKA model (Wright et al., 2013) - GPlates ID = GOLONKA
 * SETON model (Seton et al., 2012) - GPlates ID = SETON2012
 
-We first adopt a simulation approach to evaluate spatiotemporal discrepancies in palaeogeographic reconstructions between the six models. Subsequently, using empirical data, we reconstructed the palaeodistribution of two entities that serve as proxies of tropical/subtropical conditions: terrestrial crocodylomorphs and coral reefs. The latter approach (with empirical data) covers the last 200 Myr, and aims to illustrate the impact of model choice within a palaeobiological framework.
+In this work, we first adopt a simulation approach to evaluate spatiotemporal discrepancies in palaeogeographic reconstructions between the six Global Plate Models. Subsequently, using empirical data, we reconstruct the palaeodistribution of two entities which serve as proxies of past tropical/subtropical conditions: terrestrial crocodylomorphs and coral reefs. The latter approach (with empirical data) covers the last 200 Myr, and aims to illustrate the impact of model choice within a palaeobiological framework.
 
 -------
 ## Repository structure
@@ -44,4 +44,4 @@ The workflow and documentation for data analysis can be found in: `/scripts/data
 
 The workflow for data visualisation can be found in: `/scripts/visualiation.R`.
 
-Documentation and comments relating to the workflow can be found within the aforementioned scripts, as well as the subscripts.
+Documentation and comments relating to the workflow can be found within the aforementioned scripts, as well as the relevant subscripts.
