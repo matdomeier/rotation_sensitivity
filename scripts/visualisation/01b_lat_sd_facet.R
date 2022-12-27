@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------- #
-# Purpose: Plot Plot MST length maps
+# Purpose: Plot MST length maps
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
@@ -12,7 +12,7 @@ pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529', 'black')
 df <- readRDS("./results/lat_SD_LF.RDS")
 # Ages to plot
 ages <- c(60, 120, 180, 240, 300, 360, 420, 480, 540)
-# Subset df
+# Subset df based on ages specified above
 df <- df[which(df$time %in% ages), ]
 df$time_lab <- paste0(df$time, " Ma")
 # Set factor levels
