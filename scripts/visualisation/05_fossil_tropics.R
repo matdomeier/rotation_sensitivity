@@ -43,6 +43,10 @@ for (i in files) {
   }
 }
 
+# Save df, for correlation analysis
+saveRDS(object = df,
+        file = "./data/fossil_MaxLat_AllModels/corals.RDS")
+
 # Calculate ribbon coordinates
 rib <- data.frame(time = bins, max = NA, min = NA, model = NA)
 for (i in 1:nrow(rib)) {
@@ -117,6 +121,10 @@ for (i in files) {
     df$max[which(df$time == j & df$model == mdl)] <- val
   }
 }
+
+# Save df, for correlation analysis
+saveRDS(object = df,
+        file = "./data/fossil_MaxLat_AllModels/crocs.RDS")
 
 # Calculate ribbon coordinates
 rib <- data.frame(time = bins, max = NA, min = NA, model = NA)
