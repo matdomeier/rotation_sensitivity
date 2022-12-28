@@ -41,3 +41,7 @@ rm(list = ls())
 source("./scripts/visualisation/07_cambrian_polygon_maps.R") 
 rm(list = ls())
 
+# Generate models phylogeny
+source("./scripts/visualisation/08_models_phylogeny.R") 
+rm(list = ls())
+
