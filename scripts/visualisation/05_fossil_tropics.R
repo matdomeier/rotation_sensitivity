@@ -138,9 +138,9 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
              shape = "Model") +
         scale_colour_manual(values = pal) +
         scale_shape_manual(values = shps) +
-        scale_y_continuous(limits = c(30, 90), 
-                           breaks = seq(30, 90, 15),
-                           labels = seq(30, 90, 15)) + 
+        scale_y_continuous(limits = c(15, 90), 
+                           breaks = seq(15, 90, 15),
+                           labels = seq(15, 90, 15)) + 
         scale_x_reverse(limits = c(200, 0)) +
         theme(plot.margin = margin(5, 10, 5, 10, "mm"),
               axis.title.x = element_text(size = 14),
