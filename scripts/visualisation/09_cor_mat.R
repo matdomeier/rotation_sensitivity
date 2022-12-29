@@ -14,7 +14,7 @@ equiv_names <- c("GOLONKA" = "WR13",
                  "PALEOMAP" = "SCO18",
                  "SETON2012" = "SET12")
 ## Core function ---------------------------------------------------------
-correlation_plot <- function(org = c("corals", "crocs"), title, side = c("upper", "lower")){
+correlation_plot <- function(org = c("corals", "crocs"), side = c("upper", "lower")){
   path <- paste0("./data/fossil_MaxLat_AllModels/", org, ".RDS")
   df <- readRDS(path)
   # Pivot based on models
@@ -36,7 +36,6 @@ correlation_plot <- function(org = c("corals", "crocs"), title, side = c("upper"
   cor_plot <- corrplot(corr = cor_res$r,
                        col.lim = c(0, 1),
                        type = side,
-                       title = title,
                        p.mat = P_VAL,
                        sig.level = 0.05,
                        tl.col = "black")
@@ -50,6 +49,8 @@ png("./figures/correlation_matrix.png",
     unit = "cm",
     res = 100)
 par(mfrow = c(1,2))
-correlation_plot(org = "corals", title = "Coral Reefs", side = "lower")
-correlation_plot(org = "crocs", title = "Terrestrial Crocodylomorphs", side = "upper")
+correlation_plot(org = "corals", side = "lower")
+mtext(text = "Coral Reefs", cex = 1.3)
+correlation_plot(org = "crocs", side = "lower")
+mtext(text = "Terrestrial Crocodylomorphs", cex = 1.3)
 dev.off()
