@@ -37,7 +37,7 @@ correlation_plot <- function(org = c("corals", "crocs"), side = c("upper", "lowe
                        col.lim = c(0, 1),
                        type = side,
                        p.mat = P_VAL,
-                       sig.level = 0.05,
+                       sig.level = 0.05, #only show significant correlations
                        tl.col = "black")
   return(cor_plot)
 }
