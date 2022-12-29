@@ -6,6 +6,7 @@
 library(ggplot2)
 library(ggpubr)
 library(deeptime)
+library(Hmisc)
 pal <- rev(c('#41ab5d','#006837','#004529', '#dd3497','#7a0177','#49006a'))
 shps <- c(3, 10, 15, 16, 17, 18, 20)
 # Coral reef --------------------------------------------------------------
@@ -53,9 +54,15 @@ for (i in 1:nrow(rib)) {
   rib$max[i] <- max(df$max[which(df$time == rib$time[i])], na.rm = TRUE)
   rib$min[i] <- min(df$max[which(df$time == rib$time[i])], na.rm = TRUE)
 }
-# Update -Inf values (no coral reefs in this bin)
+# Update -Inf values (no coral reef in this bin)
 rib[which(is.infinite(rib$max)), c("max", "min")] <- NA
 
+# Correlation between time and ribbon width (i.e palaeolatitudinal uncertainty)
+r <- Hmisc::rcorr(x = rib$time, y = (rib$max - rib$min), type = "pearson")
+print(paste0("Coral time~uncertainty correlation coefficient (r): ", round(r$r[1,2], digits = 2)))
+print(paste0("Coral time~uncertainty correlation p-value (p): ", round(r$P[1,2], digits = 7)))
+
+#plot
 p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
         #geom_line(size = 1) +
         geom_ribbon(data = rib, aes(x = time, ymin = min, ymax = max),
@@ -133,6 +140,12 @@ for (i in 1:nrow(rib)) {
   rib$min[i] <- min(df$max[which(df$time == rib$time[i])])
 }
 
+# Correlation between time and ribbon width (i.e palaeolatitudinal uncertainty)
+r <- Hmisc::rcorr(x = rib$time, y = (rib$max - rib$min), type = "pearson")
+print(paste0("Crocs time~uncertainty correlation coefficient (r): ", round(r$r[1,2], digits = 2)))
+print(paste0("Crocs time~uncertainty correlation p-value (p): ", round(r$P[1,2], digits = 7)))
+
+#plot
 p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
         #geom_line(size = 1) +
         geom_ribbon(data = rib, aes(x = time, ymin = min, ymax = max),
