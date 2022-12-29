@@ -81,7 +81,7 @@ p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
               legend.title = element_text(size = 10),
               legend.text = element_text(size = 8),
               legend.key.size = unit(0.4, "cm"),
-              legend.position = c(0.83, 0.85),
+              legend.position = c(0.78, 0.15),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), 
               panel.background = element_blank(),
@@ -139,7 +139,7 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
                     fill = "grey80",
                     colour = "grey80") +
         geom_point(size = 3, alpha = 0.75) +
-        labs(title = "Crocodylomorphs",
+        labs(title = "Terrestrial Crocodylomorphs",
              x = "Time (Ma)",
              y = "Absolute Palaeolatitude (\u00B0)",
              colour = "Model",
@@ -158,7 +158,7 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
               legend.title = element_text(size = 10),
               legend.text = element_text(size = 8),
               legend.key.size = unit(0.4, "cm"),
-              legend.position = c(0.18, 0.85),
+              legend.position = c(0.78, 0.15),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(), 
               panel.background = element_blank(),
@@ -168,11 +168,11 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot
-p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",
+p <- ggarrange(p1, p2, ncol = 2, nrow = 1, labels = "AUTO",
                font.label = list(size = 20))
 # Save plot
 ggsave(filename = "./figures/tropical_extent.png",
-       height = 250,
-       width = 210,
+       height = 120,
+       width = 360,
        units = "mm",
        dpi = 600)
