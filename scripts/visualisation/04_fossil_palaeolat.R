@@ -5,6 +5,7 @@
 # Load libraries ----------------------------------------------------------
 library(ggplot2)
 library(matrixStats)
+library(Hmisc)
 # Corals -----------------------------------------------------------------
 # List files
 files <- list.files("./data/fossil_palaeocoordinates/corals/", full.names = TRUE)
@@ -28,6 +29,17 @@ df$count <- 6 - rowSums2(is.na(df[5:10]), na.rm = TRUE)
 
 # Remove Inf data for plotting
 df <- df[-which(is.infinite(df$max) == TRUE), ]
+
+#Correlation time~range
+TIME <- sort(unique(df$time)) #time intervals covered by df
+average_range <- c()
+for(t in TIME){
+  ind <- which(df$time == t)
+  average_range <- c(average_range, mean(df$max[ind] - df$min[ind]))
+}
+res <- Hmisc::rcorr(x = TIME, y = average_range, type = "pearson")
+print(paste0("Corals time~uncertainty correlation coefficient (r): ", round(res$r[1,2], digits = 2)))
+print(paste0("Corals time~uncertainty correlation p-value (p): ", round(res$P[1,2], digits = 7)))
 
 # Plot
 p1 <- ggplot(data = df[, 1:4], aes(x = time, y = median)) +
@@ -74,6 +86,18 @@ df$median <- rowMedians(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 df$max <- rowMaxs(as.matrix.data.frame(df[5:10]), na.rm = TRUE)
 # Number of models - NAs
 df$count <- 6 - rowSums2(is.na(df[5:10]), na.rm = TRUE)
+
+#Correlation time~range
+TIME <- sort(unique(df$time)) #time intervals covered by df
+average_range <- c()
+for(t in TIME){
+  ind <- which(df$time == t)
+  average_range <- c(average_range, mean(df$max[ind] - df$min[ind]))
+}
+res <- Hmisc::rcorr(x = TIME, y = average_range, type = "pearson")
+
+print(paste0("Crocs time~uncertainty correlation coefficient (r): ", round(res$r[1,2], digits = 2)))
+print(paste0("Crocs time~uncertainty correlation p-value (p): ", round(res$P[1,2], digits = 7)))
 
 # Plot
 p2 <- ggplot(data = df[, 1:4], aes(x = time, y = median)) +
