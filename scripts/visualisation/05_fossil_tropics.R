@@ -181,11 +181,11 @@ p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot
-p <- ggarrange(p1, p2, ncol = 2, nrow = 1, labels = "AUTO",
+p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",
                font.label = list(size = 20))
 # Save plot
 ggsave(filename = "./figures/tropical_extent.png",
-       height = 120,
-       width = 360,
+       height = 360,
+       width = 120,
        units = "mm",
        dpi = 600)
