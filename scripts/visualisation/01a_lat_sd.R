@@ -56,7 +56,7 @@ for (t in seq(from = 0, to = 540, by = 10)) {
     scale_fill_stepsn(colours = pal,
                       limits = c(0, 90),
                       breaks = c(0, 5, 10, 20, 30, 90)) +
-    geom_sf(colour = "black", size = 0.1) +
+    geom_sf(colour = NA, size = 0.1) +
     labs(title = paste0("Time step: ", t,
                         " Ma"),
          fill = "Latitudinal standard deviation (\u00B0)") +
@@ -73,7 +73,6 @@ for (t in seq(from = 0, to = 540, by = 10)) {
                                   title.theme = element_text(colour = "black"),
                                   title.hjust = 0.5,
                                   title.position = "bottom"))
-  p
   # Save individual time shot
   ggsave(filename = paste0("./figures/standard_deviation/time_step_", t, ".png"),
          plot = p,
@@ -93,7 +92,7 @@ p <-  ggplot(data = df, aes(fill = lat_sd)) +
         scale_fill_stepsn(colours = pal,
                           limits = c(0, 90),
                           breaks = c(0, 5, 10, 20, 30, 90)) +
-        geom_sf(colour = "black", size = 0.1) +
+        geom_sf(colour = NA, size = 0.1) +
         labs(title = paste0("Time step: {as.integer(unique(df$time)[frame])}",
                             " Ma"),
              fill = "Latitudinal standard deviation (\u00B0)") +
