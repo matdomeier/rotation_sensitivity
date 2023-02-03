@@ -91,7 +91,7 @@ p <-  ggplot(data = df, aes(fill = MST_length)) +
   scale_fill_stepsn(colours = pal,
                     limits = c(0, 20000),
                     breaks = c(0, 3000, 6000, 9000, 12000, 20000)) +
-  geom_sf(colour = "black", size = 0.1) +
+  geom_sf(colour = NA, size = 0.1) +
   labs(title = paste0("Time step: {as.integer(unique(df$time)[frame])}",
                       " Ma"),
        fill = "Summed MST length (km)") +
