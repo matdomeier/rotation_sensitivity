@@ -127,7 +127,7 @@ p2 <- ggplot(data = df[, 1:4], aes(x = time, y = median)) +
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot
-p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",
+p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = c("(a)", "(b)"),
                font.label = list(size = 20))
 # Save plot
 ggsave(filename = "./figures/lat_range.png",

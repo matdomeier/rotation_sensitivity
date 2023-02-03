@@ -55,7 +55,8 @@ p8 <- plot_map(merdith_540, main = "540 Ma - Merdith et al. (2021)", bb = bb)
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot
-p <- ggarrange(p1, p5, p2, p6, p3, p7, p4, p8, ncol = 2, nrow = 4, labels = "AUTO",
+p <- ggarrange(p1, p5, p2, p6, p3, p7, p4, p8, ncol = 2, nrow = 4,
+               labels = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)", "(g)", "(h)"),
                font.label = list(size = 18), align = "hv")
 # Save plot
 ggsave(filename = "./figures/cambrian_continental_polygons.png",

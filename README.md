@@ -17,12 +17,12 @@ To cite the paper:
 
 In this study, we evaluate the influence of Global Plate Model choice on reconstructions of the Earth's continental surface over geological timescales. Understanding this uncertainty is key to constraining the distribution of organisms in the past. This has implications for our understanding of deep time macroevolutionary and macroecolgical patterns, as well as palaeoclimatic reconstructions. Our study focused on six widely used open-source models, which are available via the [GPlates Web Service](https://gwsdoc.gplates.org/reconstruction-models):
 
-* MERDITH model (Merdith et al., 2021) - GPlates ID = MERDITH2021
-* MÜLLER model (Müller et al., 2019) - GPlates ID = MULLER2019
-* PALEOMAP model (Scotese & Wright, 2018) - GPlates ID = PALEOMAP
-* MATTHEWS model (Matthews et al., 2016) - GPlates ID = MATTHEWS2016_pmag_ref
-* GOLONKA model (Wright et al., 2013) - GPlates ID = GOLONKA
-* SETON model (Seton et al., 2012) - GPlates ID = SETON2012
+* MER21: MERDITH model (Merdith et al., 2021) - GPlates ID = MERDITH2021
+* MUL19: MÜLLER model (Müller et al., 2019) - GPlates ID = MULLER2019
+* SCO18: PALEOMAP model (Scotese & Wright, 2018) - GPlates ID = PALEOMAP
+* MAT16: MATTHEWS model (Matthews et al., 2016) - GPlates ID = MATTHEWS2016_pmag_ref
+* WR13: GOLONKA model (Wright et al., 2013) - GPlates ID = GOLONKA
+* SET12: SETON model (Seton et al., 2012) - GPlates ID = SETON2012
 
 In this work, we first adopt a simulation approach to evaluate spatiotemporal discrepancies in palaeogeographic reconstructions between the six Global Plate Models. Subsequently, using empirical data, we reconstruct the palaeodistribution of two entities which serve as proxies of past tropical/subtropical conditions: terrestrial crocodylomorphs and coral reefs. The latter approach (with empirical data) covers the last 200 Myr, and aims to illustrate the impact of model choice within a palaeobiological framework.
 

@@ -20,8 +20,8 @@ t <- unique(df$time)
 # Set up count categories
 lower <- c(0, 5, 10, 20, 30)
 upper <- c(5, 10, 20, 30, 90)
-cat <- c("0 \U2013 5\u00B0", "5 \U2013 10\u00B0", 
-         "10 \U2013 20\u00B0", "20 \U2013 30\u00B0", "> 30\u00B0")
+cat <- c("0 \U2013 5", "5 \U2013 10", 
+         "10 \U2013 20", "20 \U2013 30", "> 30")
 # Set up counts df
 counts_df <- data.frame(time = rep(t, each = 5),
                         lower = rep(lower, times = length(t)),
@@ -44,19 +44,19 @@ for (i in t) {
 }
 
 # Set factor levels
-counts_df$cat <- factor(counts_df$cat, levels = c("0 \U2013 5\u00B0", 
-                                                  "5 \U2013 10\u00B0", 
-                                                  "10 \U2013 20\u00B0",
-                                                  "20 \U2013 30\u00B0",
-                                                  "> 30\u00B0"))
+counts_df$cat <- factor(counts_df$cat, levels = c("0 \U2013 5", 
+                                                  "5 \U2013 10", 
+                                                  "10 \U2013 20",
+                                                  "20 \U2013 30",
+                                                  "> 30"))
 
 # Generate plot
 p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 4.5) + 
-  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 4.5) + 
+  geom_text(aes(x = 415, y = 0.9, label = "MAT16", angle = 90), size = 4.5) + 
+  geom_text(aes(x = 205, y = 0.9, label = "SET12", angle = 90), size = 4.5) + 
   scale_fill_manual(values = pal1) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
@@ -66,7 +66,7 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
                      labels = seq(from = 0, to = 1, by = 0.2)) +
   labs(x = "Time (Ma)",
        y = "Cell proportion",
-       fill = "Latitudinal standard \ndeviation") +
+       fill = "Latitudinal standard deviation (\u00B0)") +
   theme(plot.margin = margin(5, 10, 5, 10, "mm"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
@@ -127,8 +127,8 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.97, label = "M", angle = 0), size = 4.5) + 
-  geom_text(aes(x = 205, y = 0.97, label = "S", angle = 0), size = 4.5) + 
+  geom_text(aes(x = 415, y = 0.9, label = "MAT16", angle = 90), size = 4.5) + 
+  geom_text(aes(x = 205, y = 0.9, label = "SET12", angle = 90), size = 4.5) + 
   scale_fill_manual(values = pal2) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
@@ -138,7 +138,7 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
                      labels = seq(from = 0, to = 1, by = 0.2)) +
   labs(x = "Time (Ma)",
        y = "Cell proportion",
-       fill = "Minimum-spanning \ntree length (km)") +
+       fill = "Summed MST length (km)") +
   theme(plot.margin = margin(5, 10, 5, 10, "mm"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
@@ -155,7 +155,7 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
 p2 <- p2 + coord_geo(pos = "bottom", xlim = c(545, 0), fill = "grey95", height = unit(1.5, "line"))
 # Combine plots -----------------------------------------------------------
 # Arrange plot
-p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",
+p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = c("(a)", "(b)"),
                font.label = list(size = 20))
 # Save plot
 ggsave(filename = "./figures/cell_proportions.png",
