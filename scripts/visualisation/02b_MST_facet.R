@@ -25,8 +25,8 @@ p <-  ggplot(data = df, aes(fill = MST_length)) +
   scale_fill_stepsn(colours = pal,
                     limits = c(0, 25000),
                     breaks = c(0, 3000, 6000, 9000, 12000, 25000)) +
-  geom_sf(colour = "black", size = 0.1) +
-  labs(fill = "Minimum-spanning-tree length (km)") +
+  geom_sf(colour = NA, size = 0.1) +
+  labs(fill = "Summed MST length (km)") +
   theme_minimal() +
   theme(
     legend.title = element_text(size = 16),

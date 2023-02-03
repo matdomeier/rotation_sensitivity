@@ -94,7 +94,7 @@ p <-  ggplot(data = df, aes(fill = MST_length)) +
   geom_sf(colour = "black", size = 0.1) +
   labs(title = paste0("Time step: {as.integer(unique(df$time)[frame])}",
                       " Ma"),
-       fill = "Minimum-spanning-tree length (km)") +
+       fill = "Summed MST length (km)") +
   theme_minimal() +
   theme(
     plot.background = element_rect(fill = "white", colour = NA),

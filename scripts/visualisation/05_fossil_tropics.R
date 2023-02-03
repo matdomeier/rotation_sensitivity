@@ -44,6 +44,14 @@
     }
   }
   
+  # Update names for plotting
+  df[which(df$model == "GOLONKA"), c("model")] <- "WR13"
+  df[which(df$model == "PALEOMAP"), c("model")] <- "SCO18"
+  df[which(df$model == "MERDITH2021"), c("model")] <- "MER21"
+  df[which(df$model == "MULLER2019"), c("model")] <- "MUL19"
+  df[which(df$model == "SETON2012"), c("model")] <- "SET12"
+  df[which(df$model == "MATTHEWS2016"), c("model")] <- "MAT16"
+  
   # Save df, for correlation analysis
   saveRDS(object = df,
           file = "./data/fossil_MaxLat_AllModels/corals.RDS")
@@ -58,17 +66,17 @@
   rib[which(is.infinite(rib$max)), c("max", "min")] <- NA
   
   # Correlation between time and ribbon width (i.e palaeolatitudinal uncertainty)
-  r <- Hmisc::rcorr(x = rib$time, y = (rib$max - rib$min), type = "pearson")
+  r <- Hmisc::rcorr(x = rib$time, y = abs(rib$max - rib$min), type = "pearson")
   print(paste0("Coral time~uncertainty correlation coefficient (r): ", round(r$r[1,2], digits = 2)))
   print(paste0("Coral time~uncertainty correlation p-value (p): ", round(r$P[1,2], digits = 7)))
-  
+  print(paste0("Coral average uncertainty is: ", mean(abs(rib$max - rib$min), na.rm = TRUE)))
   #plot
   p1 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
           #geom_line(size = 1) +
           geom_ribbon(data = rib, aes(x = time, ymin = min, ymax = max),
                       fill = "grey80",
                       colour = "grey80") +
-          geom_point(size = 3, alpha = 0.75) +
+          geom_point(size = 3.5, stroke = 0.5, alpha = 0.75) +
           labs(title = "Coral Reefs",
                x = "Time (Ma)",
                y = "Absolute Palaeolatitude (\u00B0)",
@@ -76,19 +84,19 @@
                shape = "Model") +
           scale_colour_manual(values = pal) +
           scale_shape_manual(values = shps) +
-          scale_y_continuous(limits = c(0, 75), 
-                             breaks = seq(0, 75, 15),
-                             labels = seq(0, 75, 15)) + 
+          scale_y_continuous(limits = c(0, 70), 
+                             breaks = seq(0, 70, 15),
+                             labels = seq(0, 70, 15)) + 
           scale_x_reverse(limits = c(200, 0)) +
           theme(plot.margin = margin(5, 10, 5, 10, "mm"),
                 axis.title.x = element_text(size = 14),
                 axis.title.y = element_text(size = 14),
                 axis.text = element_text(size = 12),
                 legend.background = element_blank(),
-                legend.title = element_text(size = 10),
-                legend.text = element_text(size = 8),
-                legend.key.size = unit(0.4, "cm"),
-                legend.position = c(0.78, 0.15),
+                legend.title = element_blank(),
+                legend.text = element_text(size = 12),
+                legend.key.size = unit(0.6, "cm"),
+                legend.position = c(0.85, 0.13),
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank(), 
                 panel.background = element_blank(),
@@ -129,6 +137,14 @@
     }
   }
   
+  # Update names for plotting
+  df[which(df$model == "GOLONKA"), c("model")] <- "WR13"
+  df[which(df$model == "PALEOMAP"), c("model")] <- "SCO18"
+  df[which(df$model == "MERDITH2021"), c("model")] <- "MER21"
+  df[which(df$model == "MULLER2019"), c("model")] <- "MUL19"
+  df[which(df$model == "SETON2012"), c("model")] <- "SET12"
+  df[which(df$model == "MATTHEWS2016"), c("model")] <- "MAT16"
+  
   # Save df, for correlation analysis
   saveRDS(object = df,
           file = "./data/fossil_MaxLat_AllModels/crocs.RDS")
@@ -144,6 +160,7 @@
   r <- Hmisc::rcorr(x = rib$time, y = (rib$max - rib$min), type = "pearson")
   print(paste0("Crocs time~uncertainty correlation coefficient (r): ", round(r$r[1,2], digits = 2)))
   print(paste0("Crocs time~uncertainty correlation p-value (p): ", round(r$P[1,2], digits = 7)))
+  print(paste0("Crocs average uncertainty is: ", mean(abs(rib$max - rib$min), na.rm = TRUE)))
   
   #plot
   p2 <- ggplot(data = df, aes(x = time, y = max, colour = model, shape = model)) +
@@ -151,41 +168,41 @@
           geom_ribbon(data = rib, aes(x = time, ymin = min, ymax = max),
                       fill = "grey80",
                       colour = "grey80") +
-          geom_point(size = 3, alpha = 0.75) +
-          labs(title = "Terrestrial Crocodylomorphs",
+          geom_point(size = 3.5, stroke = 0.5, alpha = 0.75) +
+          labs(title = "Crocodylomorphs",
                x = "Time (Ma)",
                y = "Absolute Palaeolatitude (\u00B0)",
                colour = "Model",
                shape = "Model") +
           scale_colour_manual(values = pal) +
           scale_shape_manual(values = shps) +
-          scale_y_continuous(limits = c(15, 90), 
-                             breaks = seq(15, 90, 15),
-                             labels = seq(15, 90, 15)) + 
+          scale_y_continuous(limits = c(35, 85), 
+                             breaks = seq(35, 85, 15),
+                             labels = seq(35, 85, 15)) + 
           scale_x_reverse(limits = c(200, 0)) +
           theme(plot.margin = margin(5, 10, 5, 10, "mm"),
                 axis.title.x = element_text(size = 14),
                 axis.title.y = element_text(size = 14),
                 axis.text = element_text(size = 12),
                 legend.background = element_blank(),
-                legend.title = element_text(size = 10),
-                legend.text = element_text(size = 8),
-                legend.key.size = unit(0.4, "cm"),
-                legend.position = c(0.78, 0.15),
+                legend.title = element_blank(),
+                legend.text = element_text(size = 12),
+                legend.key.size = unit(0.6, "cm"),
+                legend.position = c(0.16, 0.88),
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank(), 
                 panel.background = element_blank(),
                 panel.border = element_rect(colour = "black", fill = NA, size = 0.5)) +
           deeptime::coord_geo(pos = "bottom", fill = "grey95", height = unit(1.5, "line")) +
     guides(colour=guide_legend(ncol=2))
-  
+
   # Combine plots -----------------------------------------------------------
   # Arrange plot
-  p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = "AUTO",
+  p <- ggarrange(p1, p2, ncol = 1, nrow = 2, labels = c("(a)", "(b)"),
                  font.label = list(size = 20))
   # Save plot
   ggsave(filename = "./figures/tropical_extent.png",
-         height = 360,
-         width = 3600,
+         height = 250,
+         width = 210,
          units = "mm",
          dpi = 600)

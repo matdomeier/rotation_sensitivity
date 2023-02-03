@@ -21,11 +21,11 @@ df$time_lab <- factor(df$time_lab, levels = c("60 Ma", "120 Ma", "180 Ma",
                                               "420 Ma", "480 Ma", "540 Ma"))
 
 # Create facet plot
-p <-  ggplot(data = df, aes(fill = lat_sd)) +
+p <-  ggplot(data = df) +
   scale_fill_stepsn(colours = pal,
                     limits = c(0, 90),
                     breaks = c(0, 5, 10, 20, 30, 90)) +
-  geom_sf(colour = "black", size = 0.1) +
+  geom_sf(aes(fill = lat_sd), size = 0.001, colour = NA) +
   labs(fill = "Latitudinal standard deviation (\u00B0)") +
   theme_minimal() +
   theme(

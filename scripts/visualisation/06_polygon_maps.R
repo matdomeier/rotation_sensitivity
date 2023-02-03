@@ -5,6 +5,7 @@
 # Load libraries ----------------------------------------------------------
 library(ggplot2)
 library(ggpubr)
+library(raster)
 library(sf)
 # Load --------------------------------------------------------------------
 # Set up bounding box
@@ -57,7 +58,8 @@ p6 <- plot_map(merdith, main = "Merdith et al. (2021)", bb = bb)
 
 # Combine plots -----------------------------------------------------------
 # Arrange plot
-p <- ggarrange(p1, p2, p3, p4, p5, p6, ncol = 2, nrow = 3, labels = "AUTO",
+p <- ggarrange(p1, p2, p3, p4, p5, p6, ncol = 2, nrow = 3,
+               labels = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
                font.label = list(size = 18))
 # Save plot
 ggsave(filename = "./figures/continental_polygons.png",
