@@ -58,7 +58,7 @@ for (t in seq(from = 0, to = 540, by = 10)) {
     geom_sf(colour = "black", size = 0.1) +
     labs(title = paste0("Time step: ", t,
                         " Ma"),
-         fill = "Minimum-spanning-tree length (km)") +
+         fill = "Summed MST length (km)") +
     theme_minimal() +
     theme(
       plot.background = element_rect(fill = "white", colour = NA),
