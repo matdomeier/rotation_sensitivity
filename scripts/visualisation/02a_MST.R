@@ -55,7 +55,7 @@ for (t in seq(from = 0, to = 540, by = 10)) {
     scale_fill_stepsn(colours = pal,
                       limits = c(0, 25000),
                       breaks = c(0, 3000, 6000, 9000, 12000, 25000)) +
-    geom_sf(colour = "black", size = 0.1) +
+    geom_sf(colour = NA, size = 0.1) +
     labs(title = paste0("Time step: ", t,
                         " Ma"),
          fill = "Minimum-spanning-tree length (km)") +

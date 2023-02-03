@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------- #
-# Purpose: Plot MST length maps
+# Purpose: Plot lat_sd snapshots
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
@@ -25,7 +25,7 @@ p <-  ggplot(data = df, aes(fill = lat_sd)) +
   scale_fill_stepsn(colours = pal,
                     limits = c(0, 90),
                     breaks = c(0, 5, 10, 20, 30, 90)) +
-  geom_sf(colour = "black", size = 0.1) +
+  geom_sf(colour = NA, size = 0.1) +
   labs(fill = "Latitudinal standard deviation (\u00B0)") +
   theme_minimal() +
   theme(
