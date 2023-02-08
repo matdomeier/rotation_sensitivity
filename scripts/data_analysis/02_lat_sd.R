@@ -8,7 +8,7 @@ library(matrixStats)
 # Analysis ----------------------------------------------------------------
 # Define available models
 models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
-            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
+            "MULLER2016", "SETON2012", "MATTHEWS2016_pmag_ref")
 
 # Load files --------------------------------------------------------------
 for (i in models) {
@@ -23,10 +23,13 @@ ref_coords <- SETON2012[, c("lng", "lat")]
 # Expand dfs to be consistent (use PALEOMAP as reference frame)
 SETON2012[(ncol(SETON2012) + 1):ncol(PALEOMAP)] <- NA
 MATTHEWS2016_pmag_ref[(ncol(MATTHEWS2016_pmag_ref) + 1):ncol(PALEOMAP)] <- NA
+MULLER2016[(ncol(MULLER2016) + 1):ncol(PALEOMAP)] <- NA
+
 
 # Update column names
 colnames(SETON2012) <- colnames(PALEOMAP)
 colnames(MATTHEWS2016_pmag_ref) <- colnames(PALEOMAP)
+colnames(MULLER2016) <- colnames(PALEOMAP)
 
 # Get lat indexes columns for SD calculation
 lat_indx <- grep("lat", colnames(PALEOMAP))
@@ -45,7 +48,7 @@ for (i in 1:length(lat_indx)) {
                     GOLONKA[, wc],
                     PALEOMAP[, wc],
                     MERDITH2021[, wc],
-                    MULLER2019[, wc])
+                    MULLER2016[, wc])
   row_sd <- apply(mat, 1, sd, na.rm = TRUE)
   df_sd[, i] <- row_sd
 }

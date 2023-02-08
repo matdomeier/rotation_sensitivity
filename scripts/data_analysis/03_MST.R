@@ -11,7 +11,7 @@ timescale <- seq(from = 10, to = 540, by = 10)
 # Load model outputs -----------------------------------------------------
 # Define available models
 models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
-            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
+            "MULLER2016", "SETON2012", "MATTHEWS2016_pmag_ref")
 
 for (i in models) {
   assign(i, 
@@ -21,10 +21,12 @@ for (i in models) {
 # Expand dfs to be consistent (use PALEOMAP as reference frame)
 SETON2012[(ncol(SETON2012) + 1):ncol(PALEOMAP)] <- NA
 MATTHEWS2016_pmag_ref[(ncol(MATTHEWS2016_pmag_ref) + 1):ncol(PALEOMAP)] <- NA
+MULLER2016[(ncol(MULLER2016) + 1):ncol(PALEOMAP)] <- NA
 
 # Update column names
 colnames(SETON2012) <- colnames(PALEOMAP)
 colnames(MATTHEWS2016_pmag_ref) <- colnames(PALEOMAP)
+colnames(MULLER2016) <- colnames(PALEOMAP)
 
 # Calculate MST ----------------------------------------------------------
 # Generate empty matrix for populating
@@ -50,7 +52,7 @@ for (t in timescale) {
                  PALEOMAP[i, col_indx],
                  SETON2012[i, col_indx],
                  MERDITH2021[i, col_indx],
-                 MULLER2019[i, col_indx])
+                 MULLER2016[i, col_indx])
     # Remove NAs
     tmp <- na.omit(tmp)
     # If only one point available no distance is calculated
@@ -76,4 +78,3 @@ for (t in timescale) {
 colnames(MST_df) <- cnames
 # Save data
 saveRDS(MST_df, "./results/MST_length.RDS")
-

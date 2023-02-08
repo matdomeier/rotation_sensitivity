@@ -48,13 +48,9 @@
   df[which(df$model == "GOLONKA"), c("model")] <- "WR13"
   df[which(df$model == "PALEOMAP"), c("model")] <- "SCO18"
   df[which(df$model == "MERDITH2021"), c("model")] <- "MER21"
-  df[which(df$model == "MULLER2019"), c("model")] <- "MUL19"
+  df[which(df$model == "MULLER2016"), c("model")] <- "MUL16"
   df[which(df$model == "SETON2012"), c("model")] <- "SET12"
   df[which(df$model == "MATTHEWS2016"), c("model")] <- "MAT16"
-  
-  # Save df, for correlation analysis
-  saveRDS(object = df,
-          file = "./data/fossil_MaxLat_AllModels/corals.RDS")
   
   # Calculate ribbon coordinates
   rib <- data.frame(time = bins, max = NA, min = NA, model = NA)
@@ -141,13 +137,9 @@
   df[which(df$model == "GOLONKA"), c("model")] <- "WR13"
   df[which(df$model == "PALEOMAP"), c("model")] <- "SCO18"
   df[which(df$model == "MERDITH2021"), c("model")] <- "MER21"
-  df[which(df$model == "MULLER2019"), c("model")] <- "MUL19"
+  df[which(df$model == "MULLER2016"), c("model")] <- "MUL16"
   df[which(df$model == "SETON2012"), c("model")] <- "SET12"
   df[which(df$model == "MATTHEWS2016"), c("model")] <- "MAT16"
-  
-  # Save df, for correlation analysis
-  saveRDS(object = df,
-          file = "./data/fossil_MaxLat_AllModels/crocs.RDS")
   
   # Calculate ribbon coordinates
   rib <- data.frame(time = bins, max = NA, min = NA, model = NA)

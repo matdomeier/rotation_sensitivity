@@ -54,8 +54,10 @@ counts_df$cat <- factor(counts_df$cat, levels = c("0 \U2013 5",
 p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
+  geom_vline(xintercept = 230) + 
   geom_vline(xintercept = 410) + 
   geom_text(aes(x = 415, y = 0.9, label = "MAT16", angle = 90), size = 4.5) + 
+  geom_text(aes(x = 235, y = 0.9, label = "MUL16", angle = 90), size = 4.5) + 
   geom_text(aes(x = 205, y = 0.9, label = "SET12", angle = 90), size = 4.5) + 
   scale_fill_manual(values = pal1) +
   scale_x_reverse(limits = c(545, -5),
@@ -126,8 +128,10 @@ counts_df$cat <- factor(counts_df$cat, levels = c("0 \U2013 3000",
 p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
   geom_vline(xintercept = 200) + 
+  geom_vline(xintercept = 230) + 
   geom_vline(xintercept = 410) + 
   geom_text(aes(x = 415, y = 0.9, label = "MAT16", angle = 90), size = 4.5) + 
+  geom_text(aes(x = 235, y = 0.9, label = "MUL16", angle = 90), size = 4.5) + 
   geom_text(aes(x = 205, y = 0.9, label = "SET12", angle = 90), size = 4.5) + 
   scale_fill_manual(values = pal2) +
   scale_x_reverse(limits = c(545, -5),

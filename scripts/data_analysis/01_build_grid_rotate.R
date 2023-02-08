@@ -3,8 +3,6 @@
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
-# devtools::install_github("r-barnes/dggridR")
-# devtools::install_github("palaeoverse-community/palaeoverse") # ver 1.0.0.9
 library(dggridR)
 library(palaeoverse)
 library(sf)
@@ -23,8 +21,12 @@ xy <- sp::SpatialPointsDataFrame(coords = xy[, c("lng", "lat")],
 proj4string(xy) <- CRS("+proj=longlat +datum=WGS84")
 # Remove spatial points not present in all models -------------------------
 # Define models
-models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
-            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
+models <- c("MERDITH2021",
+            "PALEOMAP",
+            "GOLONKA",
+            "SETON2012",
+            "MULLER2016",
+            "MATTHEWS2016_pmag_ref")
 # Set up vector to populate
 index_to_drop <- vector(mode = "numeric")
 # Run for loop across models
@@ -51,9 +53,9 @@ xy <- as.data.frame(xy)[, c("lng", "lat")]
 # Define maximum temporal range of models
 max_time <- c("MERDITH2021" = 540,
               "PALEOMAP" = 540,
-              "MULLER2019" = 540,
               "GOLONKA" = 540,
               "SETON2012" = 200,
+              "MULLER2016" = 230,
               "MATTHEWS2016_pmag_ref" = 410)
 
 # Run for loop across models

@@ -7,7 +7,7 @@ library(palaeoverse)
 ## Let's rotate -----------------------------------------------------------
 # Define models
 models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
-            "MULLER2019", "SETON2012", "MATTHEWS2016_pmag_ref")
+            "MULLER2016", "SETON2012", "MATTHEWS2016_pmag_ref")
 
 # Corals reconstruction ---------------------------------------------------
 for (m in models) {

@@ -29,7 +29,7 @@ matthews <- read_sf("./data/continental_polygons/MATTHEWS2016_pmag_ref/MATTHEWS2
 seton <- read_sf("./data/continental_polygons/SETON2012/SETON2012_PresentDay_ContinentalPolygons.shp")
 
 # Muller polygons
-muller <- read_sf("./data/continental_polygons/MULLER2019/MULLER2019_PresentDay_ContinentalPolygons.shp")
+muller <- read_sf("./data/continental_polygons/MULLER2016/MULLER2016_PresentDay_ContinentalPolygons.shp")
 
 # Merdith polygons
 merdith <- read_sf("./data/continental_polygons/MERDITH2021/MERDITH2021_PresentDay_ContinentalPolygons.shp")
@@ -52,8 +52,8 @@ plot_map <- function(x, main, bb){
 p1 <- plot_map(seton, main = "Seton et al. (2012)", bb = bb)
 p2 <- plot_map(golonka, main = "Wright et al. (2013)", bb = bb)
 p3 <- plot_map(matthews, main = "Matthews et al. (2016)", bb = bb)
-p4 <- plot_map(paleomap, main = "Scotese & Wright (2018)", bb = bb)
-p5 <- plot_map(muller, main = "M\U00FCller et al. (2019)", bb = bb)
+p4 <- plot_map(muller, main = "M\U00FCller et al. (2016)", bb = bb)
+p5 <- plot_map(paleomap, main = "Scotese & Wright (2018)", bb = bb)
 p6 <- plot_map(merdith, main = "Merdith et al. (2021)", bb = bb)
 
 # Combine plots -----------------------------------------------------------
