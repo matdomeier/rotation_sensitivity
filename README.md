@@ -18,8 +18,8 @@ To cite the paper:
 In this study, we evaluate the influence of Global Plate Model choice on reconstructions of the Earth's continental surface over geological timescales. Understanding this uncertainty is key to constraining the distribution of organisms in the past. This has implications for our understanding of deep time macroevolutionary and macroecolgical patterns, as well as palaeoclimatic reconstructions. Our study focused on six widely used open-source models, which are available via the [GPlates Web Service](https://gwsdoc.gplates.org/reconstruction-models):
 
 * MER21: MERDITH model (Merdith et al., 2021) - GPlates ID = MERDITH2021
-* MUL16: MÜLLER model (Müller et al., 2016) - GPlates ID = MULLER2016
 * SCO18: PALEOMAP model (Scotese & Wright, 2018) - GPlates ID = PALEOMAP
+* MUL16: MÜLLER model (Müller et al., 2016) - GPlates ID = MULLER2016
 * MAT16: MATTHEWS model (Matthews et al., 2016) - GPlates ID = MATTHEWS2016_pmag_ref
 * WR13: GOLONKA model (Wright et al., 2013) - GPlates ID = GOLONKA
 * SET12: SETON model (Seton et al., 2012) - GPlates ID = SETON2012
