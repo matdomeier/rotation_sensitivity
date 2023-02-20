@@ -36,7 +36,7 @@ p <-  ggplot(data = df) +
                     limits = c(0, 60),
                     breaks = c(0, 5, 10, 20, 30, 60)) +
   geom_sf(aes(fill = lat_sd), size = 0.001, colour = NA) +
-  labs(fill = "Latitudinal standard deviation (\u00B0)") +
+  labs(fill = "Palaeolatitudinal standard deviation (\u00B0)") +
   theme_minimal() +
   theme(
     legend.title = element_text(size = 16),

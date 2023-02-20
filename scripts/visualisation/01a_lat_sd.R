@@ -52,7 +52,7 @@ for (t in seq(from = 0, to = 540, by = 10)) {
     geom_sf(colour = NA, size = 0.1) +
     labs(title = paste0("Time step: ", t,
                         " Ma"),
-         fill = "Latitudinal standard deviation (\u00B0)") +
+         fill = "Palaeolatitudinal standard deviation (\u00B0)") +
     theme_minimal() +
     theme(
       plot.background = element_rect(fill = "white", colour = NA),
@@ -89,7 +89,7 @@ p <-  ggplot(data = df, aes(fill = lat_sd)) +
         geom_sf(colour = NA, size = 0.1) +
         labs(title = paste0("Time step: {as.integer(unique(df$time)[frame])}",
                             " Ma"),
-             fill = "Latitudinal standard deviation (\u00B0)") +
+             fill = "Palaeolatitudinal standard deviation (\u00B0)") +
         theme_minimal() +
         theme(
           plot.background = element_rect(fill = "white", colour = NA),
