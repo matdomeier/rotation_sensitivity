@@ -41,5 +41,7 @@ for(i in 1:length(mid)){
 #update column names
 names(PARED)[names(PARED) == c("latit")] <- c("lat") 
 names(PARED)[names(PARED) == c("longit")] <- c("lng")
+#retain occurrences less than 200 Myr in age
+PARED <- PARED[which(PARED$bin_mid_ma <= 200),]
 # Save data ----------------------------------------------------------------
 saveRDS(PARED, "./data/occurrences/cleaned_PARED_dataset.RDS")

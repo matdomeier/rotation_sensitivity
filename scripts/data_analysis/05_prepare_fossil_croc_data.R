@@ -35,6 +35,8 @@ for(i in 1:length(mid)){
   crocs[which(
     crocs$mid_ma <= lower[i] & crocs$mid_ma >= upper[i]),c("bin_mid_ma")] <- mid[i]
 }
+#retain occurrences less than 200 Myr in age
+crocs <- crocs[which(crocs$bin_mid_ma <= 200),]
 
 # Save data ---------------------------------------------------------------
 saveRDS(crocs, "./data/occurrences/cleaned_croc_dataset.RDS")

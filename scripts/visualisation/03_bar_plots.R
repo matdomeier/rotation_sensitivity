@@ -63,12 +63,12 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
                   labels = seq(0, 540, 50)) + 
-  scale_y_continuous(limits = c(0, 1), 
+  scale_y_continuous(limits = c(0, 1.001), 
                      breaks = seq(from = 0, to = 1, by = 0.2), 
                      labels = seq(from = 0, to = 1, by = 0.2)) +
   labs(x = "Time (Ma)",
        y = "Cell proportion",
-       fill = "Latitudinal standard deviation (\u00B0)") +
+       fill = "Palaeolatitudinal standard deviation (\u00B0)") +
   theme(plot.margin = margin(5, 10, 5, 10, "mm"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
@@ -137,7 +137,7 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
                   labels = seq(0, 540, 50)) + 
-  scale_y_continuous(limits = c(0, 1), 
+  scale_y_continuous(limits = c(0, 1.001), 
                      breaks = seq(from = 0, to = 1, by = 0.2), 
                      labels = seq(from = 0, to = 1, by = 0.2)) +
   labs(x = "Time (Ma)",

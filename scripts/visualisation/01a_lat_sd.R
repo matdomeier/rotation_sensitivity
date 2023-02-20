@@ -5,7 +5,7 @@
 # WARNING: This script can take a while to run depending on the user's PC.
 # If you wish to test the script, you can reduce the sequence in line 37.
 # Load libraries ----------------------------------------------------------
-library(dggridR)
+library(h3jsr)
 library(sf)
 library(ggplot2)
 library(gganimate)
@@ -19,18 +19,11 @@ pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529', 'black')
 lat_sd <- readRDS("./results/lat_SD.RDS")
 # Set up 0 column for plotting
 colnames(lat_sd)[3] <- "lat_0"
-
-# Global initial grid
-init_grid <- dgconstruct(spacing = 150)
-
-# Overlay cells of lat_sd df with cells of the initial grid
-lat_sd$seqnum <- dgGEO_to_SEQNUM(dggs = init_grid,
-                                 in_lon_deg = lat_sd$lng,
-                                 in_lat_deg = lat_sd$lat)$seqnum
-
-# Build a grid with cells only containing a lat_sd value ------------------
-grid <- dgcellstogrid(dggs = init_grid, cells = lat_sd$seqnum)
-
+# Get cells from resolution at 0
+lat_sd$cell <- point_to_cell(input = lat_sd[, c("lng", "lat")], res = 3)
+# Get polygon grid
+init_grid <- cell_to_polygon(input = lat_sd$cell, simple = FALSE)
+init_grid$cell <- lat_sd$cell
 # Loop to plot lat sd over time out of this grid --------------------------
 # Create empty df
 df <- data.frame()
@@ -38,24 +31,24 @@ for (t in seq(from = 0, to = 540, by = 10)) {
   # Column name in lat_sd dataset
   col <- paste0("lat_", t) 
   # Merge with the lat sd values at t
-  grid1 <- merge(grid, lat_sd[, c("seqnum", col)], by = c("seqnum"))
+  grid <- merge(init_grid, lat_sd[, c("cell", col)], by = c("cell"))
   # Transform to Robinson projection and fix cells crossing dateline
-  trans_grid <- himach::st_window(m = grid1, crs = crs_Atlantic)
+  trans_grid <- himach::st_window(m = grid, crs = crs_Atlantic)
   # Transform to sf for binding
   trans_grid <- sf::st_as_sf(trans_grid)
   # Drop old geometry
-  grid1 <- sf::st_drop_geometry(grid1)
-  grid1 <- cbind(trans_grid, grid1)
+  grid <- sf::st_drop_geometry(grid)
+  grid <- cbind(trans_grid, grid)
   
   # Update column name for binding 
-  colnames(grid1)[2] <- "lat_sd"
-  grid1$time <- t
+  colnames(grid)[3] <- "lat_sd"
+  grid$time <- t
   
   # Create individual time shot plot
-  p <-  ggplot(data = grid1, aes(fill = lat_sd)) +
+  p <-  ggplot(data = grid, aes(fill = lat_sd)) +
     scale_fill_stepsn(colours = pal,
-                      limits = c(0, 90),
-                      breaks = c(0, 5, 10, 20, 30, 90)) +
+                      limits = c(0, 60),
+                      breaks = c(0, 5, 10, 20, 30, 60)) +
     geom_sf(colour = NA, size = 0.1) +
     labs(title = paste0("Time step: ", t,
                         " Ma"),
@@ -64,6 +57,7 @@ for (t in seq(from = 0, to = 540, by = 10)) {
     theme(
       plot.background = element_rect(fill = "white", colour = NA),
       plot.title = element_text(hjust = 0.5),
+      axis.text = element_blank(),
       legend.position = "bottom") +
     guides(fill = guide_colourbar(barheight = unit(8, "mm"),
                                   barwidth = unit(120, "mm"),
@@ -82,7 +76,7 @@ for (t in seq(from = 0, to = 540, by = 10)) {
          dpi = 300)
   
   # Create long format df for GIF
-  df <- rbind.data.frame(df, grid1)
+  df <- rbind.data.frame(df, grid)
 }
 # Save long format dataframe
 saveRDS(df, "./results/lat_SD_LF.RDS")
@@ -90,8 +84,8 @@ saveRDS(df, "./results/lat_SD_LF.RDS")
 # Create initial plot for GIF 
 p <-  ggplot(data = df, aes(fill = lat_sd)) +
         scale_fill_stepsn(colours = pal,
-                          limits = c(0, 90),
-                          breaks = c(0, 5, 10, 20, 30, 90)) +
+                          limits = c(0, 60),
+                          breaks = c(0, 5, 10, 20, 30, 60)) +
         geom_sf(colour = NA, size = 0.1) +
         labs(title = paste0("Time step: {as.integer(unique(df$time)[frame])}",
                             " Ma"),
@@ -100,6 +94,7 @@ p <-  ggplot(data = df, aes(fill = lat_sd)) +
         theme(
           plot.background = element_rect(fill = "white", colour = NA),
           plot.title = element_text(hjust = 0.5),
+          axis.text = element_blank(),
           legend.position = "bottom") +
         guides(fill = guide_colourbar(barheight = unit(8, "mm"),
                                       barwidth = unit(120, "mm"),

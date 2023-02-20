@@ -3,18 +3,25 @@
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
-library(dggridR)
+library(h3jsr)
 library(palaeoverse)
 library(sf)
 library(raster)
 library(sp)
 # Generate grid -----------------------------------------------------------
-# 150km of spacing between each grid's centroids
-grid <- dggridR::dgconstruct(spacing = 150) 
-# Extract centroids of grid -----------------------------------------------
-cells <- 1:dggridR::dgmaxcell(dggs = grid)
-cellcenters <- dggridR::dgSEQNUM_to_GEO(dggs = grid, in_seqnum = cells)
-xy <- data.frame(lng = cellcenters$lon_deg, lat = cellcenters$lat_deg)
+# Get cells from resolution at 0
+cells <- h3jsr::get_res0()
+# Get child cells at resolution ~100 km
+cells <- get_children(h3_address = cells, res = 3)
+# Unlist cell list
+cells <- unlist(cells)
+# Get centroids of cells
+xy <- cell_to_point(cells, simple = FALSE)
+# Extract coordinates
+xy <- sf::st_coordinates(xy)
+xy <- data.frame(xy)
+# Update column names
+colnames(xy) <- c("lng", "lat")
 # Add CRS -----------------------------------------------------------------
 xy <- sp::SpatialPointsDataFrame(coords = xy[, c("lng", "lat")],
                                  data = xy)
@@ -49,6 +56,7 @@ index_to_drop <- unique(index_to_drop)
 xy <- xy[-index_to_drop, ]
 # Convert to df
 xy <- as.data.frame(xy)[, c("lng", "lat")]
+plot(xy)
 # Rotate points -----------------------------------------------------------
 # Define maximum temporal range of models
 max_time <- c("MERDITH2021" = 540,

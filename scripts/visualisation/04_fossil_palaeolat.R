@@ -4,6 +4,7 @@
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # Load libraries ----------------------------------------------------------
 library(ggplot2)
+library(ggpubr)
 library(matrixStats)
 library(Hmisc)
 # Corals -----------------------------------------------------------------

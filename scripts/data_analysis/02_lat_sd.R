@@ -25,7 +25,6 @@ SETON2012[(ncol(SETON2012) + 1):ncol(PALEOMAP)] <- NA
 MATTHEWS2016_pmag_ref[(ncol(MATTHEWS2016_pmag_ref) + 1):ncol(PALEOMAP)] <- NA
 MULLER2016[(ncol(MULLER2016) + 1):ncol(PALEOMAP)] <- NA
 
-
 # Update column names
 colnames(SETON2012) <- colnames(PALEOMAP)
 colnames(MATTHEWS2016_pmag_ref) <- colnames(PALEOMAP)
