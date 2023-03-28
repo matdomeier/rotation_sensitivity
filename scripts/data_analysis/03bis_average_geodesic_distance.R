@@ -1,5 +1,5 @@
 # Script details ----------------------------------------------------------
-# Purpose: Calculate minimum-spanning tree length
+# Purpose: Calculate average geodesic distance
 # Author(s): Lucas Buffan & Lewis A. Jones
 # Email: Lucas.L.Buffan@gmail.com; LewisAlan.Jones@uvigo.es
 # WARNING: This script can take a while to run depending on the user's PC.
