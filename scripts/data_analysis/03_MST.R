@@ -18,7 +18,7 @@ for (i in models) {
          readRDS(file = paste0("./data/grid_palaeocoordinates/", i, ".RDS")))
 }
 
-# Expand dfs to be consistent (use PALEOMAP as reference frame)
+# Expand dfs to be consistent (use PALEOMAP as reference)
 SETON2012[(ncol(SETON2012) + 1):ncol(PALEOMAP)] <- NA
 MATTHEWS2016_pmag_ref[(ncol(MATTHEWS2016_pmag_ref) + 1):ncol(PALEOMAP)] <- NA
 MULLER2016[(ncol(MULLER2016) + 1):ncol(PALEOMAP)] <- NA
@@ -43,9 +43,9 @@ cnames <- c("lng", "lat")
 # Run for loop across time
 for (t in timescale) {
   cnames <- c(cnames, paste0("MST_length_", t))
-  for (i in 1:nrow(MST_df)) {
     # Set up column index
     col_indx <- c(paste0("lng_", t), paste0("lat_", t))
+  for (i in 1:nrow(MST_df)) {
     # Generate temp df for each model 
     tmp <- rbind(GOLONKA[i, col_indx],
                  MATTHEWS2016_pmag_ref[i, col_indx],
