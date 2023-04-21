@@ -9,35 +9,31 @@ library(geosphere)
 timescale <- seq(from = 10, to = 540, by = 10)
 # Load model outputs -----------------------------------------------------
 # Define available models
-models <- c("MERDITH2021", "PALEOMAP", "GOLONKA",
-            "MULLER2016", "SETON2012", "MATTHEWS2016_pmag_ref")
+models <- c("WR13", "TC16", "SC18", "ME21", "MA16")
 
+# Load files rotated by Mat -----------------------------------------------
 for (i in models) {
-  assign(i, 
-         readRDS(file = paste0("./data/grid_palaeocoordinates/", i, ".RDS")))
+  assign(i,
+         read.csv(file = paste0("./python/rotated_grids/", i, ".csv")))
 }
 
-# Expand dfs to be consistent (use PALEOMAP as reference frame)
-SETON2012[(ncol(SETON2012) + 1):ncol(PALEOMAP)] <- NA
-MATTHEWS2016_pmag_ref[(ncol(MATTHEWS2016_pmag_ref) + 1):ncol(PALEOMAP)] <- NA
-MULLER2016[(ncol(MULLER2016) + 1):ncol(PALEOMAP)] <- NA
+# Expand MA16 to be temporally consistent with the scale of the study (Phanerozoic)
+MA16[(ncol(MA16) + 1):ncol(SC18)] <- NA  # (use SC18 as reference)
 
 # Update column names
-colnames(SETON2012) <- colnames(PALEOMAP)
-colnames(MATTHEWS2016_pmag_ref) <- colnames(PALEOMAP)
-colnames(MULLER2016) <- colnames(PALEOMAP)
+colnames(MA16) <- colnames(SC18)
 
 # Calculate average geodesic distance ------------------------------------
 geodes_dist <- function(tmp_sub, in.km = TRUE){ #tmp_sub = c(lon_mdl1, lat_mdl2, lon_mdl2, lat_mdl2, ...)
   #convert subset to Lon Lat-like dataframe
   LonLat_mat <- matrix(data = tmp_sub, ncol = 2, nrow = length(tmp_sub)/2, byrow = TRUE)
   #remove Nas manually
- Na_pos <- unique(which(is.na(LonLat_mat[,1])),
+  Na_pos <- unique(which(is.na(LonLat_mat[,1])),
                   which(is.na(LonLat_mat[,2])))
- if(length(Na_pos) == nrow(LonLat_mat)){
+  if(length(Na_pos) == nrow(LonLat_mat)){
    return(NA)
- }
- else{
+  }
+  else{
    if( (length(Na_pos) > 0) & (length(Na_pos) < nrow(LonLat_mat)) ){
      LonLat_mat <- LonLat_mat[-Na_pos, ]
    }
@@ -51,23 +47,23 @@ geodes_dist <- function(tmp_sub, in.km = TRUE){ #tmp_sub = c(lon_mdl1, lat_mdl2,
    else{
      return(mean(pairwise_dist))
    }
- }
+  }
 }
 
+
 # Convert to dataframe with reference coordinates
-geodes_dist_df <- data.frame(lng = PALEOMAP$lng,
-                             lat = PALEOMAP$lat)
+geodes_dist_df <- data.frame(lng = SC18$lng,
+                             lat = SC18$lat)
 cnames <- c()
 # Run for loop across time
 for (t in timescale) {
   cnames <- c(cnames, paste0("Geodeic_dist_", t))
   col_indx <- c(paste0("lng_", t), paste0("lat_", t))
-  tmp <- cbind(GOLONKA[, col_indx],
-                MATTHEWS2016_pmag_ref[, col_indx],
-                PALEOMAP[, col_indx],
-                SETON2012[, col_indx],
-                MERDITH2021[, col_indx],
-                MULLER2016[, col_indx])
+  tmp <- cbind(WR13[, col_indx],
+                MA16_pmag_ref[, col_indx],
+                SC18[, col_indx],
+                TC16[, col_indx],
+                ME21[, col_indx])
   GD_dist <- apply(X = tmp,
                        MARGIN = 1,
                        FUN = geodes_dist)
