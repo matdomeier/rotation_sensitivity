@@ -11,14 +11,13 @@ library(ggplot2)
 library(gganimate)
 library(transformr)
 library(gifski)
+library(dplyr)
 library(himach)
 # palette
 pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529', 'black')
 # -------------------------------------------------------------------------
 # Load data
 lat_sd <- readRDS("./results/lat_SD.RDS")
-# Set up 0 column for plotting
-colnames(lat_sd)[3] <- "lat_0"
 # Get cells from resolution at 0
 lat_sd$cell <- point_to_cell(input = lat_sd[, c("lng", "lat")], res = 3)
 # Get polygon grid
@@ -27,7 +26,7 @@ init_grid$cell <- lat_sd$cell
 # Loop to plot lat sd over time out of this grid --------------------------
 # Create empty df
 df <- data.frame()
-for (t in seq(from = 0, to = 540, by = 10)) {
+for (t in seq(from = 10, to = 540, by = 10)) {
   # Column name in lat_sd dataset
   col <- paste0("lat_", t) 
   # Merge with the lat sd values at t
