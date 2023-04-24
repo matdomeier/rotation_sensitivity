@@ -11,12 +11,12 @@ rm(list = ls())
 source("./R/visualisation/01b_lat_sd_facet.R")
 rm(list = ls())
 
-## MST length assessment --------------------------------------------------
+## Normalised geodesic distance assessment --------------------------------
 ### Complete time series and GIF ------------------------------------------
-source("./R/visualisation/02a_MST.R")
+source("./R/visualisation/02a_geodes_dist.R")
 rm(list = ls())
 ### Time frame shots ------------------------------------------------------
-source("./R/visualisation/02b_MST_facet.R")
+source("./R/visualisation/02b_geodes_dist_facet.R")
 rm(list = ls())
 
 ## Cell proportions -------------------------------------------------------

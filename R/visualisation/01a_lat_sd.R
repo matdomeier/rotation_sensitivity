@@ -11,7 +11,6 @@ library(ggplot2)
 library(gganimate)
 library(transformr)
 library(gifski)
-library(dplyr)
 library(himach)
 # palette
 pal <- c('#f7fcb9','#addd8e','#41ab5d','#006837','#004529', 'black')

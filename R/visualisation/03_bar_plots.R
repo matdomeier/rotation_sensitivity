@@ -53,12 +53,8 @@ counts_df$cat <- factor(counts_df$cat, levels = c("0 \U2013 5",
 # Generate plot
 p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
-  geom_vline(xintercept = 200) + 
-  geom_vline(xintercept = 230) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.9, label = "MAT16", angle = 90), size = 4.5) + 
-  geom_text(aes(x = 235, y = 0.9, label = "MUL16", angle = 90), size = 4.5) + 
-  geom_text(aes(x = 205, y = 0.9, label = "SET12", angle = 90), size = 4.5) + 
+  geom_text(aes(x = 415, y = 0.9, label = "MA16", angle = 90), size = 4.5) +
   scale_fill_manual(values = pal1) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
@@ -80,22 +76,25 @@ p1 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), 
         panel.background = element_blank(),
-        panel.border = element_rect(colour = "black", fill = NA, size = 1))
+        panel.border = element_rect(colour = "black", fill = NA, linewidth = 1))
 # Add geological timescale
 p1 <- p1 + coord_geo(pos = "bottom", xlim = c(545, 0), fill = "grey95", height = unit(1.5, "line"))
 p1
-# MST length -------------------------------------------------------------
+# Normalised geodesic distance --------------------------------------------
 # Load data and drop lng/lat column
-df <- readRDS("./results/MST_length_LF.RDS")
+df <- readRDS("./results/GDD_LF.RDS")
 # Drop geometry
 df <- sf::st_drop_geometry(df)
 # Unique time intervals 
 t <- unique(df$time)
 # Set up count categories
-lower <- c(0, 3000, 6000, 9000, 12000)
-upper <- c(3000, 6000, 9000, 12000, 25000)
-cat <- c("0 \U2013 3000", "3000 \U2013 6000", 
-         "6000 \U2013 9000", "9000 \U2013 12000", ">12000")
+lower <- c(0, 1000, 2500, 5000, 8500)
+upper <- c(1000, 2500, 5000, 8500, 14000)
+cat <- c("0 \U2013 1000",
+         "1000 \U2013 2500", 
+         "2500 \U2013 5000",
+         "5000 \U2013 8500",
+         ">8500")
 # Set up counts df
 counts_df <- data.frame(time = rep(t, each = 5),
                         lower = rep(lower, times = length(t)),
@@ -105,7 +104,7 @@ counts_df <- data.frame(time = rep(t, each = 5),
 # Count 
 for (i in t) {
   # Extract values for each time
-  vals <- df[which(df$time == i), c("MST_length")] 
+  vals <- df[which(df$time == i), c("Geodesic_dist")] 
   # How many NAs?
   n <- length(which(!is.na(vals)))
   # Count per category
@@ -118,21 +117,17 @@ for (i in t) {
 }
 
 # Set factor levels
-counts_df$cat <- factor(counts_df$cat, levels = c("0 \U2013 3000",
-                                                  "3000 \U2013 6000", 
-                                                  "6000 \U2013 9000",
-                                                  "9000 \U2013 12000",
-                                                  ">12000"))
+counts_df$cat <- factor(counts_df$cat, levels = c("0 \U2013 1000",
+                                                  "1000 \U2013 2500", 
+                                                  "2500 \U2013 5000",
+                                                  "5000 \U2013 8500",
+                                                  ">8500"))
 
 # Generate plot
 p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
   geom_bar(position = "stack", stat = "identity") +
-  geom_vline(xintercept = 200) + 
-  geom_vline(xintercept = 230) + 
   geom_vline(xintercept = 410) + 
-  geom_text(aes(x = 415, y = 0.9, label = "MAT16", angle = 90), size = 4.5) + 
-  geom_text(aes(x = 235, y = 0.9, label = "MUL16", angle = 90), size = 4.5) + 
-  geom_text(aes(x = 205, y = 0.9, label = "SET12", angle = 90), size = 4.5) + 
+  geom_text(aes(x = 415, y = 0.9, label = "MA16", angle = 90), size = 4.5) +
   scale_fill_manual(values = pal2) +
   scale_x_reverse(limits = c(545, -5),
                   breaks = seq(0, 540, 50),
@@ -142,7 +137,7 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
                      labels = seq(from = 0, to = 1, by = 0.2)) +
   labs(x = "Time (Ma)",
        y = "Cell proportion",
-       fill = "Summed MST length (km)") +
+       fill = "Normalised Geodesic distance (km)") +
   theme(plot.margin = margin(5, 10, 5, 10, "mm"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
@@ -154,7 +149,7 @@ p2 <- ggplot(data = counts_df, aes(x = time, y = counts, fill = cat)) +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), 
         panel.background = element_blank(),
-        panel.border = element_rect(colour = "black", fill = NA, size = 1))
+        panel.border = element_rect(colour = "black", fill = NA, linewidth = 1))
 # Add geological timescale
 p2 <- p2 + coord_geo(pos = "bottom", xlim = c(545, 0), fill = "grey95", height = unit(1.5, "line"))
 # Combine plots -----------------------------------------------------------

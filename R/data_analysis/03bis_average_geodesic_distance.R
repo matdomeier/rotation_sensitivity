@@ -10,18 +10,11 @@ timescale <- seq(from = 10, to = 540, by = 10)
 # Load model outputs -----------------------------------------------------
 # Define available models
 models <- c("WR13", "TC16", "SC18", "ME21", "MA16")
-
-# Load files rotated by Mat -----------------------------------------------
+# Load
 for (i in models) {
   assign(i,
-         read.csv(file = paste0("./python/rotated_grids/", i, ".csv")))
+         readRDS(file = paste0("./data/mdls_without_oceans/", i, ".RDS")))
 }
-
-# Expand MA16 to be temporally consistent with the scale of the study (Phanerozoic)
-MA16[(ncol(MA16) + 1):ncol(SC18)] <- NA  # (use SC18 as reference)
-
-# Update column names
-colnames(MA16) <- colnames(SC18)
 
 # Calculate average geodesic distance ------------------------------------
 geodes_dist <- function(tmp_sub, in.km = TRUE){ #tmp_sub = c(lon_mdl1, lat_mdl2, lon_mdl2, lat_mdl2, ...)
@@ -50,23 +43,22 @@ geodes_dist <- function(tmp_sub, in.km = TRUE){ #tmp_sub = c(lon_mdl1, lat_mdl2,
   }
 }
 
-
 # Convert to dataframe with reference coordinates
 geodes_dist_df <- data.frame(lng = SC18$lng,
                              lat = SC18$lat)
 cnames <- c()
 # Run for loop across time
 for (t in timescale) {
-  cnames <- c(cnames, paste0("Geodeic_dist_", t))
+  cnames <- c(cnames, paste0("Geodesic_dist_", t))
   col_indx <- c(paste0("lng_", t), paste0("lat_", t))
   tmp <- cbind(WR13[, col_indx],
-                MA16_pmag_ref[, col_indx],
-                SC18[, col_indx],
-                TC16[, col_indx],
-                ME21[, col_indx])
+               MA16[, col_indx],
+               SC18[, col_indx],
+               TC16[, col_indx],
+               ME21[, col_indx])
   GD_dist <- apply(X = tmp,
-                       MARGIN = 1,
-                       FUN = geodes_dist)
+                   MARGIN = 1,
+                   FUN = geodes_dist)
   geodes_dist_df <- cbind(geodes_dist_df, GD_dist)
 }
 # Add column names
