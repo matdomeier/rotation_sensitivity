@@ -5,36 +5,20 @@
 # Load libraries ----------------------------------------------------------
 library(tidyverse)
 library(matrixStats)
+
 # Analysis ----------------------------------------------------------------
 # Define available models
 models <- c("WR13", "TC16", "SC18", "ME21", "MA16")
 
-# Load files (uncomment as soon as we get files from Sabin) ---------------
-# for (i in models) {
-#   assign(i, 
-#          readRDS(file = paste0("./data/grid_palaeocoordinates/", i, ".RDS")))
-# }
-
-# Load files rotated by Mat -----------------------------------------------
+# Load model files --------------------------------------------------------
 for (i in models) {
   assign(i,
-         read.csv(file = paste0("./python/rotated_grids/", i, ".csv")))
+         readRDS(file = paste0("./data/mdls_without_oceans/", i, ".RDS")))
 }
-
-
-# Get reference ( = present-day) coordinates
-ref_coords <- SC18[, c("lng", "lat")]
-
-# Update files ------------------------------------------------------------
-
-# Expand MA16 to be temporally consistent with the scale of the study (Phanerozoic)
-MA16[(ncol(MA16) + 1):ncol(SC18)] <- NA  # (use SC18 as reference)
-
-# Update column names
-colnames(MA16) <- colnames(SC18)
 
 # Get lat indexes columns for SD calculation
 lat_indx <- grep("lat", colnames(SC18))
+lat_indx <- lat_indx[!(lat_indx == 2)] #remove index corresponding to t = 0
 
 # Create empty dataframe for populating
 df_sd <- matrix(ncol = length(lat_indx), nrow = nrow(SC18))
@@ -50,11 +34,15 @@ for (i in 1:length(lat_indx)) {
                     WR13[, wc],
                     SC18[, wc],
                     ME21[, wc])
-  row_sd <- apply(mat, 1, sd, na.rm = TRUE)
+  row_sd <- apply(X = mat, 
+                  MARGIN = 1,
+                  FUN = sd,
+                  na.rm = TRUE)
   df_sd[, i] <- row_sd
 }
 
 # Tidy up and save --------------------------------------------------------
+ref_coords <- SC18[, c("lng", "lat")] #reference (=present-day) coordinates
 df_sd <- cbind.data.frame(ref_coords, df_sd)
 saveRDS(df_sd, file = "./results/lat_SD.RDS")
 
