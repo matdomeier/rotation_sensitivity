@@ -27,6 +27,8 @@
 .Rproj.user
 #Rhistory
 .Rhistory
+#Python checkpoints
+./python/.ipynb_checkpoints/
 #Unuseful scripts
 MST_heavy_greedy.R
 MST_length_loaf.RDS
